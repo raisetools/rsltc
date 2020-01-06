@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 11.2 Activating the PVS translator</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_44.html"><img border="0" alt="11.1 Introduction" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.1 Introduction</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_46.html"><img border="0" alt="11.3 Declarations" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.3 Declarations</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.2 Activating the PVS translator</b></font></td></tr></table>
+<h2>11.2 Activating the PVS translator</h2>
+The translator is activated from a shell with the command
+<p><tt>rsltc -pvs &lt;file&gt;</tt>
+<p>where <code>&lt;file&gt;</code> takes the form <tt>X</tt> or <tt>X.rsl</tt> and
+contains the RSL scheme, object, theory or development relation named
+<tt>X</tt>.  It generates a file <tt>X.pvs</tt>, plus perhaps other
+PVS files generated from RSL files in the context of <tt>X</tt>.  For each such
+file <tt>Y.rsl</tt>, any corresponding pvs file will be called <tt>Y.pvs</tt>.
+<p><tt>X.pvs</tt> can be loaded into pvs using the shell command
+<p><tt>pvs X.pvs</tt>
+<p>provided the current directory is that where <tt>X.pvs</tt> is stored.
+
+<h3><a name="id1">11.2.1 RSL prelude</a></h3>
+<p>PVS sets up a <em>PVS context</em> in each directory where it is used on
+PVS files.  Such a PVS context needs also to load a file
+<tt>rsl&#95;prelude.pvs</tt>.  This RSL prelude is a library of definitions in PVS
+that are used by the translator, plus some theorems that may be used in
+proofs. 
+
+<h4><a name="id2">Setting up the RSL prelude</a></h4>
+<p>Before loading the RSL prelude for the first time you need to run PVS
+on it to set up some auxiliary files.  All you need to do is start PVS
+in the directory where <tt>rsl&#95;prelude.pvs</tt> is stored, use the command
+<p><tt>load-prelude-library &lt;pvs&#95;path&gt;/lib/finite&#95;sets</tt>
+<p>where <tt>&lt;pvs&#95;path&gt;</tt> is the directory where PVS is stored, to
+load the PVS finite sets library, load the file
+<tt>rsl&#95;prelude.pvs</tt>, run the PVS type checker, and exit.
+<p>You only need to do this once, unless you move to a new version of
+PVS, when you might have to do it again to update the auxiliary files.
+
+<h4><a name="id3">Loading the RSL prelude</a></h4>
+<p>When you create a context for a directory in which
+you wish to store PVS files generated from RSL ones, you need to load
+the RSL prelude.  You do this with the PVS command
+<p><tt>load-prelude-library &lt;path&gt;</tt>
+<p>where <tt>&lt;path&gt;</tt> is the path of the directory where
+<tt>rsl&#95;prelude.pvs</tt> is stored.  You only need to do this once for
+each context.  In PVS you issue a command using the Meta key (usually
+<tt>Esc</tt>) followed by <tt>x</tt>, and then typing the command in
+the minibuffer.
+
+<h3><a name="id4">11.2.2 Extending the RSL prelude</a></h3>
+<p>The RSL prelude is a natural place to add theorems about RSL that you
+find useful.  You can do this by adding such theorems to
+<tt>rsl&#95;prelude.pvs</tt>, but a perhaps better way is to create your
+own prelude file in the same directory.  You could use the translator
+to generate the file from RSL.  Since libraries are loaded by
+directory rather than file, your file will be loaded automatically in
+PVS contexts in which you have issued the
+<tt>load-prelude-library</tt> command.  We would be interested to
+receive such extensions -- with their proofs! -- and perhaps include
+them in the RSL prelude in later releases.
+
+<h3><a name="pvs:correctness">11.2.3 Correctness</a></h3>
+
+<p>Correctness is important for any translator, but particularly so when
+the idea is to enable proofs of properties of the translated
+specification.  Correctness is defined in terms of soundness: an RSL
+specification is correctly translated if the translation is
+<em>sound</em>, which means that no theorem can be proved in PVS which
+is not valid for the RSL specification.  We would also like the
+translation to be <em>complete</em>, i.e.&#32;we would like all true
+theorems to be provable.  This is not easy to show -- it depends on
+the power of PVS as well as on the translation -- but we try to
+achieve it, and know of no exceptions.
+<p>There are two levels at which we consider correctness.  Most of the
+RSL types and type constructors map directly into corresponding PVS
+types and type constructors.  It is then a fairly routine task to map most
+of the RSL value functions, operators and constructors onto PVS ones,
+adding to the basic PVS theory when necessary.
+<p>But there is a deeper question of the adequacy of PVS to represent all
+RSL types and values.  If, for example, the mapping is not injective
+then we will effectively equate different RSL values by mapping them
+to the same PVS ones, and the translation would not be sound: we
+would effectively create theorems that do not necessarily hold in PVS.
+<p>Concurrency and imperative constructs have no counterpart in PVS, so
+we exclude them from the translation.  More problematic is the RSL
+logic, which permits potentially undefined and nondeterministic
+expressions.  We cannot represent these by PVS expressions, so we have
+to exclude them.  Some like the basic expressions <b>chaos</b> and
+<b>swap</b> can be excluded syntactically.  The internal choice operator
+ is also excluded syntactically.
+Nondeterminism in maps can be handled by either making sure that the
+translated RSL will generate suitable TCCs for the PVS, or by
+generating the required conditions as extra PVS <tt>LEMMA</tt>s.  No
+proof in PVS can be considered sound unless the TCCs and all lemmas
+are proved.  Generation of <b>swap</b> in applicative specifications can
+be checked by confidence conditions for the completeness of case
+expressions and possible matches in some let expressions.
+<p>There remain two issues which we cannot easily handle completely formally,
+where the RSL theory of the specification is effectively strengthened
+by the translated PVS theory: recursive functions and nondeterministic
+let expressions.  We can summarize this by noting that in PVS the
+equality <tt>e = e</tt> holds for any expression <tt>e</tt>.  In RSL
+this is not true if e is undefined or is nondeterministic, and this
+will occur if e is a non-terminating application of a recursive
+function, and may occur if e involves an implicit let expression (or,
+equivalently, the application of <b>hd</b> to a set or map).  So
+users should be aware that these must be checked by them.  Recursive
+functions should be terminating, and any use of nondeterminism should
+involve only <em>weak</em> nondeterminism: i.e.&#32;the value of any
+function using nondeterminism should not itself be nondeterministic.
+<p>A translation should therefore only be considered correct if:
+<ol><p><li>the translation generates no errors or warnings
+<p><li>the PVS output type checks
+<p><li>all TCCs and confidence condition <tt>LEMMA</tt>s are proved
+<p><li>recursive functions terminate
+<p><li>functions involving nondeterminism are deterministic
+</ol>
+<p>We expect the second condition to hold, but the translator does not
+check, for example, that no identifier is used which clashes with a
+reserved word in PVS (see section&nbsp;<a href="ug_53.html">11.10</a>), or that the
+"flattening" of object declarations causes no scope errors (see
+section&nbsp;<a href="ug_46.html#pvs:objects">11.3.2</a>).
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.2 Activating the PVS translator</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_44.html"><img border="0" alt="11.1 Introduction" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.1 Introduction</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_46.html"><img border="0" alt="11.3 Declarations" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.3 Declarations</td></tr></table></td></tr></table></body></html>

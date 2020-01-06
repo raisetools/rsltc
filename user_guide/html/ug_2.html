@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:41 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 1.1 With expressions</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_1.html"><img border="0" alt="1 Changes to RSL" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">1 Changes to RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_3.html"><img border="0" alt="1.2 Comments" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">1.2 Comments</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>1.1 With expressions</b></font></td></tr></table>
+<h2>1.1 With expressions</h2>
+<p>There is a new kind of class expression:
+<p><b>with</b> <i>element-</i>object&#95;expr-list <b>in</b> class&#95;expr
+<p>which allows the qualifications in names to be omitted.  This is
+particularly useful when you redefine operators.  For example,
+if you have in a scheme S
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b> + : T &#215; T &#8594; T</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;...
+</td></tr></table>
+
+                        <p>and in another you have S as a parameter or make an object from it,
+then without the with expression you have to write
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>class</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>object</b> O : S</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;...&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;O.(+)(x,y)</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>The operator + outside the object O has to be called O.(+) and used
+prefix.
+<p>Now you can write instead
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>with</b> O <b>in</b> <b>class</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>object</b> O : S</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;x + y</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>The same can be done if "O : S" is a scheme parameter.
+<p>The meaning of "<b>with</b> X <b>in</b>" is, essentially, that an applied occurrence
+of a name N in its scope can mean either N or X.N.  It is necessary,
+of course, that of the two possibilities either only one exists or
+they are distinguishable.
+<p>With expressions may be nested.  "<b>with</b> Y <b>in</b> <b>with</b> X
+<b>in</b>" means that a name N in its scope can mean N or X.N or Y.N or
+Y.X.N.  (The last arises because X is in the scope of the outer
+<b>with</b>, and so can mean X or Y.X.)
+<p>It is generally more efficient to use a single <b>with</b> rather than
+nesting them.  "<b>with</b> Y, X <b>in</b>" means that a name N in its scope can
+mean N or X.N or Y.N.  Order within a single <b>with</b> is not significant.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>1.1 With expressions</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_1.html"><img border="0" alt="1 Changes to RSL" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">1 Changes to RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_3.html"><img border="0" alt="1.2 Comments" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">1.2 Comments</td></tr></table></td></tr></table></body></html>

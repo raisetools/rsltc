@@ -1,0 +1,45 @@
+This directory contains a Windows zip file for Standard ML of
+New Jersey.  Tar files for building SML for other architectures can be
+obtained from http://cm.bell-labs.com/cm/cs/what/smlnj/.  If you are
+using Linux then you should install the package from smlnj.  You will
+also need to install a package libsmlnj-smlnj if it exists in your
+distribution.
+
+
+To install sml on Windows:
+
+1.  Make a folder C:\sml
+2.  Unpack the zip file there, using subfolders
+3.  Add an environment variable SMLNJ_HOME, set to C:\sml
+4.  Add C:\sml\bin to your Path environment variable
+
+Also included here are rslml.sml and rslml.cm.  These are used to create
+a library for RSL that is used by the SML translator option of rsltc.
+
+To install these you should place them in a folder and then set up
+an environment variable RSLML_PATH to point to that folder.  In
+Windows you should set up a folder C:\raise\sml containing 
+these files and then set the environment variable RSLML_PATH to that folder.
+
+If you use a different folder then both RSLML_PATH and the contents
+of rslml.cm shouild be changed accordingly.
+
+The first time you run an SML file generated from rsltc the RSL library
+will be compiled.  Thereafter it will just be loaded.
+
+If you are using emacs version 20 in Windows, or version 19 or 20 in
+Linux or Unix, then you should move the sml*.el files to your
+site-lisp directory.  Then if your .emacs file contains
+
+(load "sml-site")
+(load "rsl-mode")
+ 
+then you can run SML from emacs, and the extra item for running it
+will appear in the RSL menu when visiting an RSL file.  Otherwise, run
+SML separately and use the SML command
+
+use "path/X.sml";
+
+to load the file created by the SML translator from X.rsl, with the
+appropriate path.  Don't forget the ; at the end of this command.
+

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:41 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 1.7 Test cases</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_7.html"><img border="0" alt="1.6 Extra meanings for &#8712;, &#8713;, and hd" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">1.6 Extra meanings for &#8712;, &#8713;, and <b>hd</b></td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_1.html"><img border="0" alt="1 Changes to RSL" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">1 Changes to RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_9.html"><img border="0" alt="1.8 Features of RSL not supported" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">1.8 Features of RSL not supported</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>1.7 Test cases</b></font></td></tr></table>
+<h2>1.7 Test cases</h2>
+
+<p>There is also a new extension to RSL to support interpretation and
+translation.  In addition to type, value, variable, etc.&nbsp;declarations
+you can now have a test case declaration.  The keyword <b>test&#95;case</b> is
+followed by one or more test case definitions.  Each test case
+definition is an optional identifier in square brackets (just like an
+axiom name) followed by an RSL expression.  The expression can be of
+any type, and it can be imperative.
+<p>Test cases are not an official part of RSL.  You can think of them as
+no more than comments (although the type checker will report errors in
+them).  But to an interpreter they mean expressions that are to be
+evaluated.  So if you wrote
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>test&#95;case</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[t1] 1 + 2
+</td></tr></table>
+
+                        <p>you would expect to see the interpreter output
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;[t1] 3
+</td></tr></table>
+
+                        <p>Test cases are interpreted in order, and the result of one can affect
+the results of others if they are imperative.  Suppose, for example,
+we have have an imperative (integer) stack with the usual functions.
+Then, if the stack variable is initialised to empty, the following
+test cases
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>test&#95;case</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[t1] push(1) ; push(3) ; push(4) ; top(),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[t2] pop() ; pop() ; top(),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[t3] pop() ; is&#95;empty()
+</td></tr></table>
+
+                        <p>should produce the following interpreter output
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;[t1] 4</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;[t2] 1</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;[t3] <b>true</b>
+</td></tr></table>
+
+                        <p>Test case declarations are only interpreted or translated
+if they occur at the top level.  This  means that you can conveniently
+test modules "bottom-up", since test cases in lower level modules
+will be ignored when higher ones are tested later.
+<p>We need to be precise about what we mean here by the "top level".
+Suppose we define a scheme <tt>X</tt>.  We might add some test cases
+to it, or we might define a separate scheme to test <tt>X</tt>, defined by
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> TEST&#95;X = <b>extend</b> X <b>with</b> <b>class</b> <b>test&#95;case</b> ... <b>end</b>
+</td></tr></table>
+
+                        <p>But it might be the case that both <tt>X</tt> and <tt>TEST&#95;X</tt>
+contain test cases.  It is
+then assumed that the intention is to translate and execute <tt>X</tt> and
+<tt>TEST&#95;X</tt> separately, so that in <tt>TEST&#95;X</tt> the test
+cases should <em>not</em> include those from <tt>X</tt>.  To be more
+precise, for the purpose of deciding what test cases are included, the
+"top level" means the class of the module given as input to the
+translator or interpreter, and:
+<ul><p><li>test cases from global objects (apart from the top level module,
+  which may be an object) are not included 
+<p><li>test cases from embedded objects (objects defined within
+  classes) are not included
+<p><li>in "<b>extend</b> class1 <b>with</b> class2", the test cases from
+  class1 are not included if class1 is a scheme instantiation
+<p><li>otherwise all test cases are included
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>1.7 Test cases</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_7.html"><img border="0" alt="1.6 Extra meanings for &#8712;, &#8713;, and hd" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">1.6 Extra meanings for &#8712;, &#8713;, and <b>hd</b></td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_1.html"><img border="0" alt="1 Changes to RSL" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">1 Changes to RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_9.html"><img border="0" alt="1.8 Features of RSL not supported" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">1.8 Features of RSL not supported</td></tr></table></td></tr></table></body></html>

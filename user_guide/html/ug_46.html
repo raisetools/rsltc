@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 11.3 Declarations</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_45.html"><img border="0" alt="11.2 Activating the PVS translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.2 Activating the PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_47.html"><img border="0" alt="11.4 Class expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.4 Class expressions</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.3 Declarations</b></font></td></tr></table>
+<h2>11.3 Declarations</h2>
+A declaration translates to one or more theory, type, constant, or
+function declarations as described below for the various kinds of
+declarations.
+<p>Note that PVS has a <em>define before use</em> rule.  This means that
+the order of type and value declarations in PVS may differ from that in RSL.
+
+<h3><a name="id1">11.3.1 Scheme declarations</a></h3>
+Apart from the top level module (which is translated as if it were an
+object), schemes are only translated when they are instantiated as
+objects.  So a scheme that is instantiated several times will
+therefore be translated several times.
+<p>There is an exception to this for non-parameterized schemes used in
+class scope expressions, as we see in section&nbsp;<a href="ug_50.html#id33">11.7.29</a>.
+
+<h3><a name="pvs:objects">11.3.2 Object declarations</a></h3>
+
+An object translates as its translated declarations in a <tt>THEORY</tt> of
+the same name as the object.
+<p>Theories in PVS cannot be nested.  So nested object declarations are
+"flattened".  For
+example, consider the following RSL scheme definition:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> S =</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>object</b> A :</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>object</b> B : <b>class</b> b&#95;body <b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;a&#95;body</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;s&#95;body</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>This translates to:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>B : THEORY</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>BEGIN</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <i>TheoryPart</i><i><sub>B</sub></i> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>END B</tt>  </td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>A : THEORY</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>BEGIN</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>IMPORTING B</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <i>TheoryPart</i><i><sub>A</sub></i>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>END A</tt>  </td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>S : THEORY</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>BEGIN</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>IMPORTING A</tt>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <i>TheoryPart</i><i><sub>S</sub></i>  </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp; <tt>END S</tt>
+</td></tr></table>
+
+                        <p>This means that we do not accept object classes that reference
+entities in their context.  For example a&#95;body
+cannot refer to anything in s&#95;body.
+<p>An object definition with a formal array
+parameter is not accepted: object arrays are normally
+only used in imperative or concurrent specifications.
+
+<h3><a name="id3">11.3.3 Type declarations</a></h3>
+<p>Type declarations are translated according to their constituent
+definitions.
+<p>Mutually recursive type definitions are not accepted. 
+
+<h4><a name="id4">Sort definitions</a></h4>
+<p>Sort definitions are translated into uninterpreted type definitions in
+PVS.
+<p>However PVS distinguishes
+between empty (defined with the reserved word <tt>TYPE</tt>) and nonempty
+types (defined with the reserved word <tt>TYPE+</tt>). This syntactic distinction
+does not exist in RSL and can be important in the transformation
+since the PVS type checker will generate an <i>existence</i> TCC for every
+function declared if it can not determine if the result type of the function
+is a nonempty type. This is so since PVS considers inconsistent the
+existence of a function with possibly empty result type.  (In RSL such
+a function with parameters from non-empty types would be evidence of
+the non-emptiness of the result type.)
+<p>So we translate every RSL sort into a PVS nonempty type
+(<tt>TYPE+</tt>). But this extends somewhat the transformation since it is
+like adding in RSL:
+<p><b>axiom</b> &#8707; t: T &#8226; <b>true</b>
+<p>This is unlikely to cause any problems in extending the RSL theory
+since the declaration of a value of type T or a total function with
+non-empty domain type and result type T would also imply it.  Since it
+avoids getting extra TCCs we adopt it.
+
+<h4><a name="id5">Variant definitions</a></h4>
+<p>Variant types in RSL translate directly into PVS <tt>DATATYPE</tt>s.
+<p>PVS <tt>DATATYPE</tt>s are very similar to RSL variant types, except
+that:
+<ul><p><li>PVS includes <tt>recognizers</tt>, boolean functions that return
+  true if their argument is in the corresponding variant.  These are
+  added to the translation, given names formed by appending "?" to
+  the constructor name.
+<p><li>All components in PVS need <tt>accessor</tt>s corresponding to
+  RSL's destructors.  In RSL these are optional: the translator
+  generates missing ones with names of the form <tt>acc&#95;<i>n</i>&#95;</tt>, where <i>n</i>
+  is an integer used to make unique names, and warns the user that
+  they have been generated.
+<p><li>PVS does not include RSL's optional reconstructors, so when
+  these are included they are added by defining them explicitly as
+  functions in
+  PVS.
+<p><li>RSL allows wildcard constructors.  These are not accepted by the
+  translator. 
+</ul>
+<p>For example, the following RSL variant type definition:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;V == </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vconst |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vint(<b>Int</b>) |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vrec(d1Vrec: <b>Int</b> &#8596; r1Vrec, d2Vrec: V)
+</td></tr></table>
+
+                        <p>generates the following PVS definitions:
+<pre>
+  V: DATATYPE
+  BEGIN
+    Vconst: Vconst?
+    Vint(acc_1_: int): Vint?
+    Vrec(d1Vrec: int, d2Vrec: V): Vrec?
+  END V
+
+  r1Vrec(z_: int, x_: {x_: V | Vrec?(x_)}): V = 
+    LET x1_ = d1Vrec(x_), x2_ = d2Vrec(x_)
+    IN Vrec(z_, x2_);
+</pre>
+
+<h4><a name="id6">Short record definitions</a></h4>
+Records in RSL are translated as PVS <tt>DATATYPE</tt>s with single
+components. 
+
+<h4><a name="id7">Abbreviation definitions</a></h4>
+An abbreviation definition translates to a PVS type definition.
+
+<h4><a name="id8">Union Definitions</a></h4>
+Union definitions are not accepted.
+
+<h3><a name="id9">11.3.4 Value declarations</a></h3>
+
+<h4><a name="id10">Typings</a></h4>
+Typings are translated to PVS constant declarations.
+
+<h4><a name="id11">Explicit value definitions</a></h4>
+An explicit value definition translates to a PVS constant declaration.
+
+<h4><a name="id12">Implicit value definitions</a></h4>
+An explicit value definition translates to a PVS constant declaration
+plus an axiom.
+
+<h4><a name="pvs:fun">Explicit function definitions</a></h4>
+
+A non-recursive explicit function definition translates to a PVS function
+definition.
+<p>If the function has a precondition this is translated into a subtype
+for the last parameter.  For example, the RSL definition
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;diff : <b>Nat</b> &#215; <b>Nat</b> -~-&gt; <b>Nat</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;diff(x, y) &#8801; x - y</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> x &#8805; y
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+  diff(x: nat, y: {y: nat | x &gt;= y}): nat = x - y;
+</pre>
+<p><p>Access descriptors are not accepted.  The kind of
+function arrow (&#8594; or -~-&gt;) does not matter.
+<p>It is not required that the number of parameters matches the number of
+components in the 
+domain of the function's type expression.  For example, the following
+are all accepted: 
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;U = <b>Int</b> &#215; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f1: <b>Int</b> &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f1(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f2: (<b>Int</b> &#215; <b>Bool</b>) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f2(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f3: U &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f3(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f4: U &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f4(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f5: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f5(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f6: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f6(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f7: <b>Int</b> &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f7(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f8: (<b>Int</b> &#215; <b>Bool</b>) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f8(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f9: U &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f9(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f10: U &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f10((x, y), z) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f11: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f11((x, y), z) &#8801; ...
+</td></tr></table>
+
+                        <p>Recursive functions need <tt>MEASURE</tt>s in PVS to show that they
+terminate.  Generating measures automatically is not possible in
+general, so the translation is to a constant declaration giving the
+function signature plus an axiom defining the function body.
+Preconditions are dealt with as for non-recursive functions.
+
+<h4><a name="id14">Implicit function definitions</a></h4>
+An implicit function is translated as a constant declaration giving the
+function signature plus an axiom defining the postcondition.
+Preconditions are dealt with as for explicit function definitions.
+
+<h3><a name="id15">11.3.5 Variable declarations</a></h3>
+Variable declarations are not accepted.
+
+<h3><a name="id16">11.3.6 Channel declarations</a></h3>
+Channel declarations are not accepted.
+
+<h3><a name="id17">11.3.7 Axiom declarations</a></h3>
+Axioms are translated to PVS axioms.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.3 Declarations</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_45.html"><img border="0" alt="11.2 Activating the PVS translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.2 Activating the PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_47.html"><img border="0" alt="11.4 Class expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.4 Class expressions</td></tr></table></td></tr></table></body></html>

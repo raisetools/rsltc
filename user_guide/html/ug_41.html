@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.13 Input/output handling</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_40.html"><img border="0" alt="10.12 Universal types" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.12 Universal types</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_42.html"><img border="0" alt="10.14 An example" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.14 An example</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.13 Input/output handling</b></font></td></tr></table>
+<h2>10.13 Input/output handling</h2>
+
+The C++ translator optionally generates code for stream input and
+output of values of RSL data types.
+<p>The i/o routines provide a primitive but easy way of communicating
+values to and from a program based on translator generated C++ code.
+The routines are adequate for i/o in a prototype or during debugging.
+However, due to their lack of error handling at input and formatting
+at output, they are probably not adequate for handling of interactive
+i/o in production code.
+<p>Non-interactive i/o from and to files etc.&nbsp;can easily be handled.
+<p>The i/o facility is based on the C++ concept of streams as described
+in the standard library header <tt>iostream.h</tt>. When the C++ code is
+compiled with the the flag <tt>RSL&#95;io</tt> defined,
+each translated type T is equipped with operators for output and input:
+<pre>
+struct T {
+...
+ostream&amp; operator &lt;&lt;(ostream&amp;, const T&amp;);
+istream&amp; operator &gt;&gt;(istream&amp;, T&amp;);
+...
+}
+</pre>
+<p>Streams can be connected to files. For interactive i/o, the standard
+streams <tt>cin</tt>, <tt>cout</tt> and <tt>cerr</tt> correspond to
+standard input, output and error.
+<p>Continuing the example,
+a value tval specified as having type T, can be printed on the standard output with
+<pre>
+cout &lt;&lt; "The value is: " &lt;&lt; tval &lt;&lt; "\n";
+</pre>
+<p>Note how RSL data type values can be freely mixed with ordinary C++
+values, e.g.&nbsp;strings.
+<p>The following code inputs a value of type T to the variable tvar:
+<pre>
+T tvar;
+cout &lt;&lt; "Give a value of type V:\n";
+cin &gt;&gt; tvar;
+</pre>
+<p>The user is prompted for a string that can be parsed and interpreted as a literal of type T. If the
+string obeys the input syntax described below, the literal value is assigned to tvar. Otherwise,
+tvar is unchanged and the state of the stream is set to ios::badbit.
+<p>The i/o facility works for any translated type, no matter how complex.
+<p>To ensure smooth integration of handwritten C++ with translator
+generated code, any user defined type, UD, should come equipped with
+operators for input and output:
+<pre>
+struct UD {
+...
+#ifdef RSL_io
+
+ostream&amp; operator &lt;&lt;(ostream&amp;, const UD&amp;);
+istream&amp; operator &gt;&gt;(istream&amp;, UD&amp;);
+#endif
+...
+}
+</pre>
+
+<h3><a name="id1">10.13.1 Input syntax</a></h3>
+The following describes the syntax that input strings must obey in
+order to be parsed as values of the given type. For all types, only
+literal values are accepted. Whitespaces, i.e.&nbsp;blanks, tabs and
+newlines, can be freely added between lexical tokens. Note, for
+example, that the list delimiters <code>&lt;.</code> and <code>.&gt;</code> are two
+tokens, not four, so <code>&lt;.7,9,13. &gt;</code> will not be accepted.
+
+<h4><a name="id2">Sort types</a></h4>
+As a sort is translated into an empty class, the generated i/o
+functions have no effect. 
+
+<h4><a name="id3">Variant types</a></h4>
+The input syntax is the same as the RSL syntax for variant literals if
+the constructors are 
+identifiers. As an example the strings
+<pre>
+Vconst
+Vint(7)
+Vrec(8,Vrec(9,Vint(10)))
+</pre>
+<p>can be interpreted as values of type
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;V == </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vconst |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vint(<b>Int</b>) |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vrec(d1Vrec : <b>Int</b> &#8596; r1Vrec, d2Vrec : V &#8596; r2Vrec)
+</td></tr></table>
+
+                        <p>Internal buffer size limits the number of characters in a constructor
+identifier to 128. 
+
+<h4><a name="id4">Union types</a></h4>
+Not accepted by the translator, hence no i/o.
+
+<h4><a name="id5">Product types</a></h4>
+The input syntax is the same as the RSL syntax for product literals. As an example the string
+<code>(1, Vint(7), "Margrethe")</code>
+can be interpreted as a value of type <b>Int</b>&nbsp;&#215;&nbsp;V&nbsp;&#215;&nbsp;<b>Text</b> where V is the variant type defined above.
+
+<h4><a name="id6">Set types</a></h4>
+The input syntax is the same as the RSL syntax for set literals. As an
+example the strings 
+<pre>
+{1,4,9}
+{1 .. 100}
+</pre>
+<p>can be interpreted as values of type <b>Int</b><b>-set</b>.
+
+<h4><a name="id7">List types</a></h4>
+The input syntax is the same as the ASCII version of the RSL syntax
+for list literals. As an 
+example the strings
+<pre>
+&lt;.1,1,4,4,9,9.&gt;
+&lt;.1 .. 100.&gt;
+</pre>
+<p>can be interpreted as values of type <b>Int</b><i><sup>*</sup></i>.
+
+<h4><a name="id8">Text type</a></h4>
+The input syntax is the same as the RSL syntax for text literals. As
+an example the string <code>"Margrethe"</code> can be interpreted as a value
+of type <b>Text</b>. Note that the quotes must be present. The length of
+the string must not exceed 256 characters.
+
+<h4><a name="id9">Map types</a></h4>
+The input syntax is the same as the ASCII version of the RSL syntax for map literals. As an
+example the string
+<pre>
+[ 1 +&gt; "en", 2 +&gt; "to", 3 +&gt; "tre" ]
+</pre>
+<p>can be interpreted as a value of type <b>Int</b> -m-&gt; <b>Text</b>.
+
+<h4><a name="id10">Unit type</a></h4>
+The translator only accepts the unit type in certain contexts, hence no i/o.
+
+<h4><a name="id11">Int type</a></h4>
+As RSL <b>Int</b> is translated to C++ <tt>int</tt>, integers are read
+via the standard int input operator.  Therefore, the input syntax
+differs from the RSL syntax.  A unary minus as in -4 can be used
+whereas e.g. 0-4 is not accepted as it is not a C++ integer literal.
+Be careful not to enter integer literals that are numerically too
+large to be represented as <tt>int</tt>s on the target machine. These will be
+truncated in a machine dependent way.
+
+<h4><a name="id12">Nat type</a></h4>
+As <b>Nat</b> is translated to <tt>int</tt>, the rules for <b>Int</b>
+apply to <b>Nat</b> as well.
+<p>Note that it is possible to input a negative value to a variable that
+originally was specified as <b>Nat</b>. This can be cause for errors.
+
+<h4><a name="id13">Bool type</a></h4>
+RSL <b>Bool</b> is translated to C++ <tt>bool</tt>, and the literal
+values <tt>true</tt> and <tt>false</tt> are interpreted as the
+corresponding RSL literals.
+
+<h4><a name="id14">Real type</a></h4>
+As RSL <b>Real</b> is translated to C++ <tt>double</tt>, floating point
+numbers are read via the standard double input operator. Therefore,
+the input syntax differs from the RSL syntax.
+<p>Integer literals can be used at input. E.g.&nbsp;4 is equivalent to 4.0.
+Exponential notation can be used, e.g.&nbsp;1.234E-56.
+A unary minus as in -4.0 can be used whereas e.g. 0.0-4.0 is not accepted as it is not a C++
+double literal.
+<p>Be careful not to enter literals that are numerically too large to be
+represented as doubles on the target machine, or contain too many
+digits to be represented exactly. These will be truncated in a machine
+dependent way.
+
+<h4><a name="id15">Char type</a></h4>
+The input syntax is the same as the RSL syntax for character literals. As
+an example the string <code>'a'</code> can be interpreted as a value
+of type <b>Char</b>.
+<p>Escaped characters are supported.  For example, <code>'\t'</code> is
+interpreted as a tab character, <code>'\''</code> as a quote, <code>'\141'</code>
+(octal notation) and <code>'\x61'</code> (hexadecimal
+notation) both as <code>'a'</code>.
+
+<h4><a name="id16">Output syntax</a></h4>
+All values are converted to output strings with a syntax that is
+acceptable for input, with the following exceptions:
+<ul><p><li>The GNU g++ compiler is not fully ANSI compliant, and
+  in particular (before version 3) did not accept the "boolalpha" conversion.
+  <b>true</b> and <b>false</b> are output as 1 and 0 respectively.<a name="cpp:bool">
+  If</a> your C++ compiler does accept the "boolalpha" conversion, then
+  you should define the variable <code>RSL_boolalpha</code> when invoking
+  the compiler. 
+<p><li>On some machines, very large floating point literals will be
+  represented as infinity.  The output form of infinity is
+  <tt>Inf</tt> which is not an acceptable input form.
+</ul>
+<p>There is no way to format the output, e.g.&nbsp;to break a long list over several lines.
+
+<h4><a name="id18">Conversion to strings</a></h4>
+
+<p>A more flexible way of generating outputs has also been added.  The
+translated C++ code includes the definition of an overloaded function
+<tt>RSL&#95;to&#95;string</tt> that will convert any RSL value to a string value.
+This makes it easier to introduce some formatting.
+<p>When using <tt>RSL&#95;to&#95;string</tt> in hand-written code for a
+non-built-in type, it is necessary to mention the required type in the
+RSL code so that <tt>RSL&#95;to&#95;string</tt> is defined for that type.
+Defining an abbreviation for the type will suffice.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.13 Input/output handling</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_40.html"><img border="0" alt="10.12 Universal types" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.12 Universal types</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_42.html"><img border="0" alt="10.14 An example" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.14 An example</td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 14 Use with emacs</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_69.html"><img border="0" alt="15 Mutation testing" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">15 Mutation testing</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>14 Use with emacs</b></font></td></tr></table>
+<h1>14 Use with emacs</h1>
+
+<p>This section describes the Unix/Linux version.  If you use Windows you
+should also read section&nbsp;<a href="ug_68.html">14.1</a> for the differences.
+<p>emacs provides a convenient environment for using rsltc.  Its
+"compile" facility allows a user to see error messages in a separate
+window and just click on them (middle button) to go straight to the
+source of the error in the appropriate file.  Additional tools, like
+VCG (section&nbsp;<a href="ug_18.html">8</a>) and the SML run-time tool
+(section&nbsp;<a href="ug_20.html">9</a>) can be invoked automatically or from a menu.
+<p>There are a number of files supplied with the tool that support use
+with emacs:
+
+  <div align="center"><p>
+    <table border><tbody><tr><td colspan="1" align="LEFT">
+
+rsl-mode.el </td><td colspan="1" align="LEFT"> syntax highlighting; RSL menu</td></tr>
+<tr><td colspan="1" align="LEFT">
+rsltc.el </td><td colspan="1" align="LEFT"> rsltc interface</td></tr>
+<tr><td colspan="1" align="LEFT">
+rslconvert.el, tokenise.el </td><td colspan="1" align="LEFT"> conversion to LaTeX</td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+    <div align="center">emacs files</div>
+    <a name="id1">&nbsp;</a>
+  </p></div>
+These are best placed in a directory on your emacs load-path.  Then
+put in your .emacs file
+<pre>
+(load "rsl-mode")
+(load "rslconvert")
+</pre>
+<p>This will load all the emacs files.
+<p>If the files are not in your emacs load-path, then you can use
+<tt>load-file</tt> instead of <tt>load</tt>.  You will have to load
+all four files, and give a path name and
+the <code>.el</code> extension as part of the file name string, as in
+<pre>
+(load-file "/home/me/rsltc.el")
+(load-file "/home/me/rsl-mode.el")
+(load-file "/home/me/tokenise.el")
+(load-file "/home/me/rslconvert.el")
+</pre>
+<p>You will find <tt>rslconvert.el</tt>
+useful if you use LaTeX&#32;for documentation.  See section&nbsp;<a href="ug_71.html">17</a>.
+<p>When <tt>rsl-mode.el</tt> is loaded and you open an RSL file (with
+extension <tt>.rsl</tt>) in emacs then you will find an RSL menu from
+which the rsltc tool components can be invoked.
+<p>Apart from the pretty printer, emacs will start a second window
+to display output.  Errors and confidence conditions start with a
+<tt>file:line:column</tt> string and clicking with the middle mouse
+button on a line starting with this string places the cursor at the
+relevant position in that file in the first window.
+<p>The pretty-printer puts its output in the same buffer as the input,
+but does not save it, and offers an "undo" option to go back to the the
+state before pretty printing.
+<p>There is also a menu item to run the SML run-time system on the output
+from the SML translator.  See also section&nbsp;<a href="ug_69.html">15</a>.
+<p>When the "Draw module dependency graph" menu item is selected, emacs
+will automatically start the VCG tool on the output.
+<ul>
+<li><a href="ug_68.html">14.1 Emacs on Windows</a>
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>14 Use with emacs</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_69.html"><img border="0" alt="15 Mutation testing" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">15 Mutation testing</td></tr></table></td></tr></table></body></html>

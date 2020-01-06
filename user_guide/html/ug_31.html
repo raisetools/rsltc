@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.3 Declarations</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_30.html"><img border="0" alt="10.2 Activating the C++ translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.2 Activating the C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_32.html"><img border="0" alt="10.4 Variable declarations" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.4 Variable declarations</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.3 Declarations</b></font></td></tr></table>
+<h2>10.3 Declarations</h2>
+A declaration translates to one or more type, constant, function or
+variable declarations as described for the various kinds of
+declarations.
+<p>If the declaration occurs in a class expression, the declarations are
+placed at the outermost level.
+<p>Declarations from local expressions are included in-line when they are
+only variables and constant values.  Otherwise they are placed in a separate
+namespace outside the definition where the local expression occurred:
+see section&nbsp;<a href="ug_36.html#cpp:local">10.8.23</a>.
+<p>Type declarations are always placed in the header file.
+To accommodate C++'s requirement of declaration before use the
+produced declarations are 
+sorted according to kind in the following order:<br />type definitions (including those from embedded objects)<br />embedded objects (in namespaces)<br />constants and functions<br />variables<br />test cases
+
+<h3><a name="id1">10.3.1 Scheme declarations</a></h3>
+Apart from the top level module, schemes are only translated when they
+are instantiated as objects.  So a scheme that is instantiated several
+times will therefore be translated several times.  This may appear
+wasteful, but it only affects the size of the C++ source, not the
+final object code, and saves the need for the restrictions on scheme
+parameters that would be needed if templates were used for schemes.
+
+<h3><a name="id2">10.3.2 Object declarations</a></h3>
+An object translates as its translated declarations placed within a
+namespace of the same name as the object.
+<p>An object definition in RSL<i><sub>C++</sub></i> cannot have a formal array parameter.
+
+<h3><a name="id3">10.3.3 Type declarations</a></h3>
+A type declaration translates to one or more type definitions for each
+type definition in its type definition list.  Several type definitions
+generate C++ class definitions with member functions for test of
+equality and so on and accompanied by the specified constructor,
+destructor and reconstructor functions.  These type definitions
+include short record definitions, variant definitions and abbreviation
+definitions that name product types.  Recursive data structures may be
+specified by means of record variants, which translate to dynamic
+structures. All classes are declared public as structures, which are
+prototype declared in front of the definitions proper.  All produced
+type definitions are placed in the header part. 
+
+<h4><a name="id4">Sort definitions</a></h4>
+<p>A sort definition translates to an almost empty C++ struct in
+order to support hand-translation.  
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b> Sort 
+</td></tr></table>
+
+                        <p>gives a warning message and
+translates to (input/output operators omitted):
+<pre>
+struct Sort/*INCOMPLETE: abstract type*/{
+bool operator==(const Sort&amp; RSL_v) const{
+return true;
+}
+
+bool operator!=(const Sort&amp; RSL_v) const{
+return false;
+}
+
+};
+</pre>
+
+<h4><a name="id5">Variant definitions</a></h4>
+<p>A variant definition translates to a <tt>struct</tt> containing a tag
+field identifying the variant-choice and a pointer to the record
+variant. Allocation and deallocation of record variant structures are
+handled by the various constructor and member functions by means of
+reference counts. The following struct is the base class of all record
+variants
+<pre>
+struct RSL_class {
+  int refcnt;
+  RSL_class () {refcnt = 1;}
+};
+</pre>
+<p>The variant
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;V == <a name="cpp:V">&nbsp;</a></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vconst |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vint(<b>Int</b>) |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vrec(d1Vrec : <b>Int</b> &#8596; r1Vrec, d2Vrec : V &#8596; r2Vrec)
+</td></tr></table>
+
+                        <p>translates to (input/output operators included)
+<pre>
+// From the .h file ...
+// type and constant declarations and inline functions
+static const int RSL_Vconst_tag = 1;
+static const int RSL_Vint_tag = 2;
+static const int RSL_Vrec_tag = 3;
+struct RSL_Vint_type;
+struct RSL_Vrec_type;
+struct V{
+int RSL_tag;
+RSL_class* RSL_ptr;
+ V(const int RSL_p0 = 0){
+RSL_tag = RSL_p0;
+RSL_ptr = 0;
+}
+
+ V(const RSL_Vint_type* RSL_v){
+RSL_tag = RSL_Vint_tag;
+RSL_ptr = (RSL_class*)RSL_v;
+}
+
+ V(const RSL_Vrec_type* RSL_v){
+RSL_tag = RSL_Vrec_tag;
+RSL_ptr = (RSL_class*)RSL_v;
+}
+
+void RSL_destructor();
+ ~V(){
+RSL_destructor();
+}
+
+ V(const V&amp; RSL_v);
+const V&amp; operator=(const V&amp; RSL_v);
+bool operator==(const V&amp; RSL_v)  const;
+bool operator!=(const V&amp; RSL_v) const{
+return !operator==(RSL_v);
+}
+
+};
+extern string RSL_to_string(const V&amp; RSL_v);
+#ifdef RSL_io
+extern ostream&amp; operator&lt;&lt;(ostream&amp; RSL_os, const V&amp; RSL_v);
+
+extern istream&amp; operator&gt;&gt;(istream&amp; RSL_is, V&amp; RSL_v);
+
+#endif //RSL_io
+static const V Vconst(RSL_Vconst_tag);
+struct RSL_Vint_type : RSL_class, RSLProduct1&lt;int, RSL_constructor_fun&gt;{
+ RSL_Vint_type(){}
+
+ RSL_Vint_type(const int RSL_p1) :
+  RSL_class(), RSLProduct1&lt;int, RSL_constructor_fun&gt;::RSLProduct1(RSL_p1){}
+
+};
+extern V Vint(const int RSL_p1);
+struct RSL_Vrec_type : RSL_class, RSLProduct2&lt;int, V, RSL_constructor_fun&gt;{
+ RSL_Vrec_type(){}
+
+ RSL_Vrec_type(const int RSL_p1, const V&amp; RSL_p2) :
+  RSL_class(),
+  RSLProduct2&lt;int, V, RSL_constructor_fun&gt;::RSLProduct2(RSL_p1, RSL_p2){}
+
+};
+extern V Vrec(const int RSL_p1, const V&amp; RSL_p2);
+inline int d1Vrec(const V&amp; RSL_v){
+#ifdef RSL_pre
+
+if (RSL_v.RSL_tag != RSL_Vrec_tag)
+{
+RSL_fail("V.rsl:6:10: Destructor d1Vrec applied to wrong variant");
+}
+#endif //RSL_pre
+
+return ((RSL_Vrec_type*)RSL_v.RSL_ptr)-&gt;RSL_f1;
+}
+
+inline V d2Vrec(const V&amp; RSL_v){
+#ifdef RSL_pre
+
+if (RSL_v.RSL_tag != RSL_Vrec_tag)
+{
+RSL_fail("V.rsl:6:35: Destructor d2Vrec applied to wrong variant");
+}
+#endif //RSL_pre
+
+return ((RSL_Vrec_type*)RSL_v.RSL_ptr)-&gt;RSL_f2;
+}
+
+extern V r1Vrec(const int RSL_p0, const V&amp; RSL_v);
+extern V r2Vrec(const V&amp; RSL_p0, const V&amp; RSL_v);
+</pre>
+<p>The templates <tt>RSLProduct</tt>n (1&#8804;n&#8804;10) are defined in
+<tt>RSL&#95;Prod.h</tt>.  Each takes as arguments the n types
+making the product plus a function generating a string for a
+constructor. This function is <tt>RSL&#95;constructor&#95;fun</tt> (which
+generates the empty string) for products and variant components, and a
+function generating <code>"mk_T"</code> for a record type <tt>T</tt>.
+<pre>
+// From the .cc file ...
+// RSL constructor, destructor and reconstructor functions
+void V::RSL_destructor(){
+switch (RSL_tag) {
+case RSL_Vint_tag:
+if (--(RSL_ptr-&gt;refcnt) == 0)
+{
+delete (RSL_Vint_type*)RSL_ptr;
+}
+break;
+case RSL_Vrec_tag:
+if (--(RSL_ptr-&gt;refcnt) == 0)
+{
+delete (RSL_Vrec_type*)RSL_ptr;
+}
+break;
+}
+}
+
+
+ V::V(const V&amp; RSL_v){
+switch (RSL_v.RSL_tag) {
+case RSL_Vint_tag:
+case RSL_Vrec_tag:
+RSL_v.RSL_ptr-&gt;refcnt++;
+}
+RSL_tag = RSL_v.RSL_tag;
+RSL_ptr = RSL_v.RSL_ptr;
+}
+
+
+const V&amp; V::operator=(const V&amp; RSL_v){
+if (this == &amp;RSL_v)
+{
+return RSL_v;
+}
+switch (RSL_v.RSL_tag) {
+case RSL_Vint_tag:
+case RSL_Vrec_tag:
+RSL_v.RSL_ptr-&gt;refcnt++;
+}
+RSL_destructor();
+RSL_tag = RSL_v.RSL_tag;
+RSL_ptr = RSL_v.RSL_ptr;
+return *this;
+}
+
+
+bool V::operator==(const V&amp; RSL_v) const{
+if (RSL_tag != RSL_v.RSL_tag)
+{
+return false;
+}
+switch (RSL_tag) {
+case RSL_Vint_tag:
+return *(RSL_Vint_type*)RSL_ptr == *(RSL_Vint_type*)RSL_v.RSL_ptr;
+case RSL_Vrec_tag:
+return *(RSL_Vrec_type*)RSL_ptr == *(RSL_Vrec_type*)RSL_v.RSL_ptr;
+default:
+return true;
+}
+}
+
+
+string RSL_to_string(const V&amp; RSL_v){
+string RSL_Temp_0;
+
+switch (RSL_v.RSL_tag) {
+case RSL_Vconst_tag:
+RSL_Temp_0 = "Vconst";
+break;
+case RSL_Vint_tag:
+RSL_Temp_0 = "Vint" + RSL_to_string(*(RSL_Vint_type*)RSL_v.RSL_ptr);
+break;
+case RSL_Vrec_tag:
+RSL_Temp_0 = "Vrec" + RSL_to_string(*(RSL_Vrec_type*)RSL_v.RSL_ptr);
+break;
+default:
+RSL_Temp_0 = "Unknown variant value";
+break;
+}
+return RSL_Temp_0;
+}
+
+#ifdef RSL_io
+ostream&amp; operator&lt;&lt;(ostream&amp; RSL_os, const V&amp; RSL_v){
+switch (RSL_v.RSL_tag) {
+case RSL_Vconst_tag:
+RSL_os &lt;&lt; "Vconst";
+break;
+case RSL_Vint_tag:
+RSL_os &lt;&lt; "Vint" &lt;&lt; *(RSL_Vint_type*)RSL_v.RSL_ptr;
+break;
+case RSL_Vrec_tag:
+RSL_os &lt;&lt; "Vrec" &lt;&lt; *(RSL_Vrec_type*)RSL_v.RSL_ptr;
+break;
+default:
+RSL_os &lt;&lt; "Unknown variant value";
+break;
+}
+return RSL_os;
+}
+
+
+const RSL_input_token_type RSL_Vconst_token = Token_StartIndex + 1;
+
+const RSL_input_token_type RSL_Vint_token = Token_StartIndex + 2;
+
+const RSL_input_token_type RSL_Vrec_token = Token_StartIndex + 3;
+
+static void RSL_input_token_V(istream&amp; RSL_is, RSL_input_token_type&amp; RSL_token){
+char RSL_buf[128];
+
+RSL_fetch_token(RSL_is, RSL_token, RSL_buf);
+if (RSL_token == RSL_constructor_token)
+{
+if (RSL_streq(RSL_buf, "Vconst"))
+{
+RSL_token = RSL_Vconst_token;
+return;
+}
+if (RSL_streq(RSL_buf, "Vint"))
+{
+RSL_token = RSL_Vint_token;
+return;
+}
+if (RSL_streq(RSL_buf, "Vrec"))
+{
+RSL_token = RSL_Vrec_token;
+return;
+}
+RSL_token = RSL_error_token;
+}
+}
+
+
+istream&amp; operator&gt;&gt;(istream&amp; RSL_is, V&amp; RSL_v){
+RSL_input_token_type RSL_token;
+
+V RSL_temp;
+
+RSL_class* RSL_ptr = 0;
+
+RSL_input_token_V(RSL_is, RSL_token);
+switch (RSL_token) {
+case RSL_Vconst_token:
+RSL_temp = V(RSL_Vconst_tag);
+break;
+case RSL_Vint_token:
+RSL_ptr = new RSL_Vint_type;
+RSL_is &gt;&gt; *(RSL_Vint_type*)RSL_ptr;
+if (RSL_is)
+{
+RSL_temp = V((RSL_Vint_type*)RSL_ptr);
+}
+break;
+case RSL_Vrec_token:
+RSL_ptr = new RSL_Vrec_type;
+RSL_is &gt;&gt; *(RSL_Vrec_type*)RSL_ptr;
+if (RSL_is)
+{
+RSL_temp = V((RSL_Vrec_type*)RSL_ptr);
+}
+break;
+default:
+RSL_is.clear(ios::badbit);
+break;
+}
+if (RSL_is)
+{
+RSL_v = RSL_temp;
+}
+else
+{
+RSL_is.clear(ios::badbit);
+}
+return RSL_is;
+}
+
+
+#endif //RSL_io
+V Vint(const int RSL_p1){
+RSL_Vint_type* RSL_v = new RSL_Vint_type(RSL_p1);
+
+if (!RSL_v)
+{
+abort();
+}
+return V(RSL_v);
+}
+
+V Vrec(const int RSL_p1, const V&amp; RSL_p2){
+RSL_Vrec_type* RSL_v = new RSL_Vrec_type(RSL_p1, RSL_p2);
+
+if (!RSL_v)
+{
+abort();
+}
+return V(RSL_v);
+}
+
+V r1Vrec(const int RSL_p0, const V&amp; RSL_v){
+#ifdef RSL_pre
+
+if (RSL_v.RSL_tag != RSL_Vrec_tag)
+{
+RSL_fail("V.rsl:6:27: Reconstructor r1Vrec applied to wrong variant");
+}
+#endif //RSL_pre
+
+return Vrec(RSL_p0, ((RSL_Vrec_type*)RSL_v.RSL_ptr)-&gt;RSL_f2);
+}
+
+V r2Vrec(const V&amp; RSL_p0, const V&amp; RSL_v){
+#ifdef RSL_pre
+
+if (RSL_v.RSL_tag != RSL_Vrec_tag)
+{
+RSL_fail("V.rsl:6:50: Reconstructor r2Vrec applied to wrong variant");
+}
+#endif //RSL_pre
+
+return Vrec(((RSL_Vrec_type*)RSL_v.RSL_ptr)-&gt;RSL_f1, RSL_p0);
+}
+</pre>
+<p>Constructors, destructors and reconstructors translate as the
+identifier or operator does. Wildcard constructors are not accepted. 
+<p>When the translated code is compiled  with the <tt>RSL&#95;io</tt> flag,
+a handwritten C++ compilation unit can 
+perform input/output of variant values. For example:
+<pre>
+void main(){
+V aV, anotherV;
+aV = Vint(42);
+cout &lt;&lt; "First value: " &lt;&lt; aV &lt;&lt; "\n";
+cout &lt;&lt; "Give a value of type V:\n";
+cin &gt;&gt; anotherV;
+cout &lt;&lt; "Second value: " &lt;&lt; anotherV &lt;&lt; "\n";
+}
+</pre>
+The following is an example of an execution of this program (user
+lines are marked with <code>#</code>): 
+<pre>
+First value: Vint(42)
+Give a value of type V:
+Vrec(1957, Vint(1969)) #
+Second value: Vrec(1957,Vint(1969))
+</pre>
+
+<h4><a name="id7">Union definitions</a></h4>
+Not accepted.
+
+<h4><a name="id8">Short record definitions</a></h4>
+A short record definition translates to a C++ class definition
+including member functions and function 
+definitions that implement the constructor, destructor and
+reconstructor functions. Note that 
+a short record translates differently from a variant definition -- the
+short record translates without the use 
+of pointers.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Complex :: re: <b>Real</b> &#8596; r im: <b>Real</b> &#8596; i
+</td></tr></table>
+
+                        <p><p>translates to
+<pre>
+// from the .h file ...
+char* RSL_mk_Complex_fun(){
+return "mk_Complex";
+}
+
+typedef RSLProduct2&lt;double, double, RSL_mk_Complex_fun&gt; Complex;
+inline Complex mk_Complex(const double RSL_p1, const double RSL_p2){
+return Complex(RSL_p1, RSL_p2);
+}
+
+inline double re(const Complex&amp; RSL_v){
+return RSL_v.RSL_f1;
+}
+
+inline double im(const Complex&amp; RSL_v){
+return RSL_v.RSL_f2;
+}
+
+extern Complex r(const double RSL_p0, const Complex&amp; RSL_v);
+extern Complex i(const double RSL_p0, const Complex&amp; RSL_v);
+</pre>
+<pre>
+// from the .cc file ...
+Complex r(const double RSL_p0, const Complex&amp; RSL_v){
+return Complex(RSL_p0, RSL_v.RSL_f2);
+}
+
+Complex i(const double RSL_p0, const Complex&amp; RSL_v){
+return Complex(RSL_v.RSL_f1, RSL_p0);
+}
+</pre>
+
+<h4><a name="id9">Abbreviation definitions</a></h4>
+An abbreviation definition translates to a type definition of a universal type whose name is derived from
+the structure of the type (see section&nbsp;<a href="ug_40.html">10.12</a> on
+universal types), plus a definition
+of the identifier as the universal type.
+For each translation there is at most one definition of each universal type.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;B = C &#215; C,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;C = &#123;| n : <b>Int</b> &#8226; n &#8712; &#123;0..7&#125; |&#125;,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;D = <b>Nat</b> &#215; <b>Int</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;E = D &#8594; D,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;F = C &#215; D &#8594; D
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+typedef int C;
+
+typedef RSLProduct2&lt;int, int, RSL_constructor_fun&gt; RSL_IxI;
+
+typedef RSL_IxI D;
+
+typedef RSL_IxI (* RSL_IxIfIxI)(const RSL_IxI );
+
+typedef RSL_IxIfIxI E;
+
+typedef RSL_IxI (* RSL_Ix6IxI9fIxI)(const int , const RSL_IxI );
+
+typedef RSL_Ix6IxI9fIxI F;
+
+typedef RSL_IxI B;
+</pre>
+
+<h3><a name="id10">10.3.4 Value declarations</a></h3>
+
+<h4><a name="id11">Typings</a></h4>
+Typings are accepted with a warning that they are incomplete
+
+<h4><a name="id12">Explicit value definitions</a></h4>
+An explicit value definition translates to a constant declared in the header
+file and defined in the body file.  For example
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;low: <b>Int</b> = 0,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;high: <b>Int</b> = low + 100,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;max : <b>Int</b> = Max(low, high),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;p : <b>Int</b> &#215; <b>Bool</b> = (7, <b>true</b>)
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+// Header file:
+extern const int low;
+extern const int high;
+extern const int max;
+extern const RSL_IxB p;
+</pre>
+<pre>
+// Body file:
+const int low = 0;
+const int high = low + 100;
+const int max = Max(low, high);
+const RSL_IxB p = RSL_IxB(7, true);
+</pre>
+<p>Additional code, included if <tt>RSL&#95;pre</tt> is defined, is generated
+if any constant types are subtypes, to check that the values of the
+constants are in the subtypes. 
+<p>An explicit value definition which defines a function translates by
+means of a C++ pointer to function 
+type. E.g.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f : <b>Int</b> &#215; <b>Int</b> &#8594; <b>Int</b> = Max
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+// Header file:
+typedef int (* RSL_IxIfI)(const int , const int );
+extern const RSL_IxIfI f;
+</pre>
+<pre>
+// Body file:
+const RSL_IxIfI f = Max;
+</pre>
+
+<h4><a name="id13">Implicit value definitions</a></h4>
+Implicit value definitions are accepted with a warning that they are incomplete.
+
+<h4><a name="cpp:fun">Explicit function definitions</a></h4>
+
+An explicit function definition translates to a C++ function
+definition. 
+<p>As an example
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;sqr : <b>Real</b> &#8594; <b>Real</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;sqr(x) &#8801; x*x,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;+ : V &#215; <b>Int</b> &#8594; V</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;v + i &#8801; Vrec(i, v)
+</td></tr></table>
+
+                        <p>(in the context of the type V defined earlier) translates to
+<pre>
+double sqr(const double x_38B){
+return x_38B * x_38B;
+}
+
+V RSL_PLUS_op(const V&amp; v_4B3, const int i_4B7){
+return Vrec(i_4B7, v_4B3);
+}
+</pre>
+<p>Note that a user-defined operator translates into a function with a
+name derived from the operator name rather than into an operator.
+This eases the translation of such operators.  In particular it makes them all
+translatable.  The names are given below.
+
+  <div align="center"><p>
+  <table border><tbody><tr><td colspan="1" align="CENTER">
+
+Operator </td><td colspan="1" align="CENTER"> Function name</td></tr>
+<tr><td colspan="1" align="CENTER">
+= </td><td colspan="1" align="CENTER"> <code>RSL_EQ_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8800; </td><td colspan="1" align="CENTER"> <code>RSL_NOTEQ_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+==  </td><td colspan="1" align="CENTER"> <code>RSL_EQEQ_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&gt;  </td><td colspan="1" align="CENTER"> <code>RSL_GT_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&lt;  </td><td colspan="1" align="CENTER"> <code>RSL_LT_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8805;  </td><td colspan="1" align="CENTER"> <code>RSL_GEQ_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8804;  </td><td colspan="1" align="CENTER"> <code>RSL_LEQ_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8835;  </td><td colspan="1" align="CENTER"> <code>RSL_PSUP_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8834;  </td><td colspan="1" align="CENTER"> <code>RSL_PSUB_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8838;  </td><td colspan="1" align="CENTER"> <code>RSL_SUP_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8838;  </td><td colspan="1" align="CENTER"> <code>RSL_SUB_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8712;  </td><td colspan="1" align="CENTER"> <code>RSL_ISIN_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8713;  </td><td colspan="1" align="CENTER"> <code>RSL_NOTISIN_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#92;  </td><td colspan="1" align="CENTER"> <code>RSL_MOD_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+^  </td><td colspan="1" align="CENTER"> <code>RSL_CONC_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8746;  </td><td colspan="1" align="CENTER"> <code>RSL_UNION_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8224;  </td><td colspan="1" align="CENTER"> <code>RSL_OVER_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+*  </td><td colspan="1" align="CENTER"> <code>RSL_AST_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+/  </td><td colspan="1" align="CENTER"> <code>RSL_DIV_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#35;  </td><td colspan="1" align="CENTER"> <code>RSL_HASH_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8745;  </td><td colspan="1" align="CENTER"> <code>RSL_INTER_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8593;  </td><td colspan="1" align="CENTER"> <code>RSL_EXP_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>abs</b>  </td><td colspan="1" align="CENTER"> <code>RSL_ABS_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>int</b>  </td><td colspan="1" align="CENTER"> <code>RSL_INT_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>real</b>  </td><td colspan="1" align="CENTER"> <code>RSL_REAL_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>card</b>  </td><td colspan="1" align="CENTER"> <code>RSL_CARD_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>len</b>  </td><td colspan="1" align="CENTER"> <code>RSL_LEN_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>inds</b>  </td><td colspan="1" align="CENTER"> <code>RSL_INDS_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>elems</b>  </td><td colspan="1" align="CENTER"> <code>RSL_ELEMS_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>hd</b>  </td><td colspan="1" align="CENTER"> <code>RSL_HD_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>tl</b>  </td><td colspan="1" align="CENTER"> <code>RSL_TL_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>dom</b>  </td><td colspan="1" align="CENTER"> <code>RSL_DOM_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>rng</b>  </td><td colspan="1" align="CENTER"> <code>RSL_RNG_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
++  </td><td colspan="1" align="CENTER"> <code>RSL_PLUS_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+-  </td><td colspan="1" align="CENTER"> <code>RSL_MINUS_op</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+</td></tr></tbody></table>
+
+  <div align="center">Function names for user-defined operators</div>
+  <a name="id15">&nbsp;</a>
+  </p></div>
+Additional code, included if <tt>RSL&#95;pre</tt> is defined, is generated
+if any parameter types are subtypes or if the function has a precondition. 
+<p>Access descriptors are ignored.  The kind of
+function arrow (&#8594; or -~-&gt;) does not matter.
+<p>Only one formal function parameter is accepted.  It is not possible to
+translate
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;f : <b>Int</b> &#8594; <b>Int</b> &#8594; <b>Int</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;f(x)(y) &#8801; ...
+</td></tr></table>
+
+                        <p><p>It is not required that the number of parameters matches the number of
+components in the 
+domain of the function's type expression.  For example, the following
+are all accepted: 
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;U = <b>Int</b> &#215; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f1: <b>Int</b> &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f1(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f2: (<b>Int</b> &#215; <b>Bool</b>) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f2(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f3: U &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f3(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f4: U &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f4(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f5: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f5(x, y) &#8801; ...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f6: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f6(x) &#8801; ...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f7: <b>Int</b> &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f7(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f8: (<b>Int</b> &#215; <b>Bool</b>) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f8(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f9: U &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f9(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f10: U &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f10((x, y), z) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f11: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f11((x, y), z) &#8801; ...
+</td></tr></table>
+
+                        
+<h4><a name="id16">Implicit function definitions</a></h4>
+Implicit function definitions are accepted with a warning that they are incomplete.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.3 Declarations</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_30.html"><img border="0" alt="10.2 Activating the C++ translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.2 Activating the C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_32.html"><img border="0" alt="10.4 Variable declarations" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.4 Variable declarations</td></tr></table></td></tr></table></body></html>

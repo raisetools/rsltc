@@ -1,0 +1,121 @@
+Use
+===
+
+RSL modules (schemes or objects) should be placed in files with .rsl
+extension, one module per file.  If a module is called S then the file
+name should be S.rsl.  The windows/dos version does not care if the case
+of the module name matches the case of the file name, so s.rsl is also
+OK.
+
+The type checker can then be run as a shell command 
+
+rsltc <options> S
+
+or, in dos,
+
+rsltc <options> s
+
+Command line options
+====================
+
+none	 type check
+-c	 type check plus confidence condition generation on current module
+-cc	 type check plus confidence condition generation on all modules
+-d 	 parser (no type check) plus display of module dependencies
+-p       pretty-print with line length 60
+-pl n    pretty-print with line length n (must be at least 30)
+-g       generate vcg input file
+-m	 generate SML file
+-c++	 generate C++ code in .h and .cc files
+-cpp	 generate C++ code in .h and .cpp files 
+         suitable for Microsoft's Visual C++ compiler
+-pvs     generate PVS files
+-sal     generate SAL files
+
+Use with emacs
+==============
+
+The emacs compile facility provides a very convenient interface to
+rsltc, as you have the rsl file in one window and the output from the
+tool in another.
+
+emacs is not standard with windows so the windows version includes a
+minimal version of GNU emacs from the DJGPP distribution
+(http://www.delorie.com/djgpp/).  But it is much better to get a full
+version of emacs from, for example,
+http://www.gnu.org/software/emacs/emacs.html.
+
+If you already have emacs then just get the rsltc.el and rsl-mode.el
+files from this directory and load them from your .emacs file.  You
+may need to change "rsltc" near the beginning of rsltc.el to
+"path/rsltc" if you store the executable rsltc other than on your
+standard path.
+
+If you have Standard ML of New Jersey then you should include
+
+(require 'sml-site)
+
+in your .emacs file before you load rsl-mode.el.  Then the option to
+run SML on the output of the rsltc translation will be available in
+the RSL menu.
+
+When a .rsl file is open in emacs you can use M-x (Meta-key or Alt
+with x, or Esc followed by x) rsltc to run the type checker, M-x rslpp
+to run the pretty-printer, M-x rslgg to run vcg (provided vcg is
+installed).  emacs will start a second window to display output.
+Errors and confidence conditions start with a "file:line:column"
+string and clicking with the mouse button 2 on a line starting with
+this string places the cursor at the relevant position in that file in
+the first window.
+
+Options for rsltc in emacs:
+--------------------------
+
+none	 type check
+-c	 type check plus confidence condition generation on current module
+-cc	 type check plus confidence condition generation on all modules
+-d 	 parser (no type check) plus display of module dependencies
+-g       generate vcg input file
+-m	 generate SML input file
+-c++	 generate C++ code
+-cpp	 generate C++ code suitable for Microsoft's Visual C++ compiler
+
+Options for rslpp:
+-----------------
+
+n	 line length (must be at least 30). Defaults to 60.
+
+Options for rslgg: none
+-----------------
+
+These commands are also available in the RSL menu when visiting an RSL
+file in emacs.
+
+Contexts
+========
+
+A module S that uses other modules A and B needs to tell the type
+checker that A and B are its context.  The .rsl file for S will start
+
+  A, B
+  scheme S = ...
+
+The type checker will check A and B (recursively including any modules
+in their contexts) and then S.  The order of A and B does not matter.
+If B is also in the context of A then it does not matter if B is
+included in the context of S or not.
+
+The context illustrated above means that the type checker will look
+for A.rsl and B.rsl in the same directory as S.rsl.  Context files may
+also be in other directories.  References to them may use
+absolute or relative paths, and Unix-style paths are used (so that RSL
+files may be passed between Windows and Unix systems).
+
+For example, suppose S.rsl is in /home/raise/rsl, and A.rsl is in
+/home/raise/rsl/lower.  Then the context reference to A in S.rsl may be
+
+lower/A			  or
+/home/raise/rsl/lower/A	  or even
+../rsl/lower/A
+
+

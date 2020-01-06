@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.5 Class expressions</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_32.html"><img border="0" alt="10.4 Variable declarations" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.4 Variable declarations</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_34.html"><img border="0" alt="10.6 Object expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.6 Object expressions</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.5 Class expressions</b></font></td></tr></table>
+<h2>10.5 Class expressions</h2>
+
+A class expression translates to the declarations and statements which
+the translation of the contents 
+of the class expression results in.
+
+<h3><a name="id1">10.5.1 Basic class expressions</a></h3>
+A basic class expression translates as its declarations.
+
+<h3><a name="id2">10.5.2 Extending class expression</a></h3>
+An extending class expression translates as the two class expressions.
+
+<h3><a name="id3">10.5.3 Hiding class expressions</a></h3>
+Hiding is ignored, and a warning given: hidden names are fully visible in the C++ code.
+
+<h3><a name="id4">10.5.4 Renaming class expression</a></h3>
+Renaming is ignored, and a warning given: all the references to the
+renamed names use the identifiers in their original definition.  This
+may cause problems with name clashes in the C++ code.
+
+<h3><a name="id5">10.5.5 With expression</a></h3>
+Objects are translated as namespaces, so with expressions are
+translated using the C++ declaration <tt>using</tt>
+<tt>namespace</tt>.  (This allows qualified names to be used without
+qualification as long as there is no resulting ambiguity.)
+
+<h3><a name="id6">10.5.6 Scheme instantiations</a></h3>
+A scheme instantiation translates as the unfolded scheme with
+substituted parameters. 
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.5 Class expressions</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_32.html"><img border="0" alt="10.4 Variable declarations" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.4 Variable declarations</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_34.html"><img border="0" alt="10.6 Object expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.6 Object expressions</td></tr></table></td></tr></table></body></html>

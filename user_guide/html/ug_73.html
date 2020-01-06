@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 18.1 Unix and Linux</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_72.html"><img border="0" alt="18 Installation" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">18 Installation</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_74.html"><img border="0" alt="18.2 Windows" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">18.2 Windows</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>18.1 Unix and Linux</b></font></td></tr></table>
+<h2>18.1 Unix and Linux</h2>
+<p>We assume you already have emacs installed.  If you haven't, then
+rsltc just runs from the command line and there is nothing to do beyond
+installing the executable.
+<p>The files 
+<pre>
+rsl-mode.el
+rsltc.el
+rslconvert.el
+tokenise.el
+</pre>
+<p>should be placed in a directory on your emacs load-path.  Byte-compile
+them if you wish.
+<p>The files
+<pre>
+rslenv.sty
+boxedminipage.sty
+</pre>
+<p>should be placed where LaTeX&#32;will find them.  If you or your system
+administrator don't know how to do that, then put them in the same
+directory as your LaTeX&#32;source.  (You may already have
+boxedminipage.sty.)
+
+<h3><a name="id1">18.1.1 SML</a></h3>
+The files
+<pre>
+rslml.cm
+rslml.sml
+</pre>
+<p>should be placed anywhere you like.  Make sure that whoever first
+runs SML on an sml file produced from RSL has write access to the
+directory, as the first load will compile the RSL library.  
+<p>You also need to set the environment variable <code>RSLML_PATH</code> to the
+directory containing them, e.g.&nbsp;<code>/usr/local/sml/rslml</code>.  You can
+get your system administrator to set this up, or you can do it
+individually as follows.  Use the shell command
+<pre>
+env | grep SHELL
+</pre>
+<p>to see what your login shell is: you should get something like
+<code>SHELL=/bin/csh</code>, showing it is csh, or some variant of it, or 
+<code>SHELL=/bin/bash</code>, showing it is bash.  In the first case, edit
+your <code>.cshrc</code> file in your home directory to include something
+like
+<pre>
+setenv RSLML_PATH /usr/local/sml/rslml
+</pre>
+<p>In the second case, edit your <code>.bash_profile</code> file in your home
+directory to include something like
+<pre>
+export RSLML_PATH=/usr/local/sml/rslml
+</pre>
+<p>In either case you will need to logout and login again for the
+environment variable <code>RSLML_PATH</code> to be set.
+<p>SML can be downloaded and unpacked from instructions and tar files
+obtainable from <a href="http://www.smlnj.org">http://www.smlnj.org</a>.
+
+<h3><a name="id2">18.1.2 C++</a></h3>
+<p>The files
+<pre>
+RSL_comp.h
+RSL_list.cc
+RSL_list.h
+RSL_map.cc
+RSL_map.h
+RSL_prod.h
+RSL_set.cc
+RSL_set.h
+RSL_text.h
+RSL_typs.cc
+RSL_typs.h
+cpp_RSL.cc
+cpp_RSL.h
+cpp_io.cc
+cpp_io.h
+cpp_list.cc
+cpp_list.h
+cpp_map.h
+cpp_set.cc
+cpp_set.h
+</pre>
+should be placed in a directory, and the file <code>rslcomp</code> edited to
+set CPP&#95;DIR to that directory.  
+<p>Put rslcomp somewhere on your path, and make it executable.
+
+<h3><a name="id3">18.1.3 VCG</a></h3>
+VCG is built from <code>vcg.1.30.r3.17.tar.gz</code>, supplied with rsltc.
+The executable is called <code>xvcg</code> and should be installed somewhere
+on your path.
+
+<h3><a name="id4">18.1.4 rsltc</a></h3>
+Finally install the executable <tt>rsltc</tt> somewhere on your path.
+<p>If rsltc and xvcg are not on your path, you can put the full names in
+rsltc.el by changing the definitions of <code>rsltc-command</code> and
+<code>vcg-command</code> respectively.
+
+<h3><a name="id5">18.1.5 UML2RSL</a></h3>
+<p>See section&nbsp;<a href="ug_58.html">12.4</a>.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>18.1 Unix and Linux</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_72.html"><img border="0" alt="18 Installation" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">18 Installation</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_74.html"><img border="0" alt="18.2 Windows" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">18.2 Windows</td></tr></table></td></tr></table></body></html>

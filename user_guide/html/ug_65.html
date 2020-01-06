@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 13.4 Confidence condition verification</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_64.html"><img border="0" alt="13.3 Writing transition systems and LTL assertions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">13.3 Writing transition systems and LTL assertions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_66.html"><img border="0" alt="13.5 Using the tool" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">13.5 Using the tool</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>13.4 Confidence condition verification</b></font></td></tr></table>
+<h2>13.4 Confidence condition verification</h2>
+
+The tool take an RSL file and it generates three SAL versions. The first
+version was described in previous sections, this section talks about the other two versions.
+<p>The first version allows one to do the verification under the assumption of
+CC satisfaction. But the tool allows one to use the
+automatic verification power of model checking to first certify the
+satisfaction of CC.
+<p>The tool generates therefore other two versions: A "CC" version that checks
+confidence conditions and another one "simple CC" that also checks
+CC but gives less diagnostic information. 
+In order to
+provide CC verification, basically the translator
+ does the following:
+
+<h5><a name="id1">Type system</a></h5>
+A deeper embedding of type system is used, all types are “lifted” to
+new system types. This new type system includes in all SAL
+types a special
+datatype, called <em>Not&#95;a&#95;value&#95;type</em> (also it includes
+user-defined ones).
+<p>The extended type system allows one easily to translate partial functions,
+to support explicit subtypes and to verify preconditions with model
+checking tools. 
+<p>A new set of prefix functions must be used in the model. They provide
+the basic operations on each type, with the proper extensions to
+handle values of type Not&#95;a&#95;value&#95;type (these values are called
+<em>navs</em>). 
+
+<h5><a name="id2"> Partial Functions</a></h5>
+<p>Code is added at the beginning of the function's body (i.e. the SAL
+conditional statement IF - THEN - ELSE) in order to verify the
+precondition satisfaction. 
+<p>All functions take values of lifted types as arguments and return
+values of lifted types.
+<p>If any function's argument is a nav then the nav is returned. A nav is returned if any argument is not in its subtype, or if the precondition is violated, or if the
+result of the function is not in its subtype.
+<p>In the simple CC version Not&#95;a&#95;value&#95;type is reduced
+to the single constant nav. This reduces the sizes of all the lifted types, and hence the size of the model, but
+provides less diagnostic information.
+
+<h3><a name="MCandCC">13.4.1 Model checking and confidence condition</a></h3>
+
+<p>A single LTL assertion is generated for each transition system, in
+order to check for CC violation. This says that all the local
+variables in the transition system are not navs, and if this is not true then
+SAL will produce a trace showing how the nav was generated. If a CC check succeeds then no CC
+violation occurs in the evolution of the transition system.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>13.4 Confidence condition verification</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_64.html"><img border="0" alt="13.3 Writing transition systems and LTL assertions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">13.3 Writing transition systems and LTL assertions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_66.html"><img border="0" alt="13.5 Using the tool" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">13.5 Using the tool</td></tr></table></td></tr></table></body></html>

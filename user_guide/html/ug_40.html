@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.12 Universal types</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_39.html"><img border="0" alt="10.11 Identifiers and operators" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.11 Identifiers and operators</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_41.html"><img border="0" alt="10.13 Input/output handling" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.13 Input/output handling</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.12 Universal types</b></font></td></tr></table>
+<h2>10.12 Universal types</h2>
+
+The C++ translator generates type names, known as universal types,
+from the structure of the maximal type. The universal types are
+introduced in order to cope with RSL's maximal type equivalence.
+<p>The names of the universal types are constructed from the structure of
+the maximal types they represent. Additionally they are given the
+prefix <tt>RSL&#95;</tt> to ensure that they differ from other names. The
+different components and type constructors of a type expression are
+represented in the name of the universal type as described below.
+
+  <div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="CENTER">
+
+RSL </td><td colspan="1" align="CENTER"> Representation</td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>Unit</b> </td><td colspan="1" align="CENTER"> <code>U</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>Int</b> </td><td colspan="1" align="CENTER"> <code>I</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>Bool</b> </td><td colspan="1" align="CENTER"> <code>B</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>Real</b> </td><td colspan="1" align="CENTER"> <code>R</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>Char</b> </td><td colspan="1" align="CENTER"> <code>C</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>Text</b> </td><td colspan="1" align="CENTER"> <code>lC</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+Id </td><td colspan="1" align="CENTER"> <code>Id_NNN</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+Q.Id </td><td colspan="1" align="CENTER"> <code>Id_NNN</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#215; </td><td colspan="1" align="CENTER"> <code>-x-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>-set</b> </td><td colspan="1" align="CENTER"> <code>s-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>-infset</b> </td><td colspan="1" align="CENTER"> <code>s-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<i><sup>*</sup></i> </td><td colspan="1" align="CENTER"> <code>l-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<i><sup>&#969;</sup></i> </td><td colspan="1" align="CENTER"> <code>l-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+-m-&gt; </td><td colspan="1" align="CENTER"> <code>-m-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+-~m-&gt; </td><td colspan="1" align="CENTER"> <code>-m-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+&#8594; </td><td colspan="1" align="CENTER"> <code>-f-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+-~-&gt; </td><td colspan="1" align="CENTER"> <code>-f-</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+( ) </td><td colspan="1" align="CENTER"> <code>6-9</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+</td></tr></tbody></table>
+
+  <div align="center">Construction of universal type names</div>
+  <a name="tab:cpp:universal">&nbsp;</a>
+  </p></div>
+A name is represented by the original name plus a unique extension
+(suggested by <tt>NNN</tt> in the table).  Qualifiers are ignored.  
+An example is the type expression
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>Int</b> &#215; <b>Char</b> -m-&gt; (<b>Bool</b><b>-set</b> &#215; <b>Real</b>)<i><sup>*</sup></i>
+</td></tr></table>
+
+                        <p><p>which  becomes <tt>RSL&#95;IxCml6sBxR9</tt>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.12 Universal types</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_39.html"><img border="0" alt="10.11 Identifiers and operators" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.11 Identifiers and operators</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_41.html"><img border="0" alt="10.13 Input/output handling" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.13 Input/output handling</td></tr></table></td></tr></table></body></html>

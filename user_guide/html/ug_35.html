@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.7 Type expressions</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_34.html"><img border="0" alt="10.6 Object expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.6 Object expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_36.html"><img border="0" alt="10.8 Value expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.8 Value expressions</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.7 Type expressions</b></font></td></tr></table>
+<h2>10.7 Type expressions</h2>
+The translation of a type expression depends on its kind as described below.
+
+<h3><a name="id1">10.7.1 Type literals</a></h3>
+
+The type literals are translated as shown below.
+
+  <div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="CENTER">
+
+RSL </td><td colspan="1" align="CENTER"> C++</td></tr>
+<tr><td colspan="1" align="CENTER">
+Unit </td><td colspan="1" align="CENTER"> not generally accepted</td></tr>
+<tr><td colspan="1" align="CENTER">
+Bool </td><td colspan="1" align="CENTER"> <tt>bool</tt></td></tr>
+<tr><td colspan="1" align="CENTER">
+Int </td><td colspan="1" align="CENTER"> <tt>int</tt></td></tr>
+<tr><td colspan="1" align="CENTER">
+Nat </td><td colspan="1" align="CENTER"> <tt>int</tt></td></tr>
+<tr><td colspan="1" align="CENTER">
+Real </td><td colspan="1" align="CENTER"> <tt>double</tt></td></tr>
+<tr><td colspan="1" align="CENTER">
+Text </td><td colspan="1" align="CENTER"> <tt>RSL&#95;string</tt></td></tr>
+<tr><td colspan="1" align="CENTER">
+Char </td><td colspan="1" align="CENTER"> <tt>RSL&#95;char</tt></td></tr>
+<tr><td colspan="1" align="CENTER">
+</td></tr></tbody></table>
+
+  <div align="center">Translation of RSL type literals</div>
+  <a name="id2">&nbsp;</a>
+  </p></div>
+The type <b>Unit</b> is only accepted as complete parameter or result type
+in a function type expression.  As a result type it translates to
+<tt>void</tt>.
+<p>The types <tt>RSL&#95;string</tt> and <tt>RSL&#95;char</tt> are defined in the
+RSL library.  There are constructors
+<tt>RSL&#95;string</tt> and <tt>RSL&#95;char</tt> that convert <tt>string</tt>
+and <tt>char</tt> arguments respectively to
+<tt>RSL&#95;string</tt> and <tt>RSL&#95;char</tt> values, and an overloaded
+destructor <tt>RSL&#95;to&#95;cpp</tt> that converts them back to <tt>string</tt>
+and <tt>char</tt>.  So we have the following equivalences, for
+example:
+<pre>
+  RSL_to_cpp(RSL_string("abc")) == "abc"
+  RSL_to_cpp(RSL_char('a')) == 'a'
+</pre>
+<p>These functions make it easy to combine translated RSL with
+hand-written C++ code.
+<p>Note that the function <tt>RSL&#95;to&#95;string</tt>
+(section&nbsp;<a href="ug_41.html#id18">10.13.1</a>) is not quite the same as
+<tt>RSL&#95;to&#95;cpp</tt>.  <tt>RSL&#95;to&#95;string</tt> is intended to generate
+strings suitable for output (from any type), and produces a string
+that could be parsed as RSL.  For example:
+<pre>
+  RSL_to_string(RSL_string("abc")) == "\"abc\""
+  RSL_to_string(RSL_char('a')) == "'a'"
+</pre>
+
+<h3><a name="id3">10.7.2 Names</a></h3>
+A type name that is not an abbreviation translates as a name.  A type
+name that is an abbreviation translates as the abbreviation.
+
+<h3><a name="id4">10.7.3 Product type expressions</a></h3>
+A product type expression translates as its universal type name (see
+section&nbsp;<a href="ug_40.html">10.12</a>).
+
+<h3><a name="id5">10.7.4 Set type expressions</a></h3>
+A set type expression translates as its universal type name (see
+section&nbsp;<a href="ug_40.html">10.12</a>).  
+<p>There is a template <tt>RSLSet</tt> defined in the RSL library
+files, and if type T translates to the C++ type <tt>Tc</tt>, then
+T<b>-set</b> and T<b>-infset</b> both translate to the universal type name
+<tt>RSL&#95;sTc</tt>, which is <tt>typedef</tt>ed to <tt>RSLSet&lt;Tc&gt;</tt>.
+
+<h3><a name="id6">10.7.5 List type expressions</a></h3>
+A list type expression translates as its universal type name (see
+section&nbsp;<a href="ug_40.html">10.12</a>).  
+<p>There is a template <tt>RSLList</tt> defined in the RSL library
+files, and (except for <b>Char</b>) if type T translates to the C++ type
+<tt>Tc</tt>, then T<i><sup>*</sup></i> and T<i><sup>&#969;</sup></i> both translate to the universal type name
+<tt>RSL&#95;lTc</tt>, which is <tt>typedef</tt>ed to
+<tt>RSLList&lt;Tc&gt;</tt>.
+<p><b>Text</b>, <b>Char</b><i><sup>*</sup></i>, and <b>Char</b><i><sup>&#969;</sup></i> translate to
+<tt>RSL&#95;string</tt>.  Standard RSL list operators like <b>hd</b> are defined
+for <tt>RSL&#95;string</tt> in an RSL library file.  <tt>RSL&#95;string</tt>
+values are easily converted to and from <tt>string</tt> values using
+the functions <tt>RSL&#95;to&#95;cpp</tt> and <tt>RSL&#95;string</tt>
+respectively: see section&nbsp;<a href="#id1">10.7.1</a>.
+
+
+<h3><a name="id7">10.7.6 Map type expressions</a></h3>
+A map type expression translates as its universal type name (see
+section&nbsp;<a href="ug_40.html">10.12</a>).  
+<p>There is a template <tt>RSLMap</tt> defined in the RSL library
+files, and if types T and U translate to the C++ types <tt>Tc</tt> and
+<tt>Uc</tt>, then
+T -m-&gt; U and T -~-&gt; U both translate to the universal type name
+<tt>RSL&#95;TcmTu</tt>, which is <tt>typedef</tt>ed to <tt>RSLMap&lt;Tc,Uc&gt;</tt>.
+
+<h3><a name="id8">10.7.7 Function type expressions</a></h3>
+A function type expression translates as its universal type name (see
+section&nbsp;<a href="ug_40.html">10.12</a>).
+
+<h3><a name="id9">10.7.8 Subtype expressions</a></h3>
+A subtype expression translates as its maximal type.
+
+<h3><a name="id10">10.7.9 Bracketed type expressions</a></h3>
+A bracketed type expression translates as its constituent type expression.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.7 Type expressions</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_34.html"><img border="0" alt="10.6 Object expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.6 Object expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_36.html"><img border="0" alt="10.8 Value expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.8 Value expressions</td></tr></table></td></tr></table></body></html>

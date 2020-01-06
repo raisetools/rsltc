@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.8 Value expressions</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_35.html"><img border="0" alt="10.7 Type expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.7 Type expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_37.html"><img border="0" alt="10.9 Bindings" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.9 Bindings</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.8 Value expressions</b></font></td></tr></table>
+<h2>10.8 Value expressions</h2>
+
+
+<h3><a name="cpp:evaluation">10.8.1 Evaluation order</a></h3>
+
+<p>The evaluation order in RSL is left-to-right.  In C++ it is often not
+specified.  So we need to be careful when translating expressions that
+are not readonly.  For example, if any of the expressions e1, e2, or
+e3 is not readonly, then the application f(e1, e2, e3) is translated
+as if it had been written
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>let</b> x1 = e1, x2 = e2 <b>in</b> f(x1, x2, e3) <b>end</b>
+</td></tr></table>
+
+                        <p>This will translate in C++ to something like
+<pre>
+t1 x1 = e1;
+t2 x2 = e2;
+f(x1, x2, e3)
+</pre>
+<p>As well as function applications, a similar approach is taken for
+enumerated sets, lists and maps.
+
+<h3><a name="id2">10.8.2 Value literals</a></h3>
+A value literal of type <b>Bool</b>, <b>Char</b>, <b>Int</b>, <b>Nat</b>, or
+<b>Real</b> translates to the corresponding constant.
+<p>A value literal of type <b>Text</b> translates to the corresponding
+string. 
+<p>A value literal of type <b>Unit</b> is ignored, or translated as the empty
+statement, or not accepted, depending on the context.
+
+<h3><a name="id3">10.8.3 Names</a></h3>
+A value name translates as a name (see section&nbsp;<a href="ug_38.html">10.10</a> on names).
+
+<h3><a name="id4">10.8.4 Pre names</a></h3>
+Not accepted.
+
+<h3><a name="id5">10.8.5 Basic expressions</a></h3>
+The only basic expression in RSL<i><sub>C++</sub></i> is <b>skip</b>, which translates to the empty statement.
+
+<h3><a name="id6">10.8.6 Product expressions</a></h3>
+A product expression translates to an expression using the appropriate
+constructor.  For example, (1,<b>true</b>) will translate as
+<code>RSL_IxB(1, true)</code>.
+
+<h3><a name="id7">10.8.7 Set expressions</a></h3>
+A set expression translates to the appropriate <tt>RSLSet</tt>
+function call as shown in the examples below. 
+RSL<i><sub>C++</sub></i> includes ranged set expressions and enumerated set expressions,
+and some comprehended set expressions.
+A ranged set expression, such as &#123;2 .. 7&#125;,
+translates to <tt>init&#95;ranged&#95;set(2, 7)</tt>, where
+<tt>init&#95;ranged&#95;set</tt> is defined by
+<pre>
+static RSL_sI init_ranged_set(const int l_, const int r_){
+RSL_sI s_;
+
+s_ = RSL_sI();
+for (int i_ = r_;
+ i_ &gt;= l_; i_--) {
+s_ = RSL_sI(i_, s_);
+}
+return s_;
+}
+</pre>
+An enumerated set expression, such as &#123;1,4,7&#125;,
+translates to<br /><tt>RSL&#95;sI(1, RSL&#95;sI(4, RSL&#95;sI(7, RSL&#95;sI())))</tt>.
+<p>Note that the translator can only translate a set expression if its
+type can be uniquely determined 
+from the context, i.e.&nbsp;it is not possible to translate the expression
+&#123;&#125; = &#123;&#125; without some disambiguation.
+
+<h4><a name="cpp:comprehended">Comprehended set expressions</a></h4>
+
+A comprehended set expression can only be translated if it takes one
+of the forms
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#123; e | b : T &#8226; b &#8712; slm &#125;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;or</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#123; e | b : T &#8226; b &#8712; slm /&#92; p &#125;
+</td></tr></table>
+
+                        <p>where b is a binding, T is a type, e is a translatable
+expression, slm is a translatable expression of set, list, or map
+type, and p is a translatable expression of type <b>Bool</b>.
+<p>For example, the expression &#123; 2*i | i : <b>Int</b> &#8226; i &#8712; s /&#92; i &gt; 0 &#125;,
+where s is of type <b>Int</b><b>-set</b>, translates to
+<pre>
+namespace RSL_Temp_3 {
+// namespace for comprehended set
+int RSL_Temp_4(const int i_3F1){
+return 2 * i_3F1;
+}
+
+bool RSL_Temp_5(const int i_3F1){
+return i_3F1 &gt; 0;
+}
+
+} // end of namespace RSL_Temp_3
+
+RSL_sI RSL_test_case_RSL_Temp_2(){
+return RSL_compss&lt;int, int&gt;(RSL_Temp_3::RSL_Temp_4, RSL_Temp_3::RSL_Temp_5, s);
+}
+</pre>
+<p><tt>RSL&#95;compss</tt> is a template function defined in a standard RSL
+library files to generate a set from a set.  Its first two parameters
+are functions, one to generate the expression e in the comprehended
+set (here <tt>RSL&#95;Temp&#95;4</tt>), and one to evaluate the predicate p
+(here <tt>RSL&#95;Temp&#95;5</tt>).  The third parameter is the expression
+slm (here the set s).
+<p>C++ does not allow functions to be defined locally to other functions
+or expressions, so <tt>RSL&#95;Temp&#95;4</tt> and <tt>RSL&#95;Temp&#95;5</tt>
+have to be defined externally, and they are placed in their own
+namespace.  The use of a namespace is not essential, but the approach
+is close to that used for <b>local</b> expressions described in
+section&nbsp;<a href="#cpp:local">10.8.23</a>.  This results in a restriction that
+comprehended set expressions may not occur in
+recursive functions where the recursion is through the expression e or
+the predicate p.  There are similar restrictions for comprehended
+lists and maps, for quantified expressions, and for implicit let
+expressions.
+<p>The reason for this restriction is that the extra functions needed for
+the expression e and the predicate p must be placed out of their
+original scope.  But they may refer, for example, to the parameters of
+the function they are used in.  So function parameters, and other
+locally defined names like let bindings, have to be copied to the
+namespace in which the extra functions are defined.  But this
+technique is essentially static, and recursive calls of the same
+function would result in these copied variables being changed
+unpredictably. 
+
+<h3><a name="id9">10.8.8 List expressions</a></h3>
+The translation of a list expression depends on the context. As a
+component in a <b>for</b> expression it translates as described there.
+In other contexts, a list expression translates to the appropriate
+<tt>RSLList</tt> function call as shown in the examples below.
+<p>RSL<i><sub>C++</sub></i> includes ranged list expressions and enumerated list expressions,
+and some comprehended list expressions.  A ranged list expression, such as
+&#9001;2 .. 7&#9002;, translates to
+<tt>init&#95;ranged&#95;list(2, 7)</tt>, where <tt>init&#95;ranged&#95;list</tt>
+is defined by
+<pre>
+static RSL_sI init_ranged_list(const int l_, const int r_){
+RSL_lI lst_;
+
+lst_ = RSL_lI();
+for (int i_ = r_;
+ i_ &gt;= l_; i_--) {
+lst_ = RSL_lI(i_, lst_);
+}
+return lst_;
+}
+</pre>
+<p>An enumerated list expression, such as &#9001;1,4,7&#9002;,
+translates to<br /><tt>RSL&#95;lI(1, RSL&#95;lI(4, RSL&#95;lI(7, RSL&#95;lI())))</tt>.
+<p>Note that the translator can only translate a list expression if its
+type can be uniquely determined 
+from the context, i.e. it is not possible to translate the expression
+&#9001;&#9002; = &#9001;&#9002; without some
+disambiguation.
+<p>A comprehended list expression can only be translated if it takes one
+of the forms
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#9001; e | b <b>in</b> l &#9002;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;or</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#9001; e | b <b>in</b> l &#8226; p &#9002;
+</td></tr></table>
+
+                        <p>where b is a binding, e is a translatable expression, l is a
+translatable expression of list type, and p is a
+translatable expression of type <b>Bool</b>.  The translation is very
+similar to that for comprehended sets: see
+section&nbsp;<a href="#cpp:comprehended">10.8.7</a>.  Therefore comprehended list
+expressions may not occur in
+recursive functions where the recursion is through the expression e or
+the predicate p.
+
+<h3><a name="id10">10.8.9 Map expressions</a></h3>
+A map expression translates to the appropriate <tt>RSLMap</tt>
+function call as shown in the examples below. 
+RSL<i><sub>C++</sub></i> includes enumerated map expressions
+and some comprehended map expressions.
+<p>[ <b>false</b> &#8614; 0, <b>true</b> &#8614; 1 ]
+translates to<br /><tt>RSL&#95;BmI(false, 0, RSL&#95;BmI(true, 1, RSL&#95;BmI()))</tt>.
+<p>Note that the translator can only translate map expressions if their
+type can be uniquely determined from the context, i.e. it is not
+possible to translate the expression &#123;&#125; = <b>dom</b>
+[] without some disambiguation.
+<p>A comprehended map expression can only be translated if it takes one
+of the forms
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;[ e1 &#8614; e2 | b :T &#8226; b &#8712; slm ]</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;or</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;[ e1 &#8614; e2 | b :T &#8226; b &#8712; slm /&#92; p]
+</td></tr></table>
+
+                        <p>where b is a binding, e1 and e2 are translatable expressions, T is a
+type, slm is a translatable expression of set, list, or map type, and
+p is a translatable expression of type <b>Bool</b>.  The translation is
+very similar to that for comprehended sets: see
+section&nbsp;<a href="#cpp:comprehended">10.8.7</a>.  Therefore comprehended map
+expressions may not occur in recursive functions where the recursion
+is through either of the expressions e1 or e2 or the predicate p.
+
+<h3><a name="id11">10.8.10 Function expressions</a></h3>
+Not accepted.
+
+<h3><a name="id12">10.8.11 Application expressions</a></h3>
+An application expression may be translated to a function call, a list
+application or a map application.
+<p>A function application translates to a function call. This includes
+calls of constructors, destructors and reconstructors. Note that as a
+destructor translates into an inline function an application will
+translate directly into a C++ class member access.
+<p>A list application translates to an element selection:
+l(i)
+translates to
+<tt>l[i]</tt>.
+A map application translates to an element selection:
+m(b)
+translates to
+<tt>m[b]</tt>
+
+<h3><a name="cpp:quantified">10.8.12 Quantified expressions</a></h3>
+
+Quantified expressions can only be translated if they take one of the
+following forms:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8704; b : T &#8226; b &#8712; slm</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8704; b : T &#8226; b &#8712; slm &#8658; p</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8704; b : T &#8226; b &#8712; slm /&#92; p &#8658; q</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8707; b : T &#8226; b &#8712; slm</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8707; b : T &#8226; b &#8712; slm /&#92; p</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8707;! b : T &#8226; b &#8712; slm</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;&#8707;! b : T &#8226; b &#8712; slm /&#92; p
+</td></tr></table>
+
+                        <p>where b is a binding, T is a type, slm is a translatable expression of
+set, list or map type, and p and q are translatable expressions of type
+<b>Bool</b>.
+<p>The translation involves generating functions which must be defined at
+the top level.  Like the translation of comprehended expressions
+(section&nbsp;<a href="#cpp:comprehended">10.8.7</a>), this means that quantified expressions may
+not occur in recursive functions where the recursion is through the
+predicates p or q.
+<p>This restriction can require the user to rewrite functions involving
+quantifiers.  For example, consider the common case of a map used to
+model a relation which may be transitive but should not be cyclic.  A
+particular instance is the "bill of materials" where the map models
+the "parts" relation.  We use natural numbers to model part identifiers.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b> Bom = <b>Nat</b> -m-&gt; <b>Nat</b><b>-set</b> </td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;parts : <b>Nat</b> &#215; Bom &#8594; <b>Nat</b><b>-set</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;parts(i, m) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#123;j | j : <b>Nat</b> &#8226; j &#8712; m /&#92; part&#95;of(j, i, m)&#125;,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of : <b>Nat</b> &#215; <b>Nat</b> &#215; Bom &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of(j, i, m) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;i &#8712; m /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(j &#8712; m(i) &#92;/ </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(&#8707; k : <b>Nat</b> &#8226; k &#8712; m(i) /&#92; part&#95;of(j, k, m))),</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;non&#95;circular : Bom &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;non&#95;circular(m) &#8801; (&#8704; i : <b>Nat</b> &#8226; i &#8712; m &#8658; ~part&#95;of(i, i, m))
+</td></tr></table>
+
+                        <p>The function parts gives the "explosion" of a part to give all its
+sub-parts.
+<p>The function part&#95;of contains a quantified expression, and is also
+recursive through its predicate.  So we must rewrite it for translation.
+<p>A standard technique is to replace the quantified expression with a
+separate function that uses a loop to calculate the same result.  We
+can redefine part&#95;of using a second function:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of : <b>Nat</b> &#215; <b>Nat</b> &#215; Bom &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of(j, i, m) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;i &#8712; <b>dom</b> m /&#92; (j &#8712; m(i) &#92;/ part&#95;of1(j, m(i), m&#92;&#123;i&#125;)),</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of1 : <b>Nat</b> &#215; <b>Nat</b><b>-set</b> &#215; Bom &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of1(j, s, m) &#8801;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>if</b> s = &#123;&#125; <b>then</b> <b>false</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>else</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>let</b> k = <b>hd</b> s <b>in</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;part&#95;of(j,k,m) &#92;/ part&#95;of1(j,s&#92;&#123;k&#125;,m) <b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>The two part&#95;of functions are mutually recursive, but this recursion
+is bound to terminate (even if the relation is circular).  Each
+recursive call of part&#95;of (through part&#95;of1) reduces the Bom
+parameter (and it must terminate when this parameter is empty, since
+the first conjunct in its definition will be false).  Each recursive
+call of part&#95;of1 reduces the set parameter, and it terminates when
+this set is empty.
+
+<h3><a name="id14">10.8.13 Equivalence expressions</a></h3>
+Not accepted.
+
+<h3><a name="id15">10.8.14 Post expressions</a></h3>
+Not accepted.
+
+<h3><a name="id16">10.8.15 Disambiguation expressions</a></h3>
+A disambiguation expression translates as its constituent value expression.
+
+<h3><a name="id17">10.8.16 Bracketed expressions</a></h3>
+A bracketed expression translates to a bracketed expression.
+
+<h3><a name="cpp:infix">10.8.17 Infix expressions</a></h3>
+
+An infix expression generally translates to the corresponding C++ expression.
+A statement infix expression translates to a statement. The only infix
+combinator that is accepted is semicolon (;).
+Note that the semicolon is a combinator in RSL and a kind of terminator in C++.
+<p>An axiom infix expression translates as the equivalent if expression, as shown
+below. 
+
+  <div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="CENTER">
+
+x &#92;/ y </td><td colspan="1" align="CENTER"> <b>if</b> x <b>then</b> <b>true</b> <b>else</b> y <b>end</b></td></tr>
+<tr><td colspan="1" align="CENTER">
+x /&#92; y </td><td colspan="1" align="CENTER">  <b>if</b> x <b>then</b> y <b>else</b> <b>false</b> <b>end</b></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8658; y </td><td colspan="1" align="CENTER"> <b>if</b> x <b>then</b> y <b>else</b> <b>true</b> <b>end</b></td></tr>
+<tr><td colspan="1" align="CENTER">
+</td></tr></tbody></table>
+
+  <div align="center">Translation of logical connectives</div>
+  <a name="tab:cpp:connective">&nbsp;</a>
+  </p></div>
+A value infix expression translates to either an expression or a
+function call.   User-defined operators are translated into function
+calls using the function names listed in section&nbsp;<a href="ug_31.html#cpp:fun">10.3.4</a>  The
+built-in infix operators are translated as indicated below.
+
+  <div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="CENTER">
+
+RSL </td><td colspan="1" align="CENTER"> C++</td></tr>
+<tr><td colspan="1" align="CENTER">
+x = y </td><td colspan="1" align="CENTER"> <code>x == y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8800; y </td><td colspan="1" align="CENTER"> <code>x != y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &gt; y </td><td colspan="1" align="CENTER"> <code>x &gt; y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &lt; y </td><td colspan="1" align="CENTER"> <code>x &lt; y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8805; y </td><td colspan="1" align="CENTER"> <code>x &gt;= y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8804; y </td><td colspan="1" align="CENTER"> <code>x &lt;= y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8835; y </td><td colspan="1" align="CENTER"> <code>x &gt; y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8834; y </td><td colspan="1" align="CENTER"> <code>x &lt; y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8838; y </td><td colspan="1" align="CENTER"> <code>x &gt;= y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8838; y </td><td colspan="1" align="CENTER"> <code>x &lt;= y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8712; y </td><td colspan="1" align="CENTER"> <code>isin(x, y)</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8713; y </td><td colspan="1" align="CENTER"> <code>!isin(x, y)</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x + y </td><td colspan="1" align="CENTER"> <code>x + y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x - y </td><td colspan="1" align="CENTER"> <code>x - y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x * y </td><td colspan="1" align="CENTER"> <code>x * y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x / y </td><td colspan="1" align="CENTER"> <code>x / y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8745; y </td><td colspan="1" align="CENTER"> <code>x * y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x ^ y </td><td colspan="1" align="CENTER"> <code>x + y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8746; y </td><td colspan="1" align="CENTER"> <code>x + y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#8224; y </td><td colspan="1" align="CENTER"> <code>x + y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#92; y </td><td colspan="1" align="CENTER"> <code>x % y</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+x &#35; y </td><td colspan="1" align="CENTER"> not accepted</td></tr>
+<tr><td colspan="1" align="CENTER">
+</td></tr></tbody></table>
+
+  <div align="center">Translation of built-in infix operators</div>
+  <a name="tab:cpp:infix">&nbsp;</a>
+  </p></div>
+
+<h3><a name="cpp:prefix">10.8.18 Prefix expressions</a></h3>
+
+A prefix expression generally translates to the corresponding C++
+expression.
+<p>An axiom prefix expression translates to an expression: ~
+translates to <tt>!</tt>.
+<p>A universal prefix expression (&#9633;) is not accepted by the translator.
+<p>A value prefix expression translates to a function call, using the
+function names below.
+
+  <div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="CENTER">
+
+RSL </td><td colspan="1" align="CENTER"> C++</td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>abs</b> </td><td colspan="1" align="CENTER"> <code>RSL_abs</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>int</b>  </td><td colspan="1" align="CENTER"> <code>RSL_int</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>real</b>  </td><td colspan="1" align="CENTER"> <code>real</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>card</b>  </td><td colspan="1" align="CENTER"> <code>card</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>len</b>  </td><td colspan="1" align="CENTER"> <code>len</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>inds</b>  </td><td colspan="1" align="CENTER"> <code>inds</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>elems</b>  </td><td colspan="1" align="CENTER"> <code>elems</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>hd</b>  </td><td colspan="1" align="CENTER"> <code>hd</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>tl</b>  </td><td colspan="1" align="CENTER"> <code>tl</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>dom</b>  </td><td colspan="1" align="CENTER"> <code>dom</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+<b>rng</b>  </td><td colspan="1" align="CENTER"> <code>rng</code></td></tr>
+<tr><td colspan="1" align="CENTER">
+</td></tr></tbody></table>
+
+  <div align="center">Translation of built-in prefix operators</div>
+  <a name="tab:cpp:prefix">&nbsp;</a>
+  </p></div>
+The operators <b>abs</b> and <b>int</b> are renamed to avoid collision with the standard C function <tt>abs</tt>
+and the type <tt>int</tt>.  The C++ functions are all defined in the
+RSL library files.
+
+<h3><a name="id23">10.8.19 Initialise expressions</a></h3>
+Not accepted.
+
+<h3><a name="id24">10.8.20 Assignment expressions</a></h3>
+An assignment expression translates to an assignment statement: 
+x := e
+translates to
+<tt>x = e;</tt>.
+<p>Additional code, included if <tt>RSL&#95;pre</tt> is
+defined, is generated if the type of x is a subtype, to check that e
+isin the subtype.
+
+<h3><a name="id25">10.8.21 Input expressions</a></h3>
+Not accepted.
+
+<h3><a name="id26">10.8.22 Output expressions</a></h3>
+Not accepted.
+
+<h3><a name="cpp:local">10.8.23 Local expressions</a></h3>
+
+<p>Local expressions that only declare variables and constant values are
+translated with the corresponding C++ definitions in-line.
+<p>Local expressions that declare functions need a special treatment, as
+functions may not be declared inside statements or expressions in C++.
+<p>So the C++ definitions arising from the declarations of a local
+expression that include functions are
+placed outside the definition in which it occurs.  In fact they are
+placed inside their own namespace, as we shall see below.
+<p>Moving the declarations out of their original scope means that local
+bindings, in particular formal function parameters, will no longer be
+visible.  To counter this, formal function parameters are defined as
+variables in the namespace and initialised from the original position
+of the local expression.  Local explicit values are defined as variables and
+assigned their defining values after the parameter variables.
+Local variables are then assigned their
+initial values.  This allows local values to depend on parameters, and
+the initial values of local variables to depend on parameters and
+local values.
+<p>As with comprehended expressions (section&nbsp;<a href="#cpp:comprehended">10.8.7</a>) this
+technique is essentially static and cannot deal with recursive
+functions.  So recursive functions that contain local expressions
+defining functions are not accepted.
+
+<h3><a name="cpp:let">10.8.24 Let expressions</a></h3>
+
+An explicit let expression translates to a number
+of variable declarations (for the identifiers introduced in the
+bindings) and the translation of the constituent value expression.
+<p>A simple let expressions like
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>let</b> x = 1 <b>in</b> k := x + 1 <b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+int x_123 = 1;
+k = x_123 + 1;
+</pre>
+<p>In the scope of
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b> Complex :: <b>Real</b> <b>Real</b>
+</td></tr></table>
+
+                        the let expression (1)
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>let</b> mk&#95;Complex(i, j) = z <b>in</b> k:= <b>int</b> (i * i) + <b>int</b> (j * j) <b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+double i_B00 = z.RSL_f1;
+double j_B02 = z.RSL_f2;
+k = RSL_int(i_B00 * i_B00) + RSL_int(j_B02 * j_B02);
+</pre>
+<p>If the type Complex were a variant type rather than a record, the
+translation would be
+<pre>
+if (!(z.RSL_tag == RSL_mk_Complex_tag))
+{
+RSL_fail("X.rsl:m:n: Let pattern does not match")
+}
+double i_B00 = (((RSL_mk_Complex_type*)z.RSL_ptr)-&gt;RSL_f1);
+double j_B02 = (((RSL_mk_Complex_type*)z.RSL_ptr)-&gt;RSL_f2);
+k = RSL_int(i_B00 * i_B00) + RSL_int(j_B02 * j_B02);
+</pre>
+<p>RSL&#95;fail is a function that writes a message to
+standard output (if RSL&#95;io is set) and then aborts.
+<p>In a record pattern such as used in (1), the function (here mk&#95;Complex)
+must be the constructor of a record or variant.
+<p>An implicit let expression can only be translated if it has one of the
+forms
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>let</b> b : T &#8226; b &#8712; slm <b>in</b> ... <b>end</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;or</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>let</b> b : T &#8226; b &#8712; slm /&#92; p <b>in</b> ... <b>end</b>
+</td></tr></table>
+
+                        <p>where b is a binding, T a type, slm a translatable
+expression of set, list, or map type, and p a translatable expression
+of type <b>Bool</b>.
+<p>For example,
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>let</b> x : <b>Int</b> &#8226; x &#8712; s /&#92; x &gt; 0 <b>in</b> k := x <b>end</b>
+</td></tr></table>
+
+                        <p>(where s is a set) translates to
+<pre>
+namespace RSL_Temp_16 {
+// namespace for implicit let
+bool RSL_Temp_15(const int x_B59){
+return x_B59 &gt; 0;
+}
+} // end of namespace RSL_Temp_16
+
+int RSL_test_case_RSL_Temp_14(){
+int x_B59 = RSL_chooses&lt;int&gt;(RSL_Temp_16::RSL_Temp_15, s);
+k = x_B59;
+}
+</pre>
+<p>If no suitable value can be found the RSL&#95;chooses function will fail
+with the message "Choose from empty set".
+<p>The translation is similar to that for quantified expressions
+described in section&nbsp;<a href="#cpp:quantified">10.8.12</a>, and for the same reason an
+implicit let cannot occur in a recursive function where the recursion
+is through the predicate p.
+
+<h3><a name="id29">10.8.25 If expressions</a></h3>
+<p>An if expression translates to an if statement or an if expression.
+An if expression is used if there are no <b>elsif</b> branches and the
+<b>then</b> and <b>else</b> expressions translate without generating any
+statements.
+<p>Elsif branches translate to nested if statements.
+
+<h3><a name="id30">10.8.26 Case expressions</a></h3>
+<p>A case pattern translates in general to a condition that the case
+expression matches the pattern, and one or more variable declarations (for the
+identifiers introduced in the pattern).  The conditions are generally
+more complicated than can be handled by switch statements, and so if
+statements are used instead.
+<p>A temporary variable is used to ensure the expression being cased on
+is evaluated first and only once.
+<p>For example,
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;k :=</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>case</b> x <b>of</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;2 &#8594; 0,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;1 &#8594; 1,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;_ &#8594; 2</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+int RSL_Temp_18 = x;
+
+int RSL_Temp_19;
+
+if (RSL_Temp_18 == 2)
+{
+RSL_Temp_19 = 0;
+}
+else
+{
+if (RSL_Temp_18 == 1)
+{
+RSL_Temp_19 = 1;
+}
+else
+{
+RSL_Temp_19 = 2;
+}
+}
+k = RSL_Temp_19;
+</pre>
+<p>In the scope of
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;V == </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vconst |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vint(<b>Int</b>) |</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vrec(d1Vrec : <b>Int</b> &#8596; r1Vrec, d2Vrec : V &#8596; r2Vrec)</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>variable</b> v : V, j : <b>Int</b>
+</td></tr></table>
+
+                        <p>the case expression 
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>case</b> v <b>of</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vconst &#8594; j := 5,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Vrec(a,_) &#8594; j := a</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+V RSL_Temp_1 = v;
+
+if (RSL_Temp_1 == Vconst)
+{
+j = 5;
+}
+else
+{
+if (RSL_Temp_1.RSL_tag == RSL_Vrec_tag)
+{
+int a_454 = (((RSL_Vrec_type*)RSL_Temp_1.RSL_ptr)-&gt;RSL_f1);
+j = a_454;
+}
+else
+{
+RSL_fail("X.rsl:m:n: Case exhausted");
+}
+}
+</pre>
+<p>RSL&#95;fail is a function that writes a message to
+standard output (if RSL&#95;io is set) and then aborts.
+<p>In a record pattern the function must be the constructor of a record
+or variant.
+
+<h3><a name="id31">10.8.27 While expressions</a></h3>
+A while expression translates to a for statement.  For example
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>while</b> j &#8805; k <b>do</b> j := j - 1 <b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+for ( ; ; ) {
+if (!(j &gt;= k))
+{
+break;
+}
+j = j - 1;
+}
+</pre>
+
+<h3><a name="id32">10.8.28 Until expressions</a></h3>
+An until expression translates to a do statement.  For example
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>do</b> j := j + 1 <b>until</b> j &gt; k <b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+do {
+j = j + 1;
+} while (!(j &gt; k));
+</pre>
+
+<h3><a name="id33">10.8.29 For expressions</a></h3>
+A for expression translates to a block statement that contains the
+corresponding C++ for statement.  The block statement is introduced to
+limit the scope of the loop variable and possibly extra control
+variables.  If the list expression is a ranged list expression, the
+translation does not include introduction of list variables, since
+there is an 
+obvious simple translation.  For example
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>for</b> i <b>in</b> &#9001;2..5&#9002; &#8226; i &#8805; 4 <b>do</b> k := k + i <b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+{
+for (int i_25D = 2;
+ i_25D &lt;= 5; i_25D++) {
+if (i_25D &gt;= 4)
+{
+k = k + i_25D;
+}
+}
+}
+</pre>
+<p><p><p>Note that the scope of a for expression in RSL is not the same as the
+scope of a for statement in C++: care needs to be taken if the right
+limit is not pure, when it could be affected by the body of the loop.
+For example, if j is a variable,
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>for</b> i <b>in</b> &#9001;j..j+5&#9002; &#8226; i &#8805; 4 <b>do</b> j := j + i <b>end</b>
+</td></tr></table>
+
+                        <p><p>translates to
+<pre>
+{
+int RSL_Temp_0 = j + 5;
+
+for (int i_2C1 = j;
+ i_2C1 &lt;= RSL_Temp_0; i_2C1++) {
+if (i_2C1 &gt;= 4)
+{
+j = j + i_2C1;
+}
+}
+}
+</pre>
+<p>If the list expression is an enumerated list expression, the translation introduces an array variable to hold
+the values.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>for</b> i <b>in</b> &#9001;1,3,5&#9002; &#8226; i &#8805; 4 <b>do</b> k := k + i <b>end</b>
+</td></tr></table>
+
+                        <p>translates to
+<pre>
+{
+int i_325;
+
+int RSL_Temp_0[3];
+
+RSL_Temp_0[0] = 1;
+RSL_Temp_0[1] = 3;
+RSL_Temp_0[2] = 5;
+for (int x_ = 0;
+ x_ &lt; 3; x_++) {
+i_325 = RSL_Temp_0[x_];
+if (i_325 &gt;= 4)
+{
+k = k + i_325;
+}
+}
+}
+</pre>
+<p>If the list expression is neither a ranged list expression nor an
+enumerated list expression, it translates in the obvious
+way.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>for</b> i <b>in</b> l &#8226; i &#8805; 4 <b>do</b> k := k + i <b>end</b>
+</td></tr></table>
+
+                        <p><p>translates to
+<pre>
+{
+int i_389;
+
+RSL_lI list_ = l;
+
+int len_ = len(list_);
+
+for (int x_ = 1;
+ x_ &lt;= len_; x_++) {
+i_389 = list_[x_];
+if (i_389 &gt;= 4)
+{
+k = k + i_389;
+}
+}
+}
+</pre>
+<p>An auxiliary variable <tt>list&#95;</tt> is always introduced to contain
+the list expression. This ensures the list expression is evaluated
+first and only once.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.8 Value expressions</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_35.html"><img border="0" alt="10.7 Type expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.7 Type expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_37.html"><img border="0" alt="10.9 Bindings" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.9 Bindings</td></tr></table></td></tr></table></body></html>

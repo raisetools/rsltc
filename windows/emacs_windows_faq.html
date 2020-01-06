@@ -1,0 +1,4820 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>GNU Emacs FAQ for Windows</TITLE>
+
+<LINK rel=Split HREF="faq.html">
+
+<!--  Some people may not like this, but I think it makes it -->
+<!-- simpler to view the index page.                         -->
+<!--  Argueing creatively gives you more credit .. ;)        -->
+<STYLE type="text/css">
+A:link { color: #02F }
+A:visited  { color: #808 }
+A:hover { color: purple; background: #AFB }
+</STYLE>
+
+</HEAD>
+<BODY>
+<P>
+Combined Document
+ | <A HREF="faq.html">Split Document</A>
+</P>
+<hr>
+
+<center>
+<h3><a name="TOC1">GNU Emacs FAQ For Windows 95/98/ME/NT/XP and 2000</a></h3>
+<h4><a name="TOC2">The latest version of Emacs is 21.2</a></h4>
+</center>
+
+<P>&nbsp;</P>
+<h3><a name="TOC3">0. Notes</a></h3>
+
+<UL>
+<LI>This FAQ now takes advantage of all the <a href="/server/list-mirrors.html" >GNU mirrors</a>.</LI>
+<LI>The latest version of GNU Emacs is v21.2, see <A HREF="#introduction">The Introduction</A>,   <A HREF="#getting-emacs">Getting Emacs</A>, and   <A HREF="#install">Installing Emacs</A>, for more details.</LI> [Again some virus scanners are having problems with Emacs - claiming the distributed binaries contain a virus].
+</UL>
+
+<h3><a name="TOC4"><A HREF="#introduction">1. Introduction</A></a></h3>
+    <UL>
+    <LI> <A HREF="#whatisit">What is Emacs?</A></LI>
+    <LI> <A HREF="#support">Which versions of Windows are supported?</A>
+	<li>Related ports: <a href="#support-msdos">MSDOS and Windows 3.11</a>, <a href="#support-mule">MULE</a>, <a href="#support-djgpp">DJGPP</A>, <a href="#support-xemacs">XEmacs</a>,  <A HREF="#support-macos">MacOS</A>
+
+
+	</UL>
+
+<h3><a name="TOC5"><A HREF="#getting-emacs">2. Getting Emacs</A></a></h3>
+    <UL>
+    <li> <A HREF="#where-source">Where can I get the source distribution?</A></LI>
+    <UL>
+    <LI> <A HREF="#where-source-cvs">Can I get the source via CVS?</A></LI>
+    </UL>
+
+    <li> <A HREF="#where-precompiled">Where can I get precompiled versions?</A>
+    <li> <A HREF="#compile">I don't want the precompiled version. How do I compile Emacs myself?</A>
+    <li> <A HREF="#compile-debug">How do I use a debugger on Emacs?</A>
+    <li> <A HREF="#changes21">What are the differences between Emacs 21.x, and 20.x</A>
+ </UL>
+
+<h3><a name="TOC6"><A HREF="#install">3. Installing Emacs</A>.</a></h3>
+    <UL>
+    <li> <A HREF="#unpack">How do I unpack the distributions?</A>
+    <li> <A HREF="#unpack-install">How do I install Emacs, after unpacking?</A>
+    <li> <A HREF="#precomp-problems">What do I do if Emacs does not work?</A>    <li> <A HREF="#install-customizing">How do I customize Emacs?</A>
+    <li> <A HREF="#what-startup">What is a .emacs file?</A>
+    <li> <A HREF="#startup">Where do I put my .emacs, (or _emacs), file?</A>
+    <li> <A HREF="#startup-samples">Sample .emacs Files</A>
+    <li> <A HREF="#prompt-before-kill-emacs">How can I have Emacs prompt me before closing?</A>
+    <li> <A HREF="#assoc">How do I associate files with Emacs (i.e., use Emacs as a server with gnuserv/gnuclient)?</A>
+	<ul>
+	<li> <A HREF="#assoc-frames">Controlling the use of frames</A>
+	<li> <A HREF="#assoc-ie">For use with Internet Explorer</A>
+	<li> <A HREF="#assoc-ns">For use with Netscape</A>
+	<li> <A HREF="#assoc-pif">PIF file for gnuserv</A>
+	</ul>
+<li> <A HREF="#desktop">How do I use find-file to load files that are on the desktop?</A>
+
+
+<li> <A HREF="#active-window">How can I modify Windows to be more like the X Windows System?</A>
+	<ul>
+	<li><A HREF="#active-window">How do I make the active window follow the mouse?</A>
+
+	<li> <A HREF="#capscontrol">How do I swap CapsLock and Control?</A>
+	<li> <A HREF="#capscontrol-winalt">How do I use the Windows key as a Alt?</A>
+	</ul>
+    <li> <A HREF="#windows-like">How can I modify Emacs to be more like a Windows app?</A>
+     <ul>
+     <li> <A HREF="#windows-like-keys">Keypad keys, highlighting selections, etc.</A>
+     <li> <A HREF="#windows-like-cua">Standard Windows application keymaps (C-c, C-v, C-x, etc.)</A>
+     <li> <A HREF="#windows-like-window-ops">Window operations (maximize, minimize, etc.)</A>
+
+     <li> <A HREF="#windows-like-dlgopen">Open File dialog box</A>
+     </ul>
+     <li> <A HREF="#uninstall">How do I uninstall Emacs?</A>
+<li> <A HREF="#troubleshooting">When I run Emacs, nothing happens.  What's the deal?</A>
+	<ul>
+	<li> <A HREF="#trouble-os-upgrade">I just upgraded the operating system, and Emacs no longer works.</A>
+	</ul>
+<li> <A HREF="#anti-virus">I use anti-virus software.  What problems can this cause?</A>
+	<ul>
+	<li> <A HREF="#anti-virus-solomon">Dr. Solomon's</A>
+	<li> <A HREF="#anti-virus-mcafee">McAfee</A>
+	<li> <A HREF="#anti-virus-norton">Norton</A>
+	</ul>
+	<LI><A HREF="#emacs-virus">Does Emacs contain a virus?</A>
+<li> <A HREF="#hang-os">Sometimes when I exit Emacs, my machine hangs or crashes immediately</A>
+<li> <A HREF="#hostname">How does Emacs determine the name of my computer?</A>
+    </UL>
+
+<h3><a name="TOC7"><A HREF="#display-page">4. Display Settings</A></a></h3>
+       <UL>
+       <li><a href="#attributes">How do I change the size, position, and color attributes of Emacs?</a>
+	<ul>
+	<li> <A HREF="#windows-attributes">Windows Interface</A> :
+	<li> <A HREF="#windows-size">Size</A> ,
+	<li> <A HREF="#windows-position">Position</A> ,
+	<li> <A HREF="#windows-color">Colors</A> .
+	</UL>
+	<li> <A HREF="#windows-frames">Customizing frame appearances.</A>
+	<li> <A HREF="#windows-screen-res">Determining screen resolution.</A>
+	<li> <A HREF="#console-attributes">Console Interface</A> :
+	     <UL>
+	     <LI><A HREF="#console-size">Size</A> ,
+	     <li> <A HREF="#console-obscured">Emacs in console mode goes beyond the window size.  What do I do?</A>
+	     <LI><A HREF="#console-position">Position</A> ,
+	     <LI><A HREF="#console-color">Colors</A> .
+	     </UL>
+
+	<li> <A HREF="#font-lock">How do I enable color syntax highlighting in Emacs (font-lock)?</A>
+        <ul>
+	<li> <A HREF="#font-lock-html">Converting font-lock buffers into HTML markup</A>
+	<li> <A HREF="#font-lock-embedded-code">Font-locking embedded code (e.g., ASP) in HTML documents</A>
+	</ul>
+<li> <A HREF="#modeline">How do I change the format of the mode line?</A>
+
+<li><a href="#mouse">What do I do if I have problems with Emacs and my
+mouse buttons?</a>
+	<ul>
+	<li> <A HREF="#mouse-2b">How do I use Emacs with a two-button mouse?</A>
+	<li> <A HREF="#mouse-3b">How do I get Emacs to recognize the third button on my mouse?</A>
+	<li> <A HREF="#mouse-win95">Strange two-button mouse behavior on Windows 95.</A>
+	</ul>
+<li> <A HREF="#highlight">How do I highlight the region between the point and the mark?</A>
+<li> <A HREF="#highlight-paren">How do I highlight matching parentheses?</A>
+<li> <A HREF="#cut-paste-nulls">How do I cut &amp; paste text with null characters?</A>
+<li> <A HREF="#beep">How do I change the sounda of the Emacs beep?</A>
+<li> <A HREF="#multibyte-selection">When I yank previously copied or killed text into a buffer, it appears garbled.  How can I fix this?</A>
+    </ul>
+    </ul>
+    </UL>
+    </UL>
+<h3><a name="TOC8"><A HREF="#font-page">5. Fonts, and text translation</A></a></h3>
+   <UL>
+	<li> How do I change the <A HREF="#windows-font">Font</A> Emacs uses?
+	<li> <A HREF="#windows-italics">Information on italic fonts.</A>
+	<li> Console <A HREF="#console-font">Fonts</A>.
+	<li> <A HREF="#multibyte">Emacs multilingual font support</A>
+	<li> <A HREF="#multibyte-mule">Is it now possible to display correctly the sample of various scripts and languages accessible from the MULE menu?</A>
+        <li><a href="#multibyte-fontset">How do I get Emacs to display
+characters other than ISO-8859-1 (West European)?</a>
+        <li> <A HREF="#multibyte-language-fonts">Where can I find fonts for other languages?</A>
+        <li> <A HREF="#multibyte-third-party">How do I use third party programs for displaying multibyte characters with Emacs?</A>
+        <li> <A HREF="#multibyte-foreign-font-name">How do I use a font with a name in my language?</A>
+        <li> <A HREF="#bdf-fonts">How do I use bdf fonts with Emacs?</A>
+	<li> <A HREF="#font-menu">How can I have Emacs use a font menu similar to the one it uses on Unix (with fonts and fontsets listed)?</A>
+        <li> <A HREF="#font-menu-modify">The font I want to use is not in the font menu, how can I put it there?</A>
+
+<li> <A HREF="#translation">How can I control CR/LF translation (e.g., to access UNIX files via NFS)?</A>
+	<ul>
+	<li> <A HREF="#translation-extension">By file extension</A>
+	<li> <A HREF="#translation-file-system">By file system</A>
+	<li> <A HREF="#translation-automatic">Automatic</A>
+	</ul>
+        </UL>
+
+<h3><a name="TOC9"><A HREF="#printing">6. Printing</A></a></h3>
+        <UL>
+	<LI> <A HREF="#printing-emacs">How do I print from Emacs?</A>
+	<li> <A HREF="#printing-ghostscript">Printing via Ghostscript</A>
+        <li> <A HREF="#multibyte-printing">How do I print all these languages that Emacs is now displaying?</A>
+	<li> <a href="#print-direct">How do I print to a printer that is directly connected to a network?</a></li>
+	</UL>
+
+<h3><a name="TOC10"><A HREF="#sub-processes">7. Sub-processes</A></a></h3>
+	<ul>
+	<li> <A HREF="#subproc-quoting">Quoting issues</A>
+	<li> <A HREF="#subproc-console">Programs reading input hang</A>
+	<li> <A HREF="#subproc-buffer">Buffering in shells</A>
+	<UL>
+	<LI><A HREF="#subproc-buffer-perl">Perl script buffering</A>
+	</UL>
+	<li> <A HREF="#subproc-dos">DOS subprocesses</A>
+	<li> <A HREF="#subproc-a_drive">16-bit subprocesses accessing the A: drive</A>
+	<li> <A HREF="#subproc-w95">Killing subprocesses on Windows 95/98</A>
+	<li> <A HREF="#subproc-ctrl-d">Sending eof to subprocesses in Emacs (e.g., C-c C-d in shell buffers)</A>
+
+	<li> <A HREF="#shell">How do I use a shell in Emacs?</A>
+	<ul>
+	<li> <A HREF="#shell-bash">bash</A>
+	<li> <A HREF="#shell-att-ksh">ksh</A>
+	<li> <A HREF="#shell-mks-ksh">MKS ksh</A>
+	<li> <A HREF="#shell-tcsh">tcsh</A>
+	<li> <A HREF="#shell-zsh">zsh</A>
+	</ul>
+	<li> <A HREF="#dired-external-ls">How do I make dired use my external 'ls' program?</A>
+	<li> <A HREF="#shell-echo">How do I prevent shell commands from being echoed?</A>
+	<li> <A HREF="#shell-dirsep">How do I have Emacs complete directories with "/" instead of "\"?</A>
+	<li> <A HREF="#shell-invalid">Within a shell, when I run programs I get "Incorrect DOS version" messages.  Why?</A>
+	<li><a href="#shell-problems">When I do any shell-related commands,
+nothing happens.  What could be wrong?</a>
+	</ul>
+
+<h3><a name="TOC11"><A HREF="#mail-news-net">8. Mail, News, and Network access</A></a></h3>
+   <ul>
+   <li> <A HREF="#mail">How do I use mail with Emacs?</A>
+   <ul>
+       	<li>Outgoing:  <A HREF="#mail-outgoing">Standard</A> ,
+		       <A HREF="#mail-queued-outgoing">Queued</A>
+	<li>Incoming:  <A HREF="#mail-rmail">RMAIL and POP3</A> ,
+		       <A HREF="#mail-vm-pop3">VM and POP3</A> ,
+		       <A HREF="#mail-gnus">GNUS</A> .
+        <li><A HREF="#gnus-imap">Using GNUS with IMAP</A>.
+	<li> <A HREF="#mail-notify">Mail notification</A> .
+	<li>Leaving on server:  <A HREF="#mail-leave-rmail">RMAIL</A> .
+	<li>Leaving on server:  <A HREF="#mail-leave-vm">VM</A> .
+	<li>Sharing with Unix:  <A HREF="#mail-sharing-rmail">RMAIL</A> .
+	<li>Handling attachments: <a href="#mail-metamail">Metamail</a>,  <A HREF="#mail-tm">MIME with tm</A> ,
+	<li>Biff tools:  <A HREF="#mail-biff-pop">POP</A>
+   </ul>
+   <li> <A HREF="#gnus">How do I read news with Emacs using Gnus?</A>
+   <ul>
+        <li> <A HREF="#gnus-attatch">How do I open attatchments with Gnus?</A>
+	<li> <A HREF="#gnus-auth">How do I authenticate with Gnus?</A>
+	<li> <A HREF="#gnus-mime">How do I use mime with Gnus?</A>
+	<li> <A HREF="#gnus-untrans">How do I save messages in untranslated format?</A>
+   </ul>
+   <li>Network
+   <ul>
+	<li> <A HREF="#netscoop2000">How do I read online newspapers with Emacs?</A>
+	<li> <A HREF="#w3">How do I use the Emacs Web Browser, w3?</A>
+	<li> <A HREF="#browse-url">How do I use the browse-url package?</A>
+	<li> <A HREF="#simple-web">Package for using browse-url for dictionary, search, etc. functions</A>
+	<li> <A HREF="#lang-translate">How do I use Emacs to translate text among languages?</A>
+	<li> <A HREF="#ange-ftp">How do I use FTP, (ange-ftp), within Emacs?</A>
+	<li> <A HREF="#telnet">How do I use telnet with Emacs?</A>
+   </ul>
+   </ul>
+<h3><a name="TOC12"><A HREF="#modes-page">9.  Text, and utility, modes for Emacs</a></h3>
+    <ul>
+<li> <A HREF="#tex">How do I use TeX with Emacs?</A>
+	<ul>
+	<li> <A HREF="#miktex">MiKTeX</A>.
+	<li> <A HREF="#auctex">AUCTeX</A>.
+	<li> <A HREF="#fptex">FPTeX</A>.
+	<li> <A HREF="#tex-directions">Putting it all together</A> .
+	</ul>
+<li> <A HREF="#ispell">How do I perform spell checks, using Ispell?</A>
+<li> <A HREF="#sgml">Emacs for SGML editing and publishing on Windows</A>
+<li> <A HREF="#gpgp">Emacs and Encryption, using GPG - or PGP</A>
+<li> <A HREF="#intellimouse">How do I use an Intellimouse with Emacs?</A>
+	<ul>
+	<li> <A HREF="#intelli-flywheel">Interactions with FlyWheel</A>
+	<li> <A HREF="#intelli-problems">Why does Emacs ignore my mouse wheel?</A>
+	</ul>
+
+     <li> <A HREF="#grep">How do I use grep with Emacs?</A>
+	<ul>
+	<li> <A HREF="#grep-recursive">How do I do a recursive grep?</A>
+	</ul>
+
+<li> <A HREF="#edt">How do I use EDT emulation mode in Emacs?</A>
+<li> <A HREF="#desktop-saving">How do I do "desktop saving" with Emacs?</A>
+    </ul>
+
+
+<h3><a name="TOC13"><A HREF="#develop-page">10.  Developing with Emacs</A></a></h3>
+   <ul>
+   <li> <A HREF="#vcpp">How Do I Use Emacs with Microsoft Visual C++</A>
+	<ul>
+	<li> <A HREF="#vcpp-visemacs">VisEmacs</A>
+	<li> <A HREF="#vcppEnvironment">VC++ Environmental Variables</A>
+	<li> <A HREF="#vcppSetting">Setting the Default Command Line</A>
+	<li> <A HREF="#vcppHandling">Handling Compile Time Errors</A>
+	<li> <A HREF="#vcppReverting">Reverting Buffers</A>
+	<li> <A HREF="#vcppExporting">Exporting a File to Emacs</A>
+	</ul>
+
+     <li> <A HREF="#cpp-builder">Emacs and Borland C++ Builder</A>
+     <li> <A HREF="#java">Java</A>
+	<ul>
+	<li> <A HREF="#java-imenu">How do I get imenu to work with Java?</A>
+	<li> <A HREF="#java-tags">Creating TAGS files for Java source</A>
+	<li> <A HREF="#java-JDE">Java Development Environment (JDE)</A>
+	<li> <A HREF="#java-jacob">The Jacob class browser and project manager</A>
+	<li> <A HREF="#java-example">Example instructions for installing Emacs/JDE/JDK</A>
+	</ul>
+    <li> <A HREF="#revision-control">How do I use revision/source control with Emacs?</A>
+         <ul>
+	 <li><A HREF="#where-rcs">Is there a version of RCS for Win32?</A>
+	 <li><A HREF="#where-cvs">Is there a version of CVS for Win32?</A>
+	 <li><A HREF="#vc-mode">What do I need to do to get vc-mode (version control) working?</A>
+	 <li><A HREF="#vc-mode-clearcase">vc-mode and Clearcase</A>
+
+	 </ul>
+  <li> <A HREF="#perl">How do I use perl-mode with Emacs?</A>
+        <ul>
+	<li> <A HREF="#perldb">How do I use the perl debugger with Emacs?</A>        </ul>
+   <li> <A HREF="#python">How do I use python-mode with Emacs?</A>
+   </ul>
+
+<h3><a name="TOC14"><A HREF="#info-page">11. Other Unix Ports, and further information</A></a></h3>
+   <ul>
+   <li>Further Information.
+   <ul>
+   <li> <A HREF="#emacs-more-info">Where can I get more information about Emacs?</A>
+   <li> <A HREF="#ntemacs-list">NTEmacs Mailing List</A>
+   <li> <A HREF="#mule-lists">Extra information about MULE</A>
+   <li> <A HREF="#find-lisp">Where can I find more Lisp packages</A>
+   </ul>
+   <li>Other Unix utilities ported from Unix
+   <ul>
+   <li> <A HREF="#woman">Reading MAN pages without Man, (WoMan)</A>
+   <li> <A HREF="#diff">Where can I find a port of the diff program (e.g, for ediff)?</A>
+   <li> <A HREF="#patch">Where can I find a port of the patch program?</A>
+   <li> <A HREF="#other-tools">What other Unix tools have been ported to NT and/or Windows 95/98?</A>
+   </ul>
+   </ul>
+
+
+<A NAME="introduction" title="introduction"><!-- Anchor--></A>
+
+
+
+<A NAME="whatisit" title="whatisit"><!-- Anchor--></A>
+<h3><a name="TOC15">What is Emacs?</a></h3>
+
+
+<p>
+&nbsp;"Emacs is the extensible, customizable, self-documenting real-time
+display editor. "
+</p>
+<p>
+For a more detailed description, see the GNU pages at <a href="http://www.gnu.org/software/emacs/emacs.html" >http://www.gnu.org/software/emacs/emacs.html</a>.
+
+<A NAME="support" title="support"><!-- Anchor--></A>
+<h3><a name="TOC16">Which versions of Windows are supported?</a></h3>
+
+<p>
+This port is known to run on all versions of Windows 95, Windows 98, Windows ME, Windows NT, Windows XP, and Windows 2000.
+</P>
+<P>
+The Windows port is built using the Windows Win32 API and supports most of the features of the Unix version, there are some omissions at this time, which will be available in the future, these are:
+</P>
+
+<UL>
+<LI>Toolbar support</LI>
+<LI>Tooltip support - This is available in the CVS repository. (See <A HREF="#where-source-cvs">here</A> for details).</LI>
+<LI>Inline Images</LI>
+</UL>
+
+
+<A NAME="support-msdos" title="support-msdos"><!-- Anchor--></A>
+<h3><a name="TOC17">MSDOS and Windows 3.11</a></h3>
+
+
+<p>
+Eli Zaretskii &lt;<A HREF="mailto:eliz@is.elta.co.il">eliz@is.elta.co.il</A>&gt;
+ maintains the port of GNU Emacs
+for MSDOS and MS Windows.  You can download precompiled versions
+with the latest DJGPP archives:
+
+<ul>
+<li><a href="ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/emacs.README">ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/emacs.README</a>
+<li><a href="ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu/">ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2gnu</a>
+</ul>
+
+<p>
+Eli strongly recommends that you start with the emacs.README file:
+it contains crucial info about what's in the other 10 zip files and
+how to install them and get started with Emacs on MSDOS/MS-Windows
+platforms.
+
+<p>
+More from Eli:
+
+<blockquote>
+It might be of interest to Windows users that this version of Emacs
+supports long filenames (Windows 9x only - not Windows NT, or Windows 2000)
+and the Windows clipboard (all
+versions of MS-Windows).  It also supports multiple frames, but they all
+overlap, like when Emacs runs on a ``glass teletype'' terminal.
+
+<p>
+People who would like to run Emacs on plain DOS (as opposed to Windows)
+will need to download and install a DPMI host at this URL:
+
+<p>
+<a href="ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2misc/csdpmi3b.zip">ftp://ftp.simtel.net/pub/simtelnet/gnu/djgpp/v2misc/csdpmi3b.zip</a>
+</blockquote>
+
+
+<A NAME="support-mule" title="support-mule"><!-- Anchor--></A>
+<h3><a name="TOC18">MULE/Meadow</a></h3>
+
+
+<p>
+Hisashi Miyashita &lt;<A HREF="mailto:himi@bird.scphys.kyoto-u.ac.jp">himi@bird.scphys.kyoto-u.ac.jp</A>&gt;
+ maintains
+MULE, multilingual Emacs, and its descendant; Meadow.  You can get
+distributions of MULE at <a href="ftp://ftp.tokyonet.ad.jp/pub/windows/win32/mule-win32">ftp://ftp.tokyonet.AD.JP/pub/windows/win32/mule-win32</a>.
+With the multilingual support now merged into NTEmacs in 20.4, it is no
+longer necessary to use a special version of Emacs for other languages, but
+MULE users may find upgrading to Meadow easier than to NTEmacs because of
+slight differences in the way they handle fonts.  Meadow also has a couple
+of features that are still missing from NTEmacs, such as support for native
+IMEs and the special keys on Japanese keyboards.
+
+<A NAME="support-djgpp" title="support-djgpp"><!-- Anchor--></A>
+<h3><a name="TOC19">DJGPP</a></h3>
+<P>
+  &nbsp;There is a version of Emacs which has been compiled using the
+ Free compiler, DJGPP, (a version of GCC), available at
+<A HREF="http://www.delorie.com/">http://www.delorie.com</A>.
+</P>
+
+<A NAME="support-xemacs" title="support-xemacs"><!-- Anchor--></A>
+<h3><a name="TOC20">XEmacs</a></h3>
+
+
+<p>
+There are a couple of XEmacs for Windows NT/9X porting projects.  See
+the <a href="http://www.xemacs.org/faq/xemacs-faq.html#Q1_0_10" >XEmacs FAQ
+entry</a> for more info, as well as Hrvoje Niksic's <a href="http://jagor.srce.hr/%7Ehniksic/xemacs-on-windows-faq.txt" >XEmacs on
+Windows FAQ</a>.
+
+
+
+<A NAME="support-macos" title="support-macos"><!-- Anchor--></A>
+<h3><a name="TOC21">MacOS</a></h3>
+
+
+<p>
+Occasionally I get requests for information about ports of Emacs to the
+Mac.  Here are the ones that I know about:
+
+<ul>
+<li> <a href="http://www.csis.hku.hk/%7Echoi/emacs/" >Emacs 20.4</a> by Andrew Choi (reportedly stable)
+<li> <a href="ftp://ftp.cs.cornell.edu/pub/parmet/">Emacs 18.59</a> by Marc Parmet
+<li> <a href="http://www.ispchannel.com/%7Epjarvis/xemacs.html" >XEmacs 19.14</a> by Pitt Jarvis (based on Parmet port)
+</ul>
+
+
+<A NAME="getting-emacs" title="getting-emacs"><!-- Anchor--></A>
+
+
+<A NAME="where-source" title="where-source"><!-- Anchor--></A>
+<h3><a name="TOC22">Where can I get the source distribution?</a></h3>
+
+
+<p>
+The latest source distribution can be found in <a href="http://ftp.gnu.org/gnu/windows/emacs/latest">
+http://ftp.gnu.org/gnu/windows/emacs/latest</a>.  It is distributed in two
+formats: one large gzipped tar file (emacs*.tar.gz), and a collection of
+smaller zip files that can be copied to 1.44 Mbyte floppies
+(em-src-_?.zip).
+
+<p>
+In the same directory you should also find patch files that enable you
+to upgrade source distributions to the latest version.  These patch files
+are mirrors of the ones on the FSF server at <a href="http://ftp.gnu.org/gnu">http://ftp.gnu.org/gnu</a>.
+
+<p>
+You can also browse the source online; look in <a href="http://ftp.gnu.org/gnu/windows/emacs/latest">http://ftp.gnu.org/gnu/windows/emacs/latest</a>
+for a directory named "emacs-&lt;version&gt;".
+
+<p>
+  For more information  about the contents of the various files you
+ should read the README file contained in the FTP directory.
+
+<A NAME="where-source-cvs" title="where-source-cvs"><!-- Anchor--></A>
+<h3><a name="TOC23">Can I get the source via CVS?</a></h3>
+
+<p>
+  &nbsp;Yes you can - Emacs sources can now be obtained via CVS.  This will allow you to keep up to date with the latest bug fixes, and incremental updates.
+<P>
+  &nbsp;In order to get source in this manner you'll need some form of CVS client - see <A HREF="#where-cvs">here</A> for details of where to find one.
+</P>
+<P>&nbsp;Once you have a working CVS setup you can find download the source :
+</P>
+<P>&nbsp;Emacs CVS repository can be checked out through anonymous (pserver) CVS with the following instructions. When prompted for a password for anoncvs, simply press the Enter key.
+</P>
+<P>&nbsp;The following commands should checkout the current version of the source:
+</P>
+<PRE>
+c:\>cvs -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/emacs login
+c:\>cvs -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/emacs checkout emacs
+</PRE>
+
+<A NAME="where-precompiled" title="where-precompiled"><!-- Anchor--></A>
+<h3><a name="TOC24">Where can I get precompiled versions?</a></h3>
+
+
+<p>
+Starting with Emacs 20.4, precompiled distributions are being hosted at
+<a href="http://ftp.gnu.org/">ftp.gnu.org</a>.  Distributions for the latest
+version are at:
+
+<ul>
+<li> <a href="http://ftp.gnu.org/gnu/windows/emacs">http://ftp.gnu.org/gnu/windows/emacs</a> (top level directory)
+<li> <a href="http://ftp.gnu.org/gnu/windows/emacs/latest">http://ftp.gnu.org/gnu/windows/emacs/latest</a> (latest distributions)
+</ul>
+
+<p>
+Distributions for all architectures and the source are now in the same
+directory; look for the architecture-specific binary distribution for your
+machine (e.g., Intel NT and Win9X have "bin-i386" in the distribution
+name).
+
+<p>
+Now that the precompiled distributions are hosted on ftp.gnu.org, they
+also take advantage of all of the gnu ftp mirrors.  A list of gnu mirror
+sites can be found at <a href="http://www.gnu.org/order/ftp.html" >http://www.gnu.org/order/ftp.html</a>;
+once you are at one of those sites, look in the gnu/windows/emacs
+sudirectory to find the NT Emacs directory.
+
+<p>
+There are also a number of sites that just mirror the NT Emacs
+distributions:
+
+<ul>
+
+<!-- Geoff Voelker (voelker@cs.washington.edu) -->
+<li><b>West Coast, USA:</b> <br>
+<a href="ftp://ftp.cs.washington.edu/pub/ntemacs">ftp://ftp.cs.washington.edu/pub/ntemacs</a> (all)
+
+<!-- David Wood (dwood@plugged.net.au) -->
+<!-- (li)(b)Australia:(/b)(br)
+(a href="http://www.plugged.net.au/gnu/ntemacs")http://www.plugged.net.au/gnu/ntemacs(/a) (i386) -->
+
+<!-- Agon S. Buchholz &ltasb@mail.fachdid.fu-berlin.de&gt -->
+<li><b>Germany:</b><br>
+<a href="http://kefk.net/Open_Source/OS/Emacs/index.html">http://kefk.net/Open_Source/OS/Emacs/index.html</a>
+
+<!-- Peter Flynn (pflynn@curia.ucc.ie) -->
+<li><b>Ireland:</b><br>
+<a href="ftp://ftp.ucc.ie/pub/emacs">ftp://ftp.ucc.ie/pub/emacs</a> (all)
+
+<!-- Chris Szurgot (szurgot@itribe.net) -->
+<li><b>East Coast, USA:</b><br>
+<a href="http://virtunix.itribe.net" >http://virtunix.itribe.net</a> (i386)
+
+<!-- Johan Hofvander (Johan.Hofvander@sdi.slu.se) -->
+<li><b>Sweden:</b><br>
+<a href="ftp://ftp.sunet.se/pub/os/Win32/ntEmacs">ftp://ftp.sunet.se/pub/os/Win32/ntEmacs</a> (all, including this FAQ)
+
+<!-- Andy Cowling (arc@sequent.com) -->
+<li><b>UK:</b><br>
+<a href="http://www.paradiso.freeserve.co.uk/gnu/" >http://www.paradiso.freeserve.co.uk/gnu/</a> (i386, including this FAQ)
+
+<li><b>UK:</b><br>
+<a href="http://sunsite.org.uk/packages/ntemacs/" >http://sunsite.org.uk/packages/ntemacs/</a> [<a href="ftp://sunsite.org.uk/packages/ntemacs/">FTP</a>](no FAQ yet)
+
+<!-- Karel Sprenger (ks@ic.uva.nl) -->
+<li><b>Netherlands:</b><br>
+<a href="http://paddington.ic.uva.nl/mirror/ntemacs" >http://paddington.ic.uva.nl/mirror/ntemacs</a> (all, including this FAQ)
+
+</ul>
+
+<p>
+<b>Regarding ftp.cs.washington.edu:</b> I've had numerous reports from
+people outside North America saying that their ftp connection aborts for no
+apparent reason roughly a third of the way through a transfer of a full
+distribution.
+Marc Haber &lt;<A HREF="mailto:s_haber@ira.uka.de">s_haber@ira.uka.de</A>&gt;
+ said that he suffered from
+the same problem, and later found that a timeout configured into his WWW
+proxy would cancel the transfer when the link to the US was very busy.
+Going around his proxy solved the problem.
+Andy Moreton &lt;<A HREF="mailto:ajm@atml.co.uk">ajm@atml.co.uk</A>&gt;
+ describes his situation when using SOCKS:
+
+<blockquote>
+The FAQ page mentions some people have problems downloading - I may be
+able to shed some light on it. Our site has a reasonably secure
+firewall, and so all access to the outside world requires use of
+SOCKS based connections via a SOCKS5 server (i.e. a circuit-level
+gateway).
+
+<p>
+When doing an FTP transfer, two connections are up - a telnet for the
+control connection, and the data transfer on another. As the telnet
+connection is idle during the file transfer, the SOCKS server
+disconnects it. Some FTP servers get upset by this (especially the NT
+FTP server), and drop the data connection if the control connection
+goes down.
+</blockquote>
+
+<p>
+If you do have trouble downloading the full distribution, try
+downloading it in the 1.44MB chunks, or try one of the mirror sites.
+
+<!-- I don't have a precompiled version for the powerpc.  If someone has a -->
+<!-- precompiled version that they wouldn't mind having others use, please -->
+<!-- send me mail so that we can arrange to place it on the ftp site. -->
+
+
+<A NAME="compile" title="compile"><!-- Anchor--></A>
+<h3><a name="TOC25">I dont want the precompiled version. How do I compile Emacs myself?</a></h3>
+
+
+<p>
+To compile Emacs, you will need either Microsoft C compiler package or the
+Cygwin compiler.
+<p>
+For Windows NT the Microsoft C copmiler can be any of the SDK compilers from NT 3.1 and up, Microsoft
+Visual C++ for NT (versions 1.0 and up), or Microsoft Visual C++
+(versions 2.0 and up).  For Windows 95, this can be Microsoft Visual
+C++ versions 2.0 and up.
+
+<p>
+Download and place the source distribution in a directory (say,
+c:\emacs).  Unpack the distribution, and go to the nt subdirectory of the
+emacs directory that gets created in the unpacking process.  Read the
+README and INSTALL files included with the distribution for the full
+details of this process.
+
+
+<A NAME="compile-debug" title="compile-debug"><!-- Anchor--></A>
+<h3><a name="TOC26">How do I use a debugger on Emacs?</a></h3>
+
+
+<p>
+Emacs is just like any other Windows application compiled and linked
+using MSVC, and it can be debugged using Windows debuggers like DevStudio.
+By default, Emacs will compile with debugging options turned on.  Once
+compiled, you should be able to load either temacs.exe, the undumped
+executable, or emacs.exe, the dumped executable, into the debugger (almost
+always you will want to debug emacs.exe).
+
+<p>
+Note that Emacs has conventions for naming built-in C identifiers
+corresponding to lisp functions and variables.  You will, of course, need
+to use the C identifier names when examining variables and setting
+breakpoints.  The C identifier versions of lisp identifiers have dashes
+converted to underscores, and they are prefixed with a capital letter
+denoting the type of lisp object that they refer to (functions use 'F',
+variables use 'V', etc.).  For example, the C function implementing the
+lisp function <tt>expand-file-name</tt> is <tt>Fexpand_file_name</tt>, and
+the C variable corresponding to the lisp variable <tt>load-path</tt> is
+<tt>Vload_path</tt>.
+
+<ul>
+
+<li><a href="ntemacs/discuss/debug.txt">Tips from
+Marc Fleischeuers &lt;<A HREF="mailto:Marc.Fleischeuers@kub.nl">Marc.Fleischeuers@kub.nl</A>&gt;
+on how to use Emacs functions to
+interpret the data stored in lisp variables.</a>
+
+<li><a href="ntemacs/discuss/debug-gc">Debugging GC problems.</a>
+</ul>
+
+
+<A NAME="changes21" title="changes21"><!-- Anchor--></A>
+<h3><a name="TOC27">What are the differences between Emacs 21.x, and 20.x</a></h3>
+
+<P>
+  There have been many changes from the older versions of Emacs, 19.x, and 20.x to the latest versions, 21.x.
+</P>
+<P>
+  These changes have been made in two main areas:
+<UL>
+<LI>Bug fixes, and updates.
+<LI>Additional features, and functionality.
+</UL>
+</P>
+<P>
+  &nbsp;If you are using an older version of NTEmacs, and are having
+ problems the recommended action is to upgrade to the latest version.
+</P><P>
+  &nbsp;Then if you still have problems you should send mail to the
+ <A HREF="#ntemacs-list">list</A>, describing your problem in
+ as much detail as possible.
+</P>
+<P>
+  One of the biggest changes for the Windows version fo Emacs is the
+ support for proportional fonts.  Still to come is the support for inline images, tooltips, and toolbars, (which are present in the Unix version).
+</P>
+
+</P>
+
+<A NAME="install" title="install"><!-- Anchor--></A>
+
+
+<A NAME="unpack" title="unpack"><!-- Anchor--></A>
+<h3><a name="TOC28">How do I unpack the distributions?</a></h3>
+
+
+<p>
+Open a command prompt (MSDOS) window.  Decide on a directory in which
+to place Emacs.  Move the distribution to that directory, and then
+unpack it.  If you have the gzipped tar version, first use gunzip to
+uncompress the tar file, and then use tar with the "xvfm" flags to
+extract the files from the tar file:
+
+<blockquote><pre>
+% gunzip -c -d emacs.tar.gz | tar xvf -
+</pre></blockquote>
+
+<p>
+(Note: Apparently the alpha version of gunzip cannot handle long file
+names, so you will need to rename the file to something like "emacstar.gz"
+before uncompressing it.)
+
+<p>
+The "-d" flag forces gunzip to decompress (its behavior depends upon
+the case of the name of the executable, and sometimes it doesn't recognize
+that it is really gunzip), and the "-c" flag tells it to pipe its output to
+stdout.  Similarly, the "-" flag to tar tells it to read the tar file from
+stdin.  Unpacking the distribution this way leaves the distribution in
+compressed form so it takes up less space.
+
+<p>
+You may see messages from tar about not being able to change the
+modification time on directories, and from gunzip complaining about a
+broken pipe.  These messages are harmless and you can ignore them.
+
+<p>
+If for some reason you also want to have the tar file gunzipped, then
+invoke gunzip without the -c option:
+
+<blockquote><pre>
+% gunzip -d emacs.tar.gz
+</pre></blockquote>
+
+<p>
+If you have the zip version, use unzip with the "-x" flag on all of the
+ .zip files (note that you cannot use pkunzip on these files, as pkunzipwill not preserve the long filenames):
+
+<blockquote><pre>
+% unzip -x emacs-_1.zip
+% (repeat for the remaining .zip files)
+</pre></blockquote>
+
+<p>
+You can find precompiled versions of all of the compression and
+archive utilities in <a href="http://ftp.gnu.org/gnu/windows/emacs/utilities">
+http://ftp.gnu.org/gnu/windows/emacs/utilities
+</a> (<a href="http://www.gnu.org/order/ftp.html" >ftp mirrors</a>).
+
+<p>
+
+<A NAME="unpack-install" title="unpack-install"><!-- Anchor--></A>
+<h3><a name="TOC29">How do I install Emacs, after unpacking?</a></h3>
+
+<p>
+After unpacking the archive there's very little left to do, you have
+the choice of:
+<ul>
+<li>Simply running emacs-20.x\bin\runemacs.exe
+<li>Running emacs-20.x\bin\addpm.exe
+</ul>
+
+If you run &quot;addpm.exe&quot;, and answer OK to the message
+box that pops up then GNU Emacs will be added to your start menu,
+and certain registry keys will be created for you.  This isn't
+compulsorary as in previous releases - so the choice is yours.
+
+
+<A NAME="precomp-problems" title="precomp-problems"><!-- Anchor--></A>
+<h3><a name="TOC30">What do I do if Emacs does not work?</a></h3>
+
+
+<p>
+See the section below on <a href="#troubleshooting">troubleshooting
+Emacs</a> if, after downloading a precompiled distribution and unpacking it
+according to the instructions above, you have trouble running Emacs.
+
+<A NAME="install-customizing" title="install-customizing"><!-- Anchor--></A>
+<h3><a name="TOC31">How do I customize Emacs?</a></h3>
+<P>
+  &nbsp;At its core Emacs contains a Lisp interpreter, this engine
+ is used to implement most of the core functionality of Emacs.
+</P>
+<P>
+  &nbsp;To customize Emacs mostly involves writing extra functions in
+ Lisp, or changing variables that affect the behaviour which is already
+ present.
+</P>
+<P>
+  &nbsp;Emacs reads a file &quot;.emacs&quot; when it starts up, this
+ is where it expects to find any customizations that you have made.
+</P>
+
+<A NAME="what-startup" title="what-startup"><!-- Anchor--></A>
+<h3><a name="TOC32">What is a .emacs file?</a></h3>
+
+<p>
+  When Emacs starts up it attempts to load, and execute the contents
+ of a file called &quot;.emacs&quot;, or &quot;_emacs&quot;.
+  This file is where all the customizations are saved, and restored
+ from when you restart Emacs.
+  All of these settings are stored as Lisp expressions, for a general
+ introduction to Lisp you could see : <A HREF="http://www.cons.org/">http://cons.org</A>, more Emacs Specific information can be found in the
+  <A HREF="http://www.delorie.com/gnu/docs/emacs/emacs_toc.html">Emacs Lisp Manual</A>.
+</p>
+
+<A NAME="startup" title="startup"><!-- Anchor--></A>
+<h3><a name="TOC33">Where do I put my .emacs, (or _emacs), file?</a></h3>
+
+
+<p>
+Your startup file can be named either _emacs or .emacs, and should be
+placed in your "home" directory.  If you have both files in your home
+directory, Emacs will load the .emacs file and ignore _emacs.
+
+<p>
+Your home directory is where the HOME configuration variable tells
+Emacs it is.  As with the other Emacs configuration variables, HOME can be
+set in a number of ways:
+
+<ul>
+
+<li><b>Environment variable:</b> Emacs will always first check to see
+if you have an environment variable named HOME set and use that value
+as your home directory.  Under Windows 95, you can set the HOME environment
+variable in your autoexec.bat file (you will need to reboot); under
+NT, you can set the HOME environment variable in the System panel of
+the Control Panel.  (Note that if you set HOME as an environment
+variable in the System panel it will only take effect in new processes
+created after you've closed the System panel; if it still does not
+appear to be working, then you might try rebooting.)
+
+<li><b>Registry:</b> If Emacs doesn't find an environment variable
+named HOME, it will check the registry for a value named HOME and use that
+value as your home directory.  Emacs first checks the key
+"HKEY_CURRENT_USER\\SOFTWARE\\GNU\\Emacs", and then the key
+"HKEY_LOCAL_MACHINE\\SOFTWARE\\GNU\\Emacs" (although the use of the latter
+key is discouraged since HOME should be set on a per-user basis, not on a
+per-machine basis).  Note that the value of HOME is <i>not</i> set by the
+addpm.exe program that initializes the registry with the other Emacs
+configuration variables.
+
+</ul>
+
+<p>
+If Emacs cannot find HOME set in any of the above locations, it will
+assume your HOME directory is "C:/".
+
+<p>
+The directory specified by HOME is also the directory substituted for
+tildes (~) in file names used in Emacs (so, by definition, you can always
+load your startup file in Emacs by doing C-x C-f "~/.emacs").
+
+<p>
+<b>Troubleshooting:</b> If you've set HOME to a directory using one of
+the above methods, and Emacs still doesn't load your startup file, the
+first thing you should do is check to see what Emacs thinks HOME is set to.
+You can do this by evaluating the following expression in the *scratch*
+buffer using C-x C-e:
+
+<blockquote><pre>
+(insert (getenv "HOME"))
+</pre></blockquote>
+
+<p>
+Look carefully at what is printed and make sure the value is valid.
+For example, if the value has trailing whitespace, Emacs won't be able to
+find the directory.  Also, be sure that the value isn't a relative drive
+letter (e.g., "d:" without a backslash); if it is, then HOME is going to be
+whatever the current directory on that drive is, which is likely not what
+you want to happen.
+
+
+
+<A NAME="startup-samples" title="startup-samples"><!-- Anchor--></A>
+<h3><a name="TOC34">Sample .emacs Files</a></h3>
+
+
+<p>
+Ingo Koch &lt;<A HREF="mailto:ingo.koch@ikoch.de">ingo.koch@ikoch.de</A>&gt;
+ maintains a web site of
+sample .emacs files contributed by various users.  His site is
+at <a href="http://www.dotemacs.de/" >http://www.dotemacs.de/</a>.
+
+<P>
+  There is also a small selection of sample .emacs files available
+ at <A HREF="http://www.dotfiles.com/index.php3?app_id=6">http://www.dotfiles.com</A>
+
+</P>
+
+
+
+<A NAME="prompt-before-kill-emacs" title="prompt-before-kill-emacs"><!-- Anchor--></A>
+<h3><a name="TOC35">How can I have Emacs prompt me before closing?</a></h3>
+
+<p>
+If you would like to have Emacs prompt you before closing, add the
+following to your startup file:
+
+<blockquote><pre>
+(setq kill-emacs-query-functions
+      (cons (lambda () (yes-or-no-p "Really kill Emacs? "))
+            kill-emacs-query-functions))
+</pre></blockquote>
+
+
+<A NAME="assoc" title="assoc"><!-- Anchor--></A>
+<h3><a name="TOC36">How do I associate files with Emacs (i.e., use Emacs as a server with gnuserv/gnuclient)?</a></h3>
+
+<p>
+You can use a package like gnuserv to associate files with Emacs so
+that opening a file outside of Emacs (e.g., by double-clicking on its icon)
+will create a new frame in a running Emacs displaying that file.
+
+It now works on all the Windows platforms that NTEmacs supports, and
+has a number of usefull features.
+
+<dl>
+<dt><a href="http://www.wyrdrune.com/Files/gnuserv.zip">http://www.wyrdrune.com/Files/gnuserv.zip</A></dt>
+<dd>This is the download location for the latest version of GNUServe</dd>
+<dt><a href="http://www.wyrdrune.com/index.html?gnuserv.html~main">http://www.wyrdrune.com/index.html?gnuserv.html~main</A></dt>
+<dd>This is the accompanying page, which describes its features, and setup.</dd>
+</dl>
+
+<p>
+Be sure to place the gnuserv executables in your path (or modify
+your path or Emacs' exec-path to include them), and be sure that
+runemacs.exe is in your path if you use gnuserv to launch Emacs.
+
+<p>
+Note that you can set up file associations in Windows 95/98/NT 4.0 using
+Explorer by selecting the "View->Options..." menu operation, and then
+clicking on the "File Types" tab in the dialog that pops up.  Clicking on a
+file type will allow you to edit it and associate the file with
+gnuclient.exe.
+
+<p>
+<b>Warning:</b> Be sure to quote the %1 in the association so that
+filenames with blanks in them are treated as one argument when sent to
+Emacs, e.g.:
+
+<blockquote><pre>
+C:\bin\gnuclientw.exe "%1"
+</pre></blockquote>
+
+<p>
+<a href="ntemacs/discuss/gnuserv">[Discussion of other problems and
+solutions]</a>
+
+
+<A NAME="assoc-frames" title="assoc-frames"><!-- Anchor--></A>
+<h3><a name="TOC37">Controlling the use of frames</a></h3>
+
+
+<p>
+By default, gnuserv will load files into new frames.  If you would
+rather have gnuserv load files into an existing frame, then evaluate the
+following in the chosen frame:
+
+<blockquote><pre>
+(setq gnuserv-frame (selected-frame))
+</pre></blockquote>
+
+<p>
+Placing the above in your startup file, for example, will have gnuserv
+load files into the original Emacs frame. <b>Note:</b> one drawback of this
+approach is that if the frame associated with gnuserv is ever closed,
+gnuserv won't have a frame in which to place buffers.
+
+
+<A NAME="assoc-ie" title="assoc-ie"><!-- Anchor--></A>
+<h3><a name="TOC38">For use with Internet Explorer</a></h3>
+
+
+<p>
+You can use Emacs as the editor for composing mail for mailto: links,
+reading news for news: links, and editing HTML files in Internet
+Explorer.  You first need to install the gnuserv utilities above, and
+then modify or create the following registry entries using regedit:
+
+<p>
+<b>Mail</b>
+
+<blockquote><pre>
+<b>Key:</b> HKEY_CLASSES_ROOT\mailto\shell\open\command(Default)
+<b>Value:</b> gnudoit -q (message-mail (substring \"%1\" 7))
+</pre></blockquote>
+
+<b>News</b>
+
+<blockquote><pre>
+<b>Key:</b> HKEY_CLASSES_ROOT\news\shell\open\command(Default)
+<b>Value:</b> gnudoit -q (gnus-fetch-group (substring \"%1\" 5))
+</pre></blockquote>
+
+<b>Edit HTML</b>
+
+<blockquote><pre>
+<b>Key:</b> HKEY_CLASSES_ROOT\htmlfile\shell\edit\command(Default)
+<b>Value:</b> gnuclientw %1
+</pre></blockquote>
+
+<p>
+Thanks to
+Jason Rumney &lt;<A HREF="mailto:jasonr@gnu.org">jasonr@gnu.org</A>&gt;
+ and
+Sigbjorn Finne &lt;<A HREF="mailto:sigbjorn@cse.ogi.edu">sigbjorn@cse.ogi.edu</A>&gt;
+ for these tips.
+
+
+
+<A NAME="assoc-ns" title="assoc-ns"><!-- Anchor--></A>
+<h3><a name="TOC39">For use with Netscape</a></h3>
+
+
+<p>
+You can use Emacs to view document source from Netscape 3.1.  First install
+the gnuserv utilities, and then edit the Preferences->Apps tab.  In the
+"View Source" field, enter "gnuclientw.exe".
+Amy Abascal &lt;<A HREF="mailto:vhchelp@wsos.com">vhchelp@wsos.com</A>&gt;
+ describes <a href="ntemacs/discuss/assoc-ns4">what
+to do with Netscape 4</a>.
+
+<p>
+I don't know of any way to have Netscape use Emacs for mailto: and
+news: links as with IE above.
+
+
+
+<A NAME="assoc-pif" title="assoc-pif"><!-- Anchor--></A>
+<h3><a name="TOC40">PIF file for gnuserv</a></h3>
+
+
+<p>
+Jerrad Pierce &lt;<A HREF="mailto:belg4mit@mit.edu">belg4mit@mit.edu</A>&gt;
+ has <a href="ntemacs/contrib/assoc.zip">packaged together a PIF file and batch
+file</a> for associating Emacs with file-types via gnuserv.
+
+
+<A NAME="desktop" title="desktop"><!-- Anchor--></A>
+<h3><a name="TOC41">How do I use find-file to load files that are on the desktop?</a></h3>
+
+<p>
+Files that you add to the desktop are stored in a directory somewhere
+under your Windows directory.  On NT 4.0, this directory is
+%USERPROFILE%\desktop (in other words, c:\winnt\profiles(user)\desktop if
+you installed NT in c:\winnt).
+
+<A NAME="active-window" title="active-window"><!-- Anchor--></A>
+<h3><a name="TOC42">How do I make the active window follow the mouse?</a></h3>
+
+<p>
+  &nbsp;If you're running Emacs in a windowing mode, and not in the
+ console you may use a package called follow-mouse to make the
+ current frame, or buffer the one with the mouse over it.
+</p><p>
+  Find it <A HREF="http://www.deja.com/getdoc.xp?AN=610250245&fmt=raw">here</A>.
+</p>
+
+<A NAME="capscontrol" title="capscontrol"><!-- Anchor--></A>
+<h3><a name="TOC43">How do I swap CapsLock and Control?</a></h3>
+
+<p>
+CapsLock and Control cannot be swapped from within Emacs, and Windows
+does not have a convenient mechanism like xmodmap to change virtual key
+bindings.  Instead, new keyboard layouts or device drivers can be
+installed, or the registry can be modified, to swap the two keys.
+
+<p>
+<b>W<font size=-1>ARNING</font>:</b> If you use a new keyboard layout
+to switch CapsLock and Control, beware of the option to use hotkey
+sequences to switch keyboard layouts.  This option is in Control
+Panel->Keyboard under the Language (Windows 95) or Input Locales (Windows NT) tabs; the
+sequences themselves are "Left Alt+Control" and "Ctrl+Shift".  If you
+enable one of these options, then you will likely at some point switch
+keyboard layouts while trying to use an Emacs key combination.
+
+<p>
+<b>NT 4.0:</b>
+
+<ul>
+
+<li>Check out <a href="http://bmrc.berkeley.edu/people/chaffee/winntutil.html" >swapcapslock.zip</a>
+(note that this site seems to have intermittent connectivity
+problems).
+
+<li> You can also play games with the registry:
+
+<ul>
+
+<li>
+
+<A NAME="capcontrol-reg" title="capcontrol-reg"><!-- Anchor--></A>
+From
+Chris McMahon &lt;<A HREF="mailto:cmcmahan@surefirev.com">cmcmahan@surefirev.com</A>&gt;
+: Download <a href="ntemacs/contrib/caps-as-ctrl.reg">caps-as-ctrl.reg</A>
+ to make
+CapsLock a Control key (leaving your original control keys as they
+were), or <a href="ntemacs/contrib/caps-ctrl-swap.reg">caps-ctrl-swap.reg</a> to
+swap CapsLock and the left Control key.  Once you've downloaded them,
+double-click on the .reg files in Explorer or "run" them from a
+command prompt to have them update your registry.
+
+<li>
+Chris McMahon &lt;<A HREF="mailto:cmcmahan@surefirev.com">cmcmahan@surefirev.com</A>&gt;
+ gives <a href="ntemacs/contrib/caps-ctrl-registry2.txt">explicit step-by-step
+instructions</a> on modifying the registry.
+
+<li>
+Shane Holder &lt;<A HREF="mailto:holder@mordor.rsn.hp.com">holder@mordor.rsn.hp.com</A>&gt;
+ gives <a href="ntemacs/contrib/caps-ctrl-registry.txt">some background</a> on
+how "Scancode Map" is being used by the system.
+
+<b>Windows 2000</b>
+<P>
+&nbsp;Windows 2000 can be treated in the same way as Windows NT, for swapping the Caps Lock.
+</P>
+<A NAME="capscontrol-winalt" title="capscontrol-winalt"><!-- Anchor--></A>
+<li>
+Ulfar Erlingsson &lt;<A HREF="mailto:ulfar@decode.is">ulfar@decode.is</A>&gt;
+ has provided a registry
+file <a href="ntemacs/contrib/caps-and-win.reg">caps-and-win.reg</a>
+that sets the CapsLock key to be a Control key and the Windows key to
+be an Alt key.
+
+</ul>
+</ul>
+
+<b>NT 3.5, 3.51:</b> James Kittock has provided a program for NT that
+installs a new keyboard layout with the two keys swapped.  Once
+installed, you can then select it using the "International" control
+panel applet.
+
+<ul> <li><a href="ntemacs/contrib/README.keyswap.txt">keyswap.tar</a>
+</ul>
+
+<b>Windows 95:</b> Microsoft has placed a keyboard remapping program for
+Windows 95 on their ftp site (keyremap).  For more info, take a look at
+their <a href="http://www.microsoft.com/windows95/downloads/contents/wutoys/w95kerneltoy/default.asp" >Kernel
+Toys</a> page.
+
+<p>
+Mark Russinovich has also written a freeware VxD that swaps CapsLock
+and Control under Windows 95.  (I've been told that you might have to hit
+the real Control key once after installing the VxD to jumpstart the
+mapping.)
+
+<ul>
+<li><a href="ntemacs/contrib/ctrl2cap.doc">README</a>
+<li><a href="ntemacs/contrib/ctrl2cap.txt">source</a>
+<li><a href="ntemacs/contrib/ctrl2cap.vxd.tar">ctrl2cap.vxd.tar</a>
+</ul>
+
+<p>
+<b>Windows 98:</b> I've been told that the Windows 95 keyremap utility also works
+on Windows 98, despite the warnings on the web page.
+
+
+
+
+
+<A NAME="windows-like" title="windows-like"><!-- Anchor--></A>
+<h3><a name="TOC44">How can I modify Emacs to be more like a Windows app?</a></h3>
+
+<P>
+  &nbsp;There are several differences in the way in which Emacs behaves
+ compared to a standard Windows application, however most of the functionality
+ is already present within Emacs, its just a matter of enabling it.
+</P>
+
+<A NAME="windows-like-keys" title="windows-like-keys"><!-- Anchor--></A>
+<h3><a name="TOC45">Keypad keys, highlighting selections, etc.</a></h3>
+
+<p>
+Some behaviors typically found in other Windows apps, such as deleting
+typed-over highlighted selections, are not configured by default in Emacs.
+You can, however, enable them by loading various packages.  If you would
+like to highlight the region between the point and the mark, see the help
+text for <tt>transient-mark-mode</tt>; if you would like highlighted
+selections to be deleted when you type over them, see the help text for
+<tt>delete-selection-mode</tt>; if you would like to change the semantics
+of keypad keys such as "home" and "end", see the help text for
+<tt>pc-selection-mode</tt>.
+
+<A NAME="windows-like-cua" title="windows-like-cua"><!-- Anchor--></A>
+<h3><a name="TOC46">Standard Windows application keymaps (C-c, C-v, C-x, etc.)</a></h3>
+
+<p>
+If you are used to standard Windows application keybindings, such as
+C-c for copy, C-v for paste, and C-x for cut, or selecting text with
+&lt;shift&gt;-movement, then you probably want to use
+Kim Storms &lt;<A HREF="mailto:storm@cua.dk">storm@cua.dk</A>&gt;
+ <a
+href="http://www.cua.dk/cua.html" >cua.el</a>.
+</P>
+
+
+
+
+<A NAME="windows-like-window-ops" title="windows-like-window-ops"><!-- Anchor--></A>
+<h3><a name="TOC47">Window operations (maximize, minimize, etc.)</a></h3>
+
+As of Emacs 20.4.1 there is native support for maximizing, and
+minimizing the Emacs window from Lisp, the following functions will
+do the job for you:
+
+<PRE>
+  (defun w32-restore-frame ()
+    "Restore a minimized frame"
+     (interactive)
+     (w32-send-sys-command 61728))
+
+  (defun w32-maximize-frame ()
+    "Maximize the current frame"
+     (interactive)
+     (w32-send-sys-command 61488))
+</PRE>
+
+
+
+
+<A NAME="windows-like-dlgopen" title="windows-like-dlgopen"><!-- Anchor--></A>
+<h3><a name="TOC48">Open File dialog box</a></h3>
+
+<p>
+Binu Jose Philip &lt;<A HREF="mailto:binu@teil.soft.net">binu@teil.soft.net</A>&gt;
+ has written the dlgopen
+package to use the Windows Open File dialog box for opening files.
+Download <a href="ntemacs/contrib/dlgopen.zip">dlgopen.zip</a>, unpack, and
+read the top of the dlgopen.el file for directions on using the package.
+</P>
+
+
+<A NAME="uninstall" title="uninstall"><!-- Anchor--></A>
+<h3><a name="TOC49">How do I uninstall Emacs?</a></h3>
+
+<p>
+The only thing that Emacs changes in your system is the registry (if
+you used addpm to install it).  Emacs does not, for example, install any
+files in your system directory.  If you don't mind the registry settings
+remaining in the registry, then you don't need to do anything to uninstall
+Emacs.
+
+<p>
+If you want to remove the registry settings, then you can use the
+<tt>regedt32</tt> program to remove the Emacs registry keys.  Depending
+upon what kind of permissions you have, the registry entries could have
+been installed in either HKEY_LOCAL_MACHINE\SOFTWARE\GNU\Emacs or
+HKEY_CURRENT_USER\SOFTWARE\GNU\Emacs.
+
+
+<A NAME="troubleshooting" title="troubleshooting"><!-- Anchor--></A>
+<h3><a name="TOC50">When I run Emacs, nothing happens. Whats the deal?</a></h3>
+
+<p>
+Emacs could have failed to run for a number of reasons.  The most
+common symptom is that, when Emacs is started, the cursor changes for
+a second but nothing happens.  If this happens to you, it is quite
+likely that the distribution was unpacked incorrectly.
+
+<p>
+Check for the following to see if there was a problem during
+unpacking:
+
+<ol>
+
+<li>Be sure to disable the CR/LF translation or the executables will be
+unusable.  Older versions of WinZipNT would enable this translation by
+default.  If you are using WinZipNT, disable it.
+
+<li>Check that filenames were not truncated to 8.3.  For example, in
+Emacs 19.34.6 there should be a file lisp\term\win32-win.el (it has been
+renamed to w32-win.el in Emacs 20); if this has been truncated to
+win32-wi.el, your distribution has been corrupted while unpacking and Emacs
+will not start.
+
+<li>I've also had reports that the GNU Windows port of tar corrupts the
+executables.  Use the version of tar on my ftp site instead.
+</ol>
+
+<p>
+If you are in doubt about whether the utilities you used unpacked the
+distribution incorrectly, use the gunzip, tar, and unzip executables
+provided in the utilities directory.  These are the ones I use to create
+and test the distributions.  My advice would be to use these utilities from
+the start.
+
+<p>
+If it is still not working, send mail to the
+ <A HREF="#ntemacs-list">list</A>, describing what you've done, and what you
+are seeing.  (The more information you send the more likely it is that you'll
+receive a helpfull response..
+
+<A NAME="trouble-os-upgrade" title="trouble-os-upgrade"><!-- Anchor--></A>
+<h3><a name="TOC51">I just upgraded the operating system, and Emacs no longer works.</a></h3>
+
+<p>
+I have received reports that, after upgrading the operating system
+(e.g., from NT 3.51 to NT 4.0), an installed Emacs will start but will
+not accept keyboard or mouse input.  Apparantly, running addpm.exe as
+described in  <A HREF="#install">the installation section above</A>
+fixes the problem.
+
+
+<A NAME="anti-virus" title="anti-virus"><!-- Anchor--></A>
+<h3><a name="TOC52">I use anti-virus software. What problems can this cause?</a></h3>
+
+<p>
+Some anti-virus software seems to interact badly with older version of Emacs,
+these programs shouldn't cause any problems if you are running a version of Emacs newer than 20.3.
+
+<A NAME="anti-virus-solomon" title="anti-virus-solomon"><!-- Anchor--></A>
+<h3><a name="TOC53">Dr. Solomons</a></h3>
+
+<p>
+A number of users <a href="ntemacs/discuss/shell-winguard">have
+reported</a> that Dr. Solomon's WinGuard prevent shell-related commands
+from working properly within Emacs.  Turning off "Scan all files" makes it
+work, though.
+
+<A NAME="anti-virus-mcafee" title="anti-virus-mcafee"><!-- Anchor--></A>
+<h3><a name="TOC54">McAfee</a></h3>
+
+<p>
+<a href="ntemacs/discuss/shell-mcafee">A similar report</a> from
+Charles Curley. &lt;<A HREF="mailto:ccurley@wyoming.com">ccurley@wyoming.com</A>&gt;
+  It has also been reported
+that you only need to select "Programming Files Only" instead of "All
+Files" to prevent Emacs from hanging.
+
+<A NAME="anti-virus-norton" title="anti-virus-norton"><!-- Anchor--></A>
+<h3><a name="TOC55">Norton</a></h3>
+
+<p>
+A third report from Peter Haas about Norton Antivirus 2000 (Emacs
+20.5.1, Win98): a DOS shell cannot be started within Emacs without
+disabling the antivirus autoprotect feature (e.g., clicking on the
+icon in the system tray).
+
+<p>
+
+<A NAME="emacs-virus" title="emacs-virus"><!-- Anchor--></A>
+<h3><a name="TOC56">Does Emacs contain a virus?</a></h3>
+<P>
+  &nbsp;There have been reports from some people that the
+ McAfee virus scanner, (versions unreported), claims that the
+ latest version of NTEmacs contains a virus.
+</P>
+<P>&nbsp;Assuming that you are downloading from the official
+ gnu.org site, then these are false positives which you might
+ see in the following files:
+</P>
+<UL>
+<LI>emacs-20.7-bin-i386.tar.gz
+<LI>emacs-20.7-fullbin-i386.tar.gz
+</UL>
+<P>
+  &nbsp;These warnings seem to be artifacts of the way in which
+ Emacs is built - the process of compiling a program, then
+ using a "dumping" process to ensure that things are pre-loaded
+ in the emacs.exe executable - and can be safely ignored.
+</P>
+<P>
+  &nbsp;To remove these warnings, update your virus scanner to the
+ latest version.
+</P>
+
+<A NAME="hang-os" title="hang-os"><!-- Anchor--></A>
+<h3><a name="TOC57">Sometimes when I exit Emacs, my machine hangs or crashes immediately.</a></h3>
+
+<p> Have you installed an Iomega Zip drive recently?  The Iomega
+driver and Emacs appear to have a conflict that causes this crash.  At
+present, the only solution is to disable the driver, reboot, and then
+use Emacs normally.  To do this, look in the Startup folder (inside
+the Programs folder in the taskbar), locate the Iomega-related
+programs, and move them to a different folder.  Then reboot.  Emacs
+will work normally.  If you want to use the Zip drive, manually
+execute the Iomega programs you moved.  Then reboot before you use
+Emacs again.  It's not convenient, but at least ou won't crash.
+Thanks to Will Duquette for this information.
+
+
+<A NAME="hostname" title="hostname"><!-- Anchor--></A>
+<h3><a name="TOC58">How does Emacs determine the name of my computer?</a></h3>
+
+<p>
+Emacs initializes the variable "system-name" with the name of your
+computer upon startup.  However, Emacs uses two different methods for
+determining the computer name depending upon whether Winsock is loaded by
+default when Emacs starts up.  If Winsock is automatically loaded, then
+Emacs uses <tt>gethostname</tt>, otherwise Emacs uses
+<tt>GetComputerName</tt>.  Alternatively, you can override all of this by
+explicitly setting <tt>system-name</tt> in your startup file (also look at
+<tt>user-mail-address</tt> for composing mail messages).
+
+<p>
+By default, Emacs does not automatically load Winsock because doing so
+will cause Winsock to establish a connection to the network.  If you are
+connected to a LAN, then nothing will happen, but if you dialup to an ISP
+then invoking Emacs (thereby loading Winsock) will prompt you to
+unexpectedly dialup to your ISP.
+
+<p>
+You can have Emacs automatically load Winsock by defining the
+environment variable <tt>PRELOAD_WINSOCK</tt>.  You can set it to an
+arbitrary value; Emacs just checks to see if it is defined.  Similarly, you
+can create a registry entry <tt>PRELOAD_WINSOCK</tt> with the other Emacs
+registry entries (in HKEY_LOCAL_MACHINE\SOFTWARE\GNU\Emacs or
+HKEY_CURRENT_USER\SOFTWARE\GNU\Emacs), which will do the same thing.
+
+<A NAME="display-page" title="display-page"><!-- Anchor--></A>
+
+
+<A NAME="attributes" title="attributes"><!-- Anchor--></A>
+<h3><a name="TOC59">How do I change the size, position, font, and color attributes of Emacs?</a></h3>
+
+<p>
+Emacs can run in two different interface modes: the Windows interface,
+which allows the flexible use and mixture of fonts and colors; and the
+console interface, which constrains Emacs to the limitations of
+console windows.  The following two sections describe how to specify
+and change the size, position, font, and color attributes of Emacs in
+both interface modes.
+
+
+<A NAME="windows-attributes" title="windows-attributes"><!-- Anchor--></A>
+<h3><a name="TOC60">Windows Interface</a></h3>
+
+<p>
+With the Windows interface, you can change the size, position, font,
+and color attributes of Emacs using three different mechanisms: using
+the mouse with the user interface, by specifying them as command line
+arguments, or by invoking Emacs Lisp functions.  You will probably
+find it convenient to specify command line arguments in the
+<b>Properties</b> of the shortcut to the runemacs.exe file, and to
+invoke the lisp functions in your startup file.  For information on
+how to propagate attributes to new frames, see  <A HREF="#windows-frames">the section below on frames</A> .
+
+<ul>
+<li>
+
+<A NAME="windows-size" title="windows-size"><!-- Anchor--></A>
+
+<b>S<font size=-1>IZE</font></b>
+
+<p>
+To customize the size of specific frames, including the initial frame, see
+the  <A HREF="#windows-frames">section on customizing frames</A>  below.
+
+<dl>
+<dt><b>User Interface</b>
+
+<dd>To resize an Emacs window, drag on a border with the mouse.
+
+<dt><b>Command Line</b>
+
+<dd>To have Emacs start up with a particular size, invoke it with the
+X Windows <b>-geometry</b> command line argument.  For example, to
+start Emacs with a window 40 lines by 80 columns in size, use the
+following:
+
+<blockquote>
+<tt>emacs -g 80x40</tt>
+</blockquote>
+
+<p>
+Note that the geometry command can be combined with the position
+command, as described below.
+
+<dt><b>Emacs Lisp</b>
+
+<dd>To change the size of an Emacs frame using elisp, you can use the
+two functions <tt>set-frame-width</tt> and <tt>set-frame-height</tt>.
+For example, to resize Emacs to display 40 lines by 80 columns, you could
+use:
+
+<blockquote><pre>
+(set-frame-height (selected-frame) 40)
+<br>(set-frame-width (selected-frame) 80)
+</pre></blockquote>
+
+</dl>
+
+<li>
+
+<A NAME="windows-position" title="windows-position"><!-- Anchor--></A>
+
+<b>P<font size=-1>OSITION</font></b>
+
+<p>
+To customize the position of specific frames, including the initial frame,
+see the  <A HREF="#windows-frames">section on customizing frames</A>  below.
+
+<dl>
+<dt><b>User Interface</b>
+
+<dd>To reposition a running Emacs, click on its title bar and drag the
+window.
+
+<dt><b>Command Line</b>
+
+<dd>To start Emacs at a particular position, invoke it with the X
+Windows <b>-geometry</b> command line argument.  For example, to start
+Emacs at pixel offset (10, 30) from the top left corner:
+
+<blockquote>
+<tt>emacs -g +10+30</tt>
+</blockquote>
+
+<p>
+To combine the size with position, first specify the size and then
+the position.  The two examples above can be combined as follows:
+
+<blockquote>
+<tt>emacs -g 80x40+10+30</tt>
+</blockquote>
+
+<p>
+Note that you can also specify position offsets from any of the
+corners of the screen.  See the <a href="http://www.x.org/consortium/R6doc/man/X/X" >GEOMETRY
+SPECIFICATIONS section</a> of the X man page for complete details on
+the geometry command.
+
+<dt><b>Emacs Lisp</b>
+
+<dd>To reposition an Emacs frame using elisp, you can use the
+<tt>set-frame-position</tt> function.  For example, to move the
+current frame to the offset (10, 30), you could use:
+
+<blockquote>
+<tt>(set-frame-position (selected-frame) 10 30)</tt>
+</blockquote>
+
+</dl>
+
+<li>
+
+<li>
+
+<A NAME="windows-color" title="windows-color"><!-- Anchor--></A>
+
+<b>C<font size=-1>OLORS</font></b>
+
+<p>
+As with other windowing attributes, Emacs uses the X Windows color
+names for specifying colors on the command line and in elisp.  One set of
+these names is a set of abstract color names, e.g., <b>red</b>,
+<b>green</b>, and <b>blue</b>.  These names are the ones you will typically
+use as arguments on the command line or in elisp functions.  Emacs also
+supports the use of numeric color names; see the <a href="http://www.x.org/consortium/R6doc/man/X/X" >COLOR NAMES section</a> of
+the X man page for complete details on how to specify numeric color names
+and their color spaces.
+
+<p>
+To see the abstract color names that Emacs understands and the colors
+that they map to, use the menu command <b>Edit</b>-><b>Text
+Properties</b>-><b>Display Colors</b>, or invoke the
+<tt>list-colors-display</tt> function in the *scratch* buffer:
+
+<blockquote>
+<tt>(list-colors-display)</tt>
+</blockquote>
+
+<p>
+If you would like to change the mapping of color names to RGB values,
+or to add new color names to Emacs, then you will want to modify the
+alist <b>w32-color-map</b> (<b>win32-color-map</b> in Emacs 19).  To
+make changes, you can simply cons new mappings onto the head of the
+alist:
+
+<blockquote><pre>
+(setq win32-color-map (cons '("snow" . 16448255) win32-color-map)) ; Emacs 19
+(setq w32-color-map   (cons '("snow" . 16448255) w32-color-map))   ; Emacs 20
+</pre></blockquote>
+
+<p>
+The number in the element is the logical OR of three values for the
+red, green, and blue components: (B &lt;&lt; 16 | G &lt;&lt; 8 | R).  In
+the example above, red is 255, green is 250, and blue is 250.  At some
+point there will be support for reading in files with color mappings
+to make this process a little easier.
+
+<p>
+To customize colors for specific frames, see the  <A HREF="#windows-frames">section on customizing frames</A>  below.
+
+<p>
+To customize colors for color syntax highlighting, see the  <A HREF="#font-lock">section on font-lock</A> .
+
+<dl>
+
+<dt><b>User Interface</b>
+
+<dd>To change the foreground or background color in Emacs through the
+windowing interface, you can use the menu commands <b>Foreground
+Color</b>-><b>Other</b> and <b>Background Color</b>-><b>Other</b> in
+the <b>Edit</b>-><b>Text Properties</b> menu.
+
+<dt><b>Command Line</b>
+
+<dd>To change the foreground or background color in Emacs on
+the command line, you can use the <b>-fg</b> and <b>-bg</b>
+command line arguments.  For example, to start Emacs with yellow
+text on a black background, invoke Emacs using:
+
+<blockquote>
+<tt>emacs -fg yellow -bg black</tt>
+</blockquote>
+
+<dt><b>Emacs Lisp</b>
+
+<dd>You can use elisp functions to change the colors of any of the
+Emacs faces.  For example, to change the foreground or background
+color of Emacs, you can use the <tt>set-foreground-color</tt> and
+<tt>set-background-color</tt> functions.  To change the color of an
+arbitrary face, use the <tt>set-face-foreground</tt> and
+<tt>set-face-background</tt> functions.  To change the color of the
+cursor, use the <tt>set-cursor-color</tt> function.
+
+<p>
+This elisp changes the background color to black:
+
+<blockquote>
+<tt>(set-background-color "black")</tt>
+</blockquote>
+
+<p>
+The following elisp changes the mode line foreground to firebrick:
+
+<blockquote>
+<tt>(set-face-foreground 'modeline "firebrick")</tt>
+</blockquote>
+
+<p>
+The following elisp changes the cursor color to purple:
+
+<blockquote>
+<tt>(set-cursor-color "purple")</tt>
+</blockquote>
+
+</dl>
+
+<li>
+
+<A NAME="windows-frames" title="windows-frames"><!-- Anchor--></A>
+
+<b>F<font size=-1>RAMES</font></b>
+
+<p>
+Emacs uses two alists to determine the default appearances of frames,
+<tt>default-frame-alist</tt> and <tt>initial-frame-alist</tt>.  The
+<tt>default-frame-alist</tt> variable sets the basic defaults of all
+frames.  Since it is a common Emacs usage to have the initial frame have
+slightly different properties than other frames (e.g., its position), you
+can use the <tt>initial-frame-alist</tt> variable to override properties in
+<tt>default-frame-alist</tt> specially for the initial frame.  You should
+definitely read the help text for these variables (C-h v) for more details
+on the differences between them and how they interact with each other.
+
+<p>
+Below is an example of using <tt>default-frame-alist</tt> and
+<tt>initial-frame-alist</tt> to configure the appearances of the initial
+frame and all other frames (you would place this code in your  <A HREF="#startup">startup file</A> ).  With <tt>default-frame-alist</tt>, we
+set the top left corner of new frames to be at pixel offset +200+400, the
+width and height to be 80x40, the cursor to be white, the foreground to be
+yellow, the background to be black, and the font to be Courier 10.  With
+<tt>initial-frame-alist</tt>, we override the top left corner of the
+initial frame to be at pixel offset +10+30, and inherit the remaining
+properties for the initial frame from <tt>default-frame-alist</tt>.
+
+<blockquote><pre>
+(setq default-frame-alist
+      '((top . 200) (left . 400)
+        (width . 80) (height . 40)
+        (cursor-color . "white")
+        (cursor-type . box)
+        (foreground-color . "yellow")
+        (background-color . "black")
+        (font . "-*-Courier-normal-r-*-*-13-*-*-*-c-*-iso8859-1")))
+
+(setq initial-frame-alist '((top . 10) (left . 30)))
+</pre></blockquote>
+
+<li>
+
+<A NAME="windows-screen-res" title="windows-screen-res"><!-- Anchor--></A>
+
+<b>S<font size=-1>CREEN
+RESOLUTION</font></b>
+
+<p>
+You can use the functions <tt>x-display-pixel-width</tt> and
+<tt>x-display-pixel-height</tt> to determine the resolution of your screen.
+For example:
+
+<blockquote><pre>
+(and window-system
+     (setq screen-width (x-display-pixel-width)
+        screen-height (x-display-pixel-height)))
+</pre></blockquote>
+
+<li>
+
+
+<A NAME="console-attributes" title="console-attributes"><!-- Anchor--></A>
+<h3><a name="TOC61">Console Interface</a></h3>
+
+<p>
+Emacs can also run inside a console window.  Simply invoke Emacs with
+the -nw command line option to do so.  Although you cannot change the
+size, font, or color of the window from within Emacs, you can use the
+window's menu to do so.  (If no icon has been created to invoke the
+Emacs batch file, then you'll have to create one to change these
+attributes.)
+
+<li>
+
+<A NAME="console-size" title="console-size"><!-- Anchor--></A>
+
+<b>S<font size=-1>IZE</font></b>
+
+<p>
+Under NT, go to the upper left hand corner and open the "-" menu of the
+console window.  Select "Screen Size and Position...", and use the dialog
+to set the window to the size you want.  Be sure to check the "Save Window
+Size and Position" checkbox so that future invocations will retain the new
+window size.  After closing the dialog box, resize the window itself by
+dragging on the edges.
+
+<p>
+Under Windows 95, click on the properties icon in the icon toolbar at the
+top of the window.  Go to the "Screen" tab and select the desired window
+size in the "Usage" panel.  Click on "OK".
+
+<A NAME="console-obscured" title="console-obscured"><!-- Anchor--></A>
+<h3><a name="TOC62">Emacs in console mode goes beyond the window size. What do I do?</a></h3>
+
+<p>
+With Emacs 20.3 and previous version, Emacs uses the size of the
+console buffer as the frame size.  If your console window has buffer larger
+than the window (e.g., it uses a verical scrollbar), then Emacs' frame will
+be larger than the console window.  To work around this problem, make the
+console buffer the size of the console window.  Or, if you have source,
+apply <a href="ntemacs/patches/20.3.1/console-buffer.diff">this patch</a>
+to src/w32console.c.
+
+<p>
+Since version 20.4 this behaviour is now controlled via the variable
+ &quot;w32-use-full-screen-buffer&quot;.
+<p>
+So to fix this include the following lines in your .emacs file:
+<PRE>
+
+;; Make sure that Emacs in console mode doesn't go beyond the
+;; size of the Dos box in use.
+;; (Not needed in emacs 20.4+)
+(setq w32-use-full-screen-buffer nil)
+</PRE>
+
+<li>
+
+<A NAME="console-position" title="console-position"><!-- Anchor--></A>
+
+<b>P<font size=-1>OSITION</font></b>
+
+<p>
+To reposition Emacs, click on the title bar of the console window and
+drag it.
+
+
+<li>
+
+<A NAME="console-color" title="console-color"><!-- Anchor--></A>
+
+<b>C<font size=-1>OLOR</font></b>
+
+<p>
+Under the NT interface, open the "-" menu.  Select "Screen Colors...",
+and use the dialog to choose the colors you want to use for the window.  Be
+sure to check the "Save Configuration" checkbox so that the colors are used
+in future invocations.  Click on "OK".  Unfortunately, the colors are not
+immediately used, but the changes have been made.  To use the new colors,
+simply close the window and use the icon to start Emacs again.  Emacs will
+then come up using the colors you chose before.
+
+<p>
+I'm not exactly sure how to change the colors on a per-console-window
+basis under Windows 95.
+
+</ul>
+
+
+
+<A NAME="font-lock" title="font-lock"><!-- Anchor--></A>
+<h3><a name="TOC63">How do I enable color syntax highlighting in Emacs (font-lock)?</a></h3>
+
+<p>
+Font-lock mode is a mode that performs color syntax highlighting for
+other major modes in Emacs.  To use font-lock, place the following in your
+startup file:
+
+<blockquote><pre>
+(cond ((fboundp 'global-font-lock-mode)
+       ;; Turn on font-lock in all modes that support it
+       (global-font-lock-mode t)
+       ;; Maximum colors
+       (setq font-lock-maximum-decoration t)))
+</pre></blockquote>
+
+<p>
+The above code uses the default faces for decoration.  If you would
+like to customize the attributes of the faces, you can use the following
+startup code to get started:
+
+<blockquote><pre>
+(cond ((fboundp 'global-font-lock-mode)
+       ;; Customize face attributes
+       (setq font-lock-face-attributes
+             ;; Symbol-for-Face Foreground Background Bold Italic Underline
+             '((font-lock-comment-face       "DarkGreen")
+               (font-lock-string-face        "Sienna")
+               (font-lock-keyword-face       "RoyalBlue")
+               (font-lock-function-name-face "Blue")
+               (font-lock-variable-name-face "Black")
+               (font-lock-type-face          "Black")
+               (font-lock-reference-face     "Purple")
+               ))
+       ;; Load the font-lock package.
+       (require 'font-lock)
+       ;; Maximum colors
+       (setq font-lock-maximum-decoration t)
+       ;; Turn on font-lock in all modes that support it
+       (global-font-lock-mode t)))
+</pre></blockquote>
+
+<p>
+Also see the help text for the function <tt>global-font-lock-mode</tt>
+and the variable <tt>font-lock-face-attributes</tt>.
+
+<p>
+To see a list of colors that Emacs understands by name, select the
+"Edit->Text Properties->Display Colors" menu command.
+
+<P>
+  An alternative to useing font-lock-mode is to use lazy-lock, to do
+ this use the following:
+<PRE>
+    (setq font-lock-support-mode 'lazy-lock-mode)
+</PRE>
+
+<p>
+<!-- For font-lock settings for Java, see the  <A HREF="$ ( java-font-lock)">section on Java</A> . -->
+
+
+<A NAME="font-lock-html" title="font-lock-html"><!-- Anchor--></A>
+<h3><a name="TOC64">Converting font-lock buffers into HTML markup</a></h3>
+
+<p>
+You can use the <a href="http://jagor.srce.hr/%7Ehniksic/htmlize.el" >htmlize.el package</a> by
+Hrvoje Niksic &lt;<A HREF="mailto:hniksic@srce.hr">hniksic@srce.hr</A>&gt;
+
+ to convert font-lock attributes in
+buffers to HTML markups.  See the comments at the top of the file on how to
+use it.
+
+<p>
+If you are using a version of Emacs before 19.34.6 and an 8-bit
+display, then you should download this version of <a href="ntemacs/contrib/htmlize.el-pre-19.34.6">htmlize.el</a> instead.
+However, this is likely to become out of date with respect to Hrvoje's
+version, so I would actually recommend upgrading to 19.34.6.
+
+
+<A NAME="font-lock-embedded-code" title="font-lock-embedded-code"><!-- Anchor--></A>
+<h3><a name="TOC65">Font-locking embedded code (e.g., ASP) in HTML documents</a></h3>
+
+<p>
+Gian Uberto Lauri &lt;<A HREF="mailto:lauri@mail.eng.it">lauri@mail.eng.it</A>&gt;
+ has modified <a
+href="http://www.gest.unipd.it/%7Esaint/hth.html">html-helper-mode</a>
+to enable font-locking and mode editing of code embedded in HTML
+documents (ASP, PHP).
+
+<p>
+
+
+<A NAME="modeline" title="modeline"><!-- Anchor--></A>
+<h3><a name="TOC66">How do I change the format of the mode line?</a></h3>
+
+<p>
+The format of the mode line is determined by the variable
+mode-line-format, a buffer-local variable.  To understand how to interpret
+the mode line, see the Info node "C-h i m emacs RET m mode line RET".  For
+a description of minor modes that provide additional information on the
+mode line (like line and column number, current time, and mail status), see
+the Info node "C-h i m emacs RET m optional mode line features".
+
+<p>
+You can also directly customize the format by assigning a new format
+string to the mode-line-format variable in your startup file.  For a
+description of the format codes, see the help string for the variable ("C-h
+v mode-line-format").
+
+
+<A NAME="mouse" title="mouse"><!-- Anchor--></A>
+<h3><a name="TOC67">What do I do if I have problems with Emacs and my mouse buttons?</a></h3>
+
+<p>
+You can use either a two- or three-button mouse with Emacs.  If you
+have trouble with either of these working with Emacs, see below.
+
+
+<A NAME="mouse-2b" title="mouse-2b"><!-- Anchor--></A>
+<h3><a name="TOC68">How do I use Emacs with a two-button mouse?</a></h3>
+
+<p>
+Emacs assumes that you have a three-button mouse by default.  However,
+if you have a two-button mouse, you can press both buttons at once to
+emulate the missing middle button expected by Emacs.
+
+<p>
+Three variables control mouse button emulation under Emacs:
+<tt>w32-num-mouse-buttons</tt>, <tt>w32-mouse-button-tolerance</tt>, and
+<tt>w32-swap-mouse-buttons</tt> (<tt>win32-num-mouse-buttons</tt>,
+<tt>win32-mouse-button-tolerance</tt>.
+If you use help on
+<tt>w32-num-mouse-buttons</tt> (i.e., with "C-h v"), it will tell you how
+many buttons Emacs thinks your mouse has; if <tt>w32-num-mouse-buttons</tt>
+is less than 3, then Emacs will emulate the middle mouse button.
+
+<p>
+Emacs emulates the middle mouse button by treating simultaneous button
+presses of the left and right buttons as a middle button press.  Since both
+button presses cannot really be simultaneous, Emacs compares button presses
+within a specified window of time to determine whether it should emulate
+the middle button.  This window of time is controlled using
+<tt>w32-mouse-button-tolerance</tt>.  Help on this variable will show you
+the value Emacs uses by default, and you can change this value to suit your
+needs.
+
+<p>
+Depending upon the type of two-button mouse, you may find it useful to
+swap the mapping of middle and right mouse buttons.  By default, the middle
+button is mapped to <tt>mouse-2</tt> and the right button is mapped to
+<tt>mouse-3</tt>.  If you set <tt>w32-swap-mouse-buttons</tt> to a non-nil
+value, then you can swap these two mappings.
+
+
+
+<A NAME="mouse-3b" title="mouse-3b"><!-- Anchor--></A>
+<h3><a name="TOC69">How do I get Emacs to recognize the third button on my mouse?</a></h3>
+
+<p>
+If you have a three-button mouse, Emacs should recognize and support
+the third (middle) button automatically.  However, some people find that
+they have a three button mouse, but the middle mouse button does not work
+for them.  First check to see if <tt>w32-num-mouse-buttons</tt>
+ is set correctly.  If so,
+then check to see whether your mouse has been installed with the proper
+driver (open Control Panel->Mouse to examine the driver being used).  If
+you have the right driver, then, on NT, check if
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Busmouse\Paramete
+rs\NumberOfButtons is set to 3, and change it to 3 if it is not.  If
+nothing seems to be amiss, then at the very least you can have Emacs
+emulate the middle button by setting <tt>w32-num-mouse-buttons</tt> to 2.
+
+
+<A NAME="mouse-win95" title="mouse-win95"><!-- Anchor--></A>
+<h3><a name="TOC70">Strange two-button mouse behavior on Windows 95.</a></h3>
+
+<p>
+Some people have reported that using a two-button mouse with Emacs
+sometimes causes problems when they go to click in other windows or
+the desktop (e.g., double left-clicks are interpreted as a
+right-click); apparently this is a known bug in Windows 95, and is not
+confined to using Emacs.  If this is happening to you, you might want
+to flip through <a href="ntemacs/discuss/2bmouse">a discussion on the
+topic.</a>
+
+<p>
+One workaround is to right-click on the desktop, and then left-click on
+the desktop, and the mouse should be back in its normal state.
+
+
+<A NAME="highlight" title="highlight"><!-- Anchor--></A>
+<h3><a name="TOC71">How do I highlight the region between the point and the mark?</a></h3>
+
+<p>
+To highlight the region between the point and the mark, use the
+function <tt>transient-mark-mode</tt>:
+
+<blockquote><pre>
+(transient-mark-mode t)
+</pre></blockquote>
+
+
+<A NAME="highlight-paren" title="highlight-paren"><!-- Anchor--></A>
+<h3><a name="TOC72">How do I highlight matching parentheses?</a></h3>
+
+<p>
+To highlight matching parentheses, add the following to your startup
+file:
+
+<blockquote><pre>
+(show-paren-mode 1)
+</pre></blockquote>
+
+
+<A NAME="cut-paste-nulls" title="cut-paste-nulls"><!-- Anchor--></A>
+<h3><a name="TOC73">How do I cut &amp; paste text with null characters?</a></h3>
+
+<p>
+Because of the way Emacs currently tries to share the clipboard with
+other Windows applications, you cannot cut and paste text with null
+characters embedded in it.  David Biesack &lt;sasdjb@unx.sas.com&gt; <a href="ntemacs/discuss/cut-paste-null">describes a way to get around
+this</a>, at least for cutting and pasting text just within Emacs.
+
+
+<A NAME="beep" title="beep"><!-- Anchor--></A>
+<h3><a name="TOC74">How do I change the sound of the Emacs beep?</a></h3>
+
+<p>
+You can use the function <tt>set-message-beep</tt> to change the sound
+that Emacs uses for its beep.  Emacs allows you to specify one of the
+Windows system sounds for the beep.  For example, to use the
+<b>ok</b> system sound, place the following in your startup file:
+
+<blockquote><pre>
+(set-message-beep 'ok)
+</pre></blockquote>
+
+<p>
+Look up help for the function for a complete description of how to use
+the function and which sounds it recognizes.
+
+
+
+
+<A NAME="multibyte-selection" title="multibyte-selection"><!-- Anchor--></A>
+<h3><a name="TOC75">When I yank previously copied or killed text into a buffer, it appears garbled. How can I fix this?</a></h3>
+
+<p>
+`selection-coding-system' is most likely still at it's default of
+`iso-latin-1-dos'.  You can change this to a more appropriate coding system
+using `set-selection-coding-system' (C-x RET x), or temporarily with
+`set-next-selection-coding-system' (C-x RET X).  If you NEVER cut and paste
+between Emacs and other programs, you can make Emacs behave for all
+languages with:
+
+<blockquote><pre>
+(set-selection-coding-system 'emacs-mule)
+</pre></blockquote>
+
+<p>
+To copy between Emacs and other apps, you may need to use the
+appropriate Windows codepage as your coding system. To do this, you need to
+set up the codepage first:
+
+<blockquote><pre>
+(codepage-setup 1251)
+(set-selection-coding-system 'cp1251)
+</pre></blockquote>
+
+
+<A NAME="font-page" title="font-page"><!-- Anchor--></A>
+
+
+
+<A NAME="windows-font" title="windows-font"><!-- Anchor--></A>
+<h3><a name="TOC76"><b>F<font size=-1>ONTS</font></b></a></h3>
+
+
+<p>
+Fonts in Emacs are named using the standard X Windows format for fonts.
+
+<!-- For complete details on X Windows font names, see the (a
+href="http://www.x.org/consortium/R6doc/man/X/X") FONT NAMES section
+(/a) of the X man page. -->
+
+<p>
+For an explanation of what each
+element in a font string means and how Emacs on NT uses it, see <a href="ntemacs/discuss/x-font-details">Andrew's note</a>.
+
+<p>
+These font names are the names that can be used as arguments on the
+command line or in lisp functions.  To see the font name corresponding to a
+font chosen using the font selection dialog, execute the following elisp
+code in the *scratch* buffer:
+
+<blockquote><pre>
+(insert (prin1-to-string (w32-select-font)))   ; Emacs 20
+</pre></blockquote>
+
+<p>
+To see the complete list of fonts that Emacs has access to, execute
+the following elisp code in the *scratch* buffer:
+
+<blockquote>
+<tt>(insert (prin1-to-string (x-list-fonts "*")))</tt>
+</blockquote>
+
+<p>
+The font support currently is a little rough around the edges.  In
+particular, italic fonts give Emacs some problems; see  <A HREF="#windows-italics">below</A>  for more info about using italic
+fonts.  Generally it performs as expected, but occasionally you might
+get unexpected results (e.g., Emacs didn't quite use the font you told
+it to use).  Work is underway to fix these problems, but for now I
+suggest experimenting if you encounter problems.
+
+<p>
+Also, X Windows has the luxury of a set of font aliases (such as
+<b>fixed</b>) that are convenient names for referring to specific fonts.
+Work is underway to provide an equivalent alias mechanism under Windows so
+that naming fonts does not have to be as cumbersome as it currently is.
+
+<p>
+To customize fonts for specific frames, see the  <A HREF="#windows-frames">section on customizing frames</A>  below.
+
+<dl>
+
+<dt><b>User Interface</b>
+
+<dd>To change the default font that Emacs uses, shift click the left
+mouse button (i.e., [shift-mouse-1]) and a font selection dialog will
+pop up.  Select the font that you would like to use, and click on the
+<b>OK</b> button to close the dialog and use the selected font.  (Note
+that the dialog only displays fixed-pitch and screen fonts since Emacs
+cannot handle variable-pitched fonts.)
+
+<dt><b>Command Line</b>
+
+<dd>To start Emacs with a particular font, use the the <b>-font</b> X
+Windows command line option.  For example, to start Emacs with the
+<b>Courier</b> font of size <b>10</b> and font style <b>Regular</b>,
+invoke Emacs using:
+
+<blockquote>
+<tt>emacs -font "-*-Courier-normal-r-*-*-13-*-*-*-c-*-iso8859-1"</tt>
+</blockquote>
+
+<dt><b>Emacs Lisp</b>
+
+<dd>To change the default font of Emacs using elisp, use the
+<tt>set-default-font</tt> function:
+
+<blockquote><pre>
+(set-default-font "-*-Courier-normal-r-*-*-13-*-*-*-c-*-*-iso8859-1")
+</pre></blockquote>
+
+<p>
+To set the font of a particular face, use the <tt>set-face-font</tt>
+function.
+
+<dt><b>Registry</b>
+
+<dd>To change the default font of Emacs frames using registry entries,
+create a value in the key <tt>HKEY_CURRENT_USER\Software\GNU\Emacs</tt>:
+
+<blockquote>
+<b>Value Name:</b> <tt>Emacs.Font</tt>
+<br><b>Value Type:</b> <tt>REG_SZ</tt>
+<br><b>String:</b> <tt>-*-Courier-normal-r-*-*-13-*-*-*-c-*-iso8859-1</tt>
+</blockquote>
+
+<p>
+Since the font strings are rather cumbersome, I would suggest cutting
+the font string into the kill-ring (which will place it in the
+clipboard, too) and pasting it (Ctrl-V) into the regedit dialog.
+(Note that you shouldn't place quotes around the font string in the
+registry.)
+
+<p>
+If you have Emacs frames with specific names, you can also specify a
+font for that frame.  For the <b>Value Name</b> of the entry, use the name
+of the frame instead of <tt>Emacs</tt> (e.g., <tt>RMAIL.Font</tt> for your
+RMAIL frame).
+
+</dl>
+
+
+<A NAME="windows-italics" title="windows-italics"><!-- Anchor--></A>
+
+<b>I<font size=-1>TALICS</font></b>
+
+<p>
+Emacs currently requires that italic versions of fonts have the same
+width as the normal version of the font.  However, most of the default
+fonts have italic and italic bold versions whose character widths are
+larger than the normal version (the only default font that appears to have
+viable italic and bold versions is Courier New).  Because of this, Emacs by
+default disables the use of italic faces.
+
+<p>
+You can still enable the use of italic faces with Emacs by setting the
+variable <tt>w32-enable-italics</tt> to <tt>t</tt> in your startup file:
+
+<blockquote><pre>
+(setq w32-enable-italics t)    ; This must be done before font settings! (Emacs 20.x)
+(set-face-font 'italic "-*-Courier New-normal-i-*-*-11-*-*-*-c-*-iso8859-1")
+(set-face-font 'bold-italic "-*-Courier New-bold-i-*-*-11-*-*-*-c-*-iso8859-1")
+</pre></blockquote>
+
+<p>
+Although this works best with Courier New, there is still one minor
+glitch: the italics versions are one pixel higher than the other
+versions, so the line spacing is increased by a pixel when italics are
+enabled.
+
+
+<A NAME="console-font" title="console-font"><!-- Anchor--></A>
+
+<b>F<font size=-1>ONT</font></b>
+
+<p>
+Under NT, open the "-" menu.  Select "Fonts...", and use the dialog to
+set the window font to the one you want.  Be sure to check the "Save
+Configuration" checkbox so that your font change will be used in future
+invocations.  Click on "OK", and the window will get resized.
+
+<p>
+Under Windows 95/98, simply use the popup font menu in the upper
+left-hand corner of the window.  Or click on the font icon in the icon
+toolbar.  Or click on the properties icon in the icon toolbar and go
+to the "Font" tab and choose the font that you want to use.
+
+
+
+<A NAME="multibyte" title="multibyte"><!-- Anchor--></A>
+<h3><a name="TOC77">Emacs multilingual font support</a></h3>
+
+<p>
+<i>(Applies to version 20.4 and later)</i>
+
+
+<A NAME="multibyte-mule" title="multibyte-mule"><!-- Anchor--></A>
+<h3><a name="TOC78">Is it now possible to display correctly the sample of various scripts and languages accessible from the MULE menu?</a></h3>
+
+<p>
+If you have a Windows font for the script or language, then you should
+be able to display it using Emacs 20.4. Emacs 20.4 also supports the bdf
+fonts that were used with the older MULE for Windows version of Emacs and
+the more recent Meadow versions (as well as the X Windows versions of
+Emacs).  For details on using the bdf fonts with Emacs, see  <A HREF="#bdf-fonts">below</A> .
+
+<p>
+More about using Windows fonts:
+
+<blockquote>
+There are a number of languages for which Windows fonts are not yet
+available, or are not in an appropriate format for Emacs to use, so you
+will not get every language to display. I also had some problem getting
+Japanese, Chinese, Cantonese and Korean to display all at once, but this
+was on Windows 95, and I suspect is a limitation of the OS, rather than a
+bug in Emacs, as those languages look fine when displayed one at a time
+(there is a note on the Microsoft language packs that only one may be
+installed at a time, which I suspect is because of this limitation).
+
+<p>
+Because some languages can only use proportional fonts, limited support
+has been added for proportional fonts as the non-ASCII font in fontsets. It
+should be general enough to work with any font, but it is not full
+proportional support, so the characters may not appear exactly as you
+expect. You may need to try several fonts to find one that appears
+reasonably correct if you wish to use Emacs with languages like Thai which
+use composition and hence use only proportional Windows fonts.
+</blockquote>
+
+
+
+<A NAME="multibyte-fontset" title="multibyte-fontset"><!-- Anchor--></A>
+<h3><a name="TOC79">How do I get Emacs to display characters other than ISO-8859-1 (West European)?</a></h3>
+
+<p>
+If you are content with the size and style of font that Emacs uses at
+startup (Courier New 10), you could try using `fontset-standard', which
+will give you most languages that you have fonts for and Emacs supports.
+To use `fontset-standard' for all frames, place the following in your
+startup file:
+
+<blockquote><pre>
+(setq default-frame-alist
+        (append
+        '((font . "fontset-startup"))
+        default-frame-alist))
+</pre></blockquote>
+
+<p>
+or, to change for the current frame only:
+
+<blockquote><pre>
+(set-frame-font "fontset-startup")
+</pre></blockquote>
+
+<p>
+To have more control over which fonts are used in a fontset, you need
+to specify the fontset manually.
+
+<p>
+If only one character set is needed, the easiest way to do this is to
+use `create-fontset-from-ascii-font' whereever you define a font.
+
+<blockquote><pre>
+(setq default-frame-alist
+      (append
+       '((font . (create-fontset-from-ascii-font
+                  "-*-Andale Mono-normal-r-*-*-13-*-*-*-c-*-iso8859-2")))
+       default-frame-alist))
+</pre></blockquote>
+
+<p>
+If you require support for a number of languages, you should use
+`create-fontset-from-fontset-spec'. Note that installing more than one of
+the East Asian language packs is not supported by Microsoft, and does not
+work on Windows 95 at least. It is very difficult to get your system stable
+again after trying, so it is recommended that you only install the one that
+you will use the most, and  <A HREF="#bdf-fonts"> use BDF fonts</A>  for the
+other languages:
+
+<blockquote><pre>
+(create-fontset-from-fontset-spec
+ "-*-Courier New-normal-r-*-*-12-*-*-*-c-*-fontset-most,
+ latin-iso8859-2:-*-Courier New-normal-r-*-*-12-*-*-*-c-*-iso8859-2,
+ latin-iso8859-3:-*-Courier New-normal-r-*-*-12-*-*-*-c-*-iso8859-3,
+ latin-iso8859-4:-*-Courier New-normal-r-*-*-12-*-*-*-c-*-iso8859-4,
+ cyrillic-iso8859-5:-*-Courier New-normal-r-*-*-12-*-*-*-c-*-iso8859-5,
+ greek-iso8859-7:-*-Courier New-normal-r-*-*-12-*-*-*-c-*-iso8859-7,
+ latin-iso8859-9:-*-Courier New-normal-r-*-*-12-*-*-*-c-*-iso8859-9,
+ japanese-jisx0208:-*-MS Gothic-normal-r-*-*-12-*-*-*-c-*-jisx0208-sjis,
+ katakana-jisx0201:-*-MS Gothic-normal-r-*-*-12-*-*-*-c-*-jisx0208-sjis,
+ latin-jisx0201:-*-MS Gothic-normal-r-*-*-12-*-*-*-c-*-jisx0208-sjis,
+ japanese-jisx0208-1978:-*-MS Gothic-normal-r-*-*-12-*-*-*-c-*-jisx0208-sjis,
+ korean-ksc5601:-*-Gulim-normal-r-*-*-12-*-*-*-c-*-ksc5601-*,
+ chinese-gb2312:-*-MS Song-normal-r-*-*-12-*-*-*-c-*-gb2312-*,
+ chinese-big5-1:-*-MingLiU-normal-r-*-*-12-*-*-*-c-*-big5-*,
+ chinese-big5-2:-*-MingLiU-normal-r-*-*-12-*-*-*-c-*-big5-*" t)
+</pre></blockquote>
+
+<p>
+If you leave character sets out of the fontset-spec above, a font will
+be chosen at random (not necessarily matching any of the other fonts in the
+fontset). The fontset name is used to generate the "default" font, which
+covers ASCII and iso8859-1.
+
+<p>
+To get a full list of character-sets use "M-x describe-fontset" to
+describe `fontset-standard'.
+
+
+
+<A NAME="multibyte-language-fonts" title="multibyte-language-fonts"><!-- Anchor--></A>
+<h3><a name="TOC80">Where can I find fonts for other languages?</a></h3>
+
+<p>
+<b>MS Windows fonts</b> The Windows installation CDROM contains fonts
+for most European languages.  If you did not install "Multilanguage
+Support" when you installed Windows, you can install it from the "Add
+Programs" Control Panel.  East Asian Language (Chinese, Japanese, Korean)
+support for Microsoft Word and Internet Explorer can also be used by Emacs.
+These are available from <a href="http://www.microsoft.com/" >http://www.microsoft.com</a>, or on the
+installation CDROMs.  IE5 also has fonts for Thai, Vietnamese and other
+languages, although it is not known how well these work with Emacs. Fonts
+for many other languages are available on the WWW; a good starting point is
+<a href="http://babel.uoregon.edu/yamada/guides.html" >
+http://babel.uoregon.edu/yamada/guides.html</a>.
+
+<p>
+<b>X Windows fonts</b> There is a collection of international fonts for
+use with X Windows, and a set can be found at <a href="http://ftp.gnu.org/gnu/intlfonts">ftp.gnu.org</a>.  They are
+distributed in the bdf font file format, a format that can be handled by
+Emacs starting with version 20.3.5.1.  For details on how to use these
+fonts with Emacs, see the section below on <a href="#bdf-fonts">using bdf
+fonts with Emacs</a>.
+
+
+<A NAME="multibyte-third-party" title="multibyte-third-party"><!-- Anchor--></A>
+<h3><a name="TOC81">How do I use third party programs for displaying multibyte characters with Emacs?</a></h3>
+
+<p>
+Define a fontset ( <A HREF="#multibyte">see above</A> ) listing any font
+of an appropriate size which works with the third party program for the
+appropriate character set(s).  Change the character set to the character
+set you want displayed so Emacs knows how to display it. For example:
+
+<blockquote><pre>
+(create-fontset-from-fontset-spec
+ "-*-Courier New-normal-r-*-*-13-*-*-*-c-*-fontset-asian,
+ korean-ksc5601:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-ksc5601-*,
+ chinese-gb2312:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-gb2312-*,
+ chinese-big5-1:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-big5-*,
+ chinese-big5-2:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-big5-*,
+ japanese-jisx0208:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-jisx0208-sjis,
+ katakana-jisx0201:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-jisx0201-sjis,
+ latin-jisx0201:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-jisx0201-sjis,
+ japanese-jisx0208-1978:-*-Courier New-normal-r-*-*-13-*-*-*-c-*-jisx0208-sjis")
+</pre></blockquote>
+
+<p>
+If this doesn't work, you may need to set `w32-enable-unicode-output'
+to nil.
+
+
+<A NAME="multibyte-foreign-font-name" title="multibyte-foreign-font-name"><!-- Anchor--></A>
+<h3><a name="TOC82">How do I use a font with a name in my language?</a></h3>
+
+<p>
+This is most applicable to East Asian users. Others can probably get
+their fonts working (with a strange looking name), but it is nice to have
+the names of fonts displayed correctly.
+
+<p>
+You need to use the function `set-w32-system-coding-system' before the
+font is specified. If you are setting the font from your .emacs, you will
+need to make sure the coding-system of your .emacs supports the character
+set for the font name. An example (for Traditional Chinese) follows:
+
+<blockquote><pre>
+;; Top line of .emacs: -*- coding: chinese-big-5; -*-
+(set-w32-system-coding-system 'chinese-big-5)
+</pre></blockquote>
+
+<p>
+For Japanese, you would use japanese-shift-jis; for Simplified Chinese,
+chinese-iso-8bit; for Korean, korean-iso-8bit.
+
+
+
+<A NAME="bdf-fonts" title="bdf-fonts"><!-- Anchor--></A>
+<h3><a name="TOC83">How can I use bdf fonts with Emacs?</a></h3>
+
+<p>
+To use bdf fonts with Emacs, you need to tell Emacs where the fonts are
+located, create fontsets for them, and then use them.  We'll use the 16 dot
+international fonts from <a href="http://ftp.gnu.org/gnu/intlfonts">ftp.gnu.org/intlfonts</a> as an
+example put together by
+Jason Rumney &lt;<A HREF="mailto:jasonr@gnu.org">jasonr@gnu.org</A>&gt;
+
+<p>
+Download the <a href="http://ftp.gnu.org/gnu/intlfonts/intlfonts-1.1-split/16dots.tar.gz">16dots.tar.gz</a>
+file and unpack it; I'll assume that they are in "c:\intlfonts".  Then set
+w32-bdf-filename-alist to the list of fonts returned by using
+w32-find-bdf-fonts to enumerate all of the font files. It is a good idea to
+set the variable bdf-directory-list at the same time so ps-print knows
+where to find the fonts:
+
+<blockquote><pre>
+(setq bdf-directory-list
+      '("c:/intlfonts/Asian" "c:/intlfonts/Chinese" "c:/intlfonts/Chinese-X"
+        "c:/intlfonts/Ethiopic" "c:/intlfonts/European" "c:/intlfonts/Japanese"
+        "c:/intlfonts/Japanese-X" "c:/intlfonts/Korean-X" "c:/intlfonts/Misc/"))
+(setq w32-bdf-filename-alist
+      (w32-find-bdf-fonts bdf-directory-list))
+
+</pre></blockquote>
+
+<p>
+Then create fontsets for the BDF fonts:
+
+<blockquote><pre>
+(create-fontset-from-fontset-spec
+ "-*-fixed-medium-r-normal-*-16-*-*-*-c-*-fontset-bdf,
+ japanese-jisx0208:-*-*-medium-r-normal-*-16-*-*-*-c-*-jisx0208.1983-*,
+ katakana-jisx0201:-*-*-medium-r-normal-*-16-*-*-*-c-*-jisx0201*-*,
+ latin-jisx0201:-*-*-medium-r-normal-*-16-*-*-*-c-*-jisx0201*-*,
+ japanese-jisx0208-1978:-*-*-medium-r-normal-*-16-*-*-*-c-*-jisx0208.1978-*,
+ thai-tis620:-misc-fixed-medium-r-normal--16-160-72-72-m-80-tis620.2529-1,
+ lao:-misc-fixed-medium-r-normal--16-160-72-72-m-80-MuleLao-1,
+ tibetan-1-column:-TibMdXA-fixed-medium-r-normal--16-160-72-72-m-80-MuleTibetan-1,
+ ethiopic:-Admas-Ethiomx16f-Medium-R-Normal--16-150-100-100-M-160-Ethiopic-Unicode,
+ tibetan:-TibMdXA-fixed-medium-r-normal--16-160-72-72-m-160-MuleTibetan-0")
+</pre></blockquote>
+
+<p>
+Many of the international bdf fonts from gnu.org are type 0, and
+therefore need to be added to font-encoding-alist:
+
+<blockquote><pre>
+;; Need to add some fonts to font-encoding-alist since the bdf fonts
+;; are type 0 not the default type 1.
+(setq font-encoding-alist
+      (append '(("MuleTibetan-0" (tibetan . 0))
+                ("GB2312"        (chinese-gb2312 . 0))
+                ("JISX0208"      (japanese-jisx0208 . 0))
+                ("JISX0212"      (japanese-jisx0212 . 0))
+                ("VISCII"        (vietnamese-viscii-lower . 0))
+                ("KSC5601"       (korean-ksc5601 . 0))
+                ("MuleArabic-0"  (arabic-digit . 0))
+                ("MuleArabic-1"  (arabic-1-column . 0))
+                ("MuleArabic-2"  (arabic-2-column . 0))) font-encoding-alist))
+</pre></blockquote>
+
+<p>
+You can now use the Emacs font menu (not the popup dialog; see  <A HREF="#font-menu">below</A> ) to select the "bdf: 16-dot medium" fontset, or
+you can select it by setting the default font:
+
+<blockquote><pre>
+(set-default-font "fontset-bdf")
+</pre></blockquote>
+
+<p>
+Try loading the file etc/HELLO, and you should be able to see the
+various international fonts displayed (except for Hindi, which is not
+included in the 16-dot font distribution).
+
+
+
+<A NAME="font-menu" title="font-menu"><!-- Anchor--></A>
+<h3><a name="TOC84">How can I have Emacs use a font menu similar to the one it uses on Unix (with fonts and fontsets listed)?</a></h3>
+<P>
+Place the following in your startup file:
+<P>
+<PRE>
+(setq w32-use-w32-font-dialog nil)
+</PRE>
+
+
+<A NAME="font-menu-modify" title="font-menu-modify"><!-- Anchor--></A>
+<h3><a name="TOC85">The font I want to use is not in the font menu, how can I put it there?</a></h3>
+
+
+
+<p>
+If you have set w32-use-w32-font-dialog to nil, you can add fonts to
+the font menu by changing `w32-fixed-font-alist'.  For example:
+
+<blockquote><pre>
+(setq w32-fixed-font-alist
+      (append w32-fixed-font-alist
+              '(("Monotype.com"
+   ("8" "-*-Monotype.com-normal-r-*-*-11-*-*-*-c-iso8859-1")
+   ("9" "-*-Monotype.com-normal-r-*-*-12-*-*-*-c-iso8859-1")
+   ("10" "-*-Monotype.com-normal-r-*-*-13-*-*-*-c-iso8859-1")
+   ("11" "-*-Monotype.com-normal-r-*-*-15-*-*-*-c-iso8859-1")))))
+</pre></blockquote>
+
+
+<A NAME="translation" title="translation"><!-- Anchor--></A>
+<h3><a name="TOC86">How can I control CR/LF translation (e.g., to access UNIX files via NFS)?</a></h3>
+
+<p>
+There are a number of methods by which you can control automatic CR/LF
+translation in Emacs, a situation that reflects the fact that the default
+support isn't very robust.  For a discussion of this issue, take a look at
+<a href="ntemacs/todo/translate">this collection of email messages</a> on
+the topic.
+
+
+<A NAME="translation-extension" title="translation-extension"><!-- Anchor--></A>
+<h3><a name="TOC87">By file extension</a></h3>
+
+<p>
+The first method is by file extension using the alist
+<tt>file-name-buffer-file-type-alist</tt>.  This alist contains pairs of
+regular expressions and booleans that determine whether a file is opened in
+binary (untranslated) or text (translated) mode.  The alist already
+contains a number of pairs that you can use as examples for creating your
+own; do a "C-h v" on the variable name to see the help text and the default
+pairs.
+
+<p>
+You could add your own pairs to the alist, or change the alist
+entirely.  For example, if you wanted to open every file in binary mode
+except for batch files, you could add the following to your startup file:
+
+<blockquote><pre>
+(setq file-name-buffer-file-type-alist '(("\.bat$" . nil) (".*" . t)))
+</pre></blockquote>
+
+<p>
+The first pair says anything ending with the <tt>.bat</tt> extension
+should be opened in text mode, and the second pair opens everything else
+that doesn't match the first pair in binary mode.
+
+
+
+<A NAME="translation-file-system" title="translation-file-system"><!-- Anchor--></A>
+<h3><a name="TOC88">By file system</a></h3>
+
+<p>
+A second method for controlling translation is with the functions at
+the end of <a href="ntemacs/contrib/untranslate.el">untranslate.el</a>.
+These functions enable you to turn on and off translation on a filesystem
+basis (e.g., open anything on <tt>C:</tt> in translated mode, and anything
+on <tt>U:</tt> in untranslated mode).  If you want to use these functions,
+download and place untranslate.el in your load-path and have it loaded from
+your startup file.  Then you can place calls to
+<tt>add-untranslated-filesystem</tt> to selectively access filesystems in
+binary mode.
+
+
+<A NAME="translation-automatic" title="translation-automatic"><!-- Anchor--></A>
+<h3><a name="TOC89">Automatic</a></h3>
+
+<p>
+A third method for controlling translation is to have Emacs scan files
+and automatically determine whether they are binary or text by looking at
+the line breaks in the file (i.e., no line breaks or just linefeeds imply
+binary, carriage return/linefeed pairs imply text).
+Chris Weikart &lt;<A HREF="mailto:chris@weikart.com">chris@weikart.com</A>&gt;
+ contributed the following code snippet from his .emacs file:
+
+<PRE>
+ (defun set-buffer-file-eol-type (eol-type)
+   "Set the file end-of-line conversion type of the current buffer to
+ EOL-TYPE.
+ This means that when you save the buffer, line endings will be converted
+ according to EOL-TYPE.
+
+ EOL-TYPE is one of three symbols:
+
+   unix (LF)
+   dos (CRLF)
+   mac (CR)
+
+ This function marks the buffer modified so that the succeeding
+ \\[save-buffer]
+ surely saves the buffer with EOL-TYPE.  From a program, if you don't want
+ to mark the buffer modified, use coding-system-change-eol-conversion
+ directly [weikart]."
+   (interactive "SEOL type for visited file (unix, dos, or mac): ")
+   (setq buffer-file-coding-system (coding-system-change-eol-conversion
+                      buffer-file-coding-system eol-type))
+   (set-buffer-modified-p t)
+   (force-mode-line-update))
+
+ (global-set-key "\^Cu" (lambda () (interactive) (set-buffer-file-eol-type 'unix)))
+ (global-set-key "\^Cd" (lambda () (interactive) (set-buffer-file-eol-type 'dos)))
+ (global-set-key "\^Cm" (lambda () (interactive) (set-buffer-file-eol-type 'mac)))
+
+ ;; Make the mode-line display the standard EOL-TYPE symbols (used above)...
+(setq eol-mnemonic-undecided "(?)"  ;; unknown EOL type
+       eol-mnemonic-unix  "(unix)" ;; LF
+       eol-mnemonic-dos  "(dos)"  ;; CRLF
+       eol-mnemonic-mac  "(mac)") ;; CR
+</PRE>
+
+
+<A NAME="printing" title="printing"><!-- Anchor--></A>
+
+
+
+<A NAME="printing-emacs" title="printing-emacs"><!-- Anchor--></A>
+<h3><a name="TOC90">How do I print from Emacs?</a></h3>
+
+
+<h4><a name="TOC91">20.4</a></h4>
+
+<p>
+Please read <a href="ntemacs/discuss/printing-20.4">Andrew's note</a>
+on how to print from Emacs in 20.4.  What you need to do depends upon how
+you connect your printer to your machine.
+<p>
+Tim Sherrill &lt;sherritp@sagian.com&gt; has a <a href="http://www.rose-hulman.edu/%7Emgrtps/emacs/2-up.html" >very informative
+page</a> on 2-up (n-up) printing from Emacs.
+
+<p>
+Holger Mueller &lt;hmueller@bigfoot.com&gt; has taken over
+maintaining <a href="http://hmueller.purespace.de/emacs/print-NT.html" >print-NT.el</a>
+[V 1.15, 6/29/98] (previously maintained by Brian Gorka
+&lt;gorkab@cyberpass.net&gt;).
+
+<p>
+Theodore Jump &lt;<A HREF="mailto:tjump@tertius.com">tjump@tertius.com</A>&gt;
+has also written <a href="http://www.i21.com/%7Etjump/files/#ntemacs-utilities" >w32-print.el</a>,
+a relatively complete package for printing from Emacs on Windows systems
+(Postscript, plain-text, 2- and 4-up, 19.34.X and 20.X, UNC and local
+device paths, etc.). [V1.11, 12/7/98]
+
+<p>
+Pascal Obry has a <a href="ntemacs/contrib/printing2.txt">nice
+example</a> of how to set up some variables to get printing to work on NT.
+
+<p>
+Jeff Paquette &lt;paquette@mediaone.net&gt; has a version of <a href="http://atnetsend.ne.mediaone.net/%7Epaquette/WinProgramming.html#prwin32" >pr</a>
+for use with Emacs, and instructions on how to set it up.
+
+<!--
+Vassil Peytchev &lt;vassil@msn.fullfeed.com&gt; has an (a href="ntemacs/contrib/printing-gs.txt")example(/a) of how to use ghostscript to print to non-postscript printers. -->
+
+<p>
+Anders Lindgren &lt;andersl@csd.uu.se&gt; has written a <a href="ntemacs/contrib/lpr.bat">lpr.bat batch file</a> that can be
+subsituted transparently for lpr on NT (Windows 95 batch files don't redirect
+stdin correctly).
+
+<p>
+A number of other people have put together packages to print from
+Emacs.  I haven't had the time to go through them and piece everything
+together, but I recommend that you flip through <a href="ntemacs/discuss/printing">this collection of messages</a>.
+
+<p>
+For info on 2-up printing from Emacs, take a look at <a href="ntemacs/discuss/printing-2-up">these messages</a>.
+
+<p>
+For clever tricks for specific printers, take a look at <a href="ntemacs/discuss/printing-tricks">these messages</a>.
+
+<p>
+Bill Carpenter on printing in color:
+
+<blockquote><pre>
+It's relatively easy to set up the ps-print package, which can
+generate color PostScript output.  You can then run the results
+through Ghostscript if you don't happen to have a color PS printer
+laying around.
+
+To try it manually, do something like this:
+
+        (require 'ps-print)
+        (ps-spool-buffer-with-faces)
+
+and then look for the buffer "*PostScript*".
+</pre></blockquote>
+
+<p>
+You can also turn your font-locked buffers into HTML, and then use a
+browser to print them out.  See the <a href="#font-lock-html">section on
+htmlize.el</a>.
+
+<A NAME="printing-ghostscript" title="printing-ghostscript"><!-- Anchor--></A>
+<h3><a name="TOC92">Printing via Ghostscript</a></h3>
+<P>
+&nbsp;Alec Clews reports success at using Ghostscript to perform his
+printing - using gsview version 3.4, and Ghostscript version 6.01
+</P>
+<P>
+&nbsp;The configuration is straightforward, here's his settings,
+(which you should modify to suit).
+</P>
+<PRE>
+      (setq ps-lpr-command "c:\\Ghostgum\\gsview\\gsprint.exe")
+
+      ;; THis line causes ghostscript to query which printer to
+      ;; use - which you may not need if, for example, you only
+      ;; have one printer.
+      (setq ps-lpr-switches '("-query"))
+
+      (setq ps-printer-name t)
+</PRE>
+<P>
+&nbsp;The commandline options are documented in the gsprint.htm file
+ which comes with Ghostscript.
+</P>
+
+
+<A NAME="multibyte-printing" title="multibyte-printing"><!-- Anchor--></A>
+<h3><a name="TOC93">How do I print all these languages that Emacs is now displaying?</a></h3>
+
+<p>
+&nbsp;Emacs 20.4 has the ability to print non Western languages in two
+ways. Both use the "Postscript Print" functions, so if you do not have a
+Postscript printer, you will need to configure Emacs to print through
+Ghostscript.
+<ol>
+<li>Using built-in support in the printer (or in Ghostscript).
+<li>Using BDF fonts.
+</ol>
+
+<p>
+The variable `ps-multibyte-buffer' controls how non-latin characters
+are printed. If you are using built in support in the printer or
+Ghostscript, then setting this variable appropriately is all that
+needs to be done. To use BDF fonts, you will need to tell ps-print
+where to find them. This is done by setting `bdf-directory-list'.
+For example:
+
+<blockquote><pre>
+(setq ps-multibyte-buffer 'bdf-font
+      ps-mule-font-info-database ps-mule-font-info-database-bdf
+      bdf-directory-list '("c:/intlfonts/European" "c:/intlfonts/Chinese"
+                           "c:/intlfonts/Japanese" "c:/intlfonts/Korean-X"))
+</pre></blockquote>
+
+<p>
+By default, Emacs uses 24 dot BDF fonts for normal text, 16 dot for
+bold and italic and 40 dot for some (uncommon) Chinese and Japanese
+character sets.
+
+<A NAME="print-direct" title="print-direct"><!-- Anchor--></A>
+<h3><a name="TOC94">How do I print to a printer that is directly connected to a network?</a></h3>
+<p>&nbsp;If you have a printer which doesn't require a print server and is just connected directly to a hub you may find this information useful - it was contributed by
+Ed Grissom &lt;<A HREF="mailto:egrissom@ziimaging.com">egrissom@ziimaging.com</A>&gt;
+</p>
+
+<p>While there may be better ways to do this, I have used the solution below to
+solve this problem if other Win32 apps _can_ print to the printer (Like Word
+or Notepad ).</p>
+<p>Go to the printer properties and "share" the printer from your machine.</p>
+<p>Then tell Emacs the printer is \\yourmachine\yoursharename  and it should
+work</p>
+<p>&nbsp;You may need more slashes or the opposite type of slash depending on which
+Emacs printing subsystem (i.e. lpr, ps-print, print-nt, w32-print, etc.) you
+are using.  Just look at the subsystem's example for a networked printer,
+and substitute your machine name as the server and your share name as the
+printer name.</p>
+
+
+<A NAME="sub-processes" title="sub-processes"><!-- Anchor--></A>
+
+
+
+<A NAME="subproc-quoting" title="subproc-quoting"><!-- Anchor--></A>
+<h3><a name="TOC95">Quoting issues</a></h3>
+
+
+<p>
+The quoting rules for Windows shells and Cygnus shells have some subtle
+differences.  When Emacs spawns subprocesses, it tries to determine whether
+the process is a Cygnus program and changes its quoting mechanism
+appropriately.  <a href="ntemacs/discuss/shell-quoting">[Discussion]</a>
+
+
+<A NAME="subproc-console" title="subproc-console"><!-- Anchor--></A>
+<h3><a name="TOC96">Programs reading input hang</a></h3>
+
+<p>
+Programs that explicitly use a handle to the console ("CON" or "CON:")
+instead of stdin and stdout cannot be used as subprocesses to Emacs,
+and they will also not work in shell-mode (the default ftp clients on
+Windows 95 and NT are examples of such programs - this ftp program is fine for use with <A HREF="#ange-ftp">ange-ftp</A>, but not for M-x ftp).  There is no convenient
+way for either Emacs or any shell used in shell-mode to redirect the
+input and output of such processes from the console to input and
+output pipes.  The only workaround is to use a different
+implementation of the program that does not use the console directly
+(see the discussion on  <A HREF="#ange-ftp">ange-ftp</A>  for a
+replacement for the default ftp clients).
+
+
+
+<A NAME="subproc-buffer" title="subproc-buffer"><!-- Anchor--></A>
+<h3><a name="TOC97">Buffering in shells</a></h3>
+
+<p>
+You may notice that some programs, when run in a shell in shell-mode,
+have their output buffered (e.g., people have found this happening to
+them with sql-mode).  When the program has a lot of output, it
+overflows the buffering and gets printed to the shell buffer; however,
+if the program only outputs a small amount of text, it will remain
+buffered and won't appear in the shell buffer.
+
+<p>
+Although it may at first seem like the shell is buffering the output
+from the program, it is actually the program that is buffering output.  The
+C runtime typically decides how to buffer output based upon whether stdout
+is bound to a handle to a console window or not.  If bound to a console
+window, output is buffered line by line; if bound to a block device, such
+as a file, output is buffered block by block.
+
+<p>
+In a shell buffer, stdout is a pipe handle and so is buffered in
+blocks.  If you would like the buffering behavior of your program to behave
+differently, the program itself is going to have to be changed; you can use
+setbuf and setvbuf to manipulate the buffering semantics.
+<p>
+  Some programs handle this by having an explicit flag to control their
+buffering behaviour, typically "-i".  Other programs manage to detect that
+they are running under Emacs, by using getenve("emacs") internally.
+
+<A NAME="subproc-buffer-perl" title="subproc-buffer-perl"><!-- Anchor--></A>
+<h3><a name="TOC98">Perl script buffering.</a></h3>
+
+<P>
+  A handy solution for Perl scripts is to use:
+<PRE>
+      # Turn all buffering off.
+      select((select(STDOUT), $| = 1)[0]);
+      select((select(STDERR), $| = 1)[0]);
+      select((select(STDIN),  $| = 1)[0]);
+</PRE>
+
+<A NAME="subproc-dos" title="subproc-dos"><!-- Anchor--></A>
+<h3><a name="TOC99">DOS subprocesses</a></h3>
+
+<p>
+You can run DOS subprocesses under Emacs, with either the native command
+shell, or one of the alternatives, such as bash, tcsh, or 4NT, instead
+of command.com/cmd.exe; see the <a href="#other-tools">section below on other
+tools</a> for pointers to other sites.
+
+<A NAME="subproc-a_drive" title="subproc-a_drive"><!-- Anchor--></A>
+<h3><a name="TOC100">16-bit subprocesses accessing the A: drive.</a></h3>
+
+
+<p>
+If you are finding that running 16-bit programs as subprocesses cause
+your A: drive to be accessed (hanging Emacs until a timeout occurs if no
+floppy is in the drive), check to see if you have McAfee Virus Shield
+installed.  Users have found that disabling Virus Shield causes the problem
+to go away.  Also, if you have a better fix for this problem, let me know
+or send mail to the list.
+
+<p>
+<a href="ntemacs/discuss/a_drive">A followup</a> from Bill Carpenter
+&lt;bill@bubblegum.net&gt;.
+
+
+<A NAME="subproc-w95" title="subproc-w95"><!-- Anchor--></A>
+<h3><a name="TOC101">Killing subprocesses on Windows 95/98</a></h3>
+
+<p>
+Emacs cannot guarantee that a subprocess gets killed on Windows 95/98, and
+is a difficult limitation to work around.  For the forseeable future,
+you should always let subprocesses run to completion, including
+explicitly exiting interactive shells.
+
+<p>
+If you find that shutting down Windows 95/98 complains that there is a
+running cmdproxy even though you've exited all programs and it doesn't
+show up in the Task Manager until you shutdown, this could be a bad
+interaction with Norton VirusChecker.
+<P>
+  Francis Wright has written a nice little package which tries to automatically
+ tell shell buffer(s) to "exit" if you try to kill them, it is called
+ msdos-shell-fix.el, and can be found at :
+
+ <A HREF="http://centaur.maths.qmw.ac.uk/Emacs/">http://centaur.maths.qmw.ac.uk/Emacs/</A>.
+
+
+<A NAME="subproc-ctrl-d" title="subproc-ctrl-d"><!-- Anchor--></A>
+<h3><a name="TOC102">Sending eof to subprocesses in Emacs (e.g., C-c C-d in shell buffers)</a></h3>
+
+<p>
+When an eof is sent to a subprocess running in an interactive shell
+via process-send-eof, the shell terminates unexpectedly as if its
+input were closed.  See <a href="ntemacs/todo/shell-ctrl-d">this
+description</a> for more info and an example.
+
+
+
+<A NAME="shell" title="shell"><!-- Anchor--></A>
+<h3><a name="TOC103">How do I use a shell in Emacs?</a></h3>
+
+<p>
+You can use an interactive subshell in Emacs by typing "M-x shell".
+Emacs uses the SHELL configuration variable to determine which program
+to use as the shell.  If you installed Emacs using the addpm.exe
+program, then addpm.exe will associate the value %COMSPEC% with SHELL
+in the registry.  Emacs will then use the value of the COMSPEC
+environment variable when it starts up, <i>unless</i> the SHELL
+environment variable is explicitly defined (as when using the
+emacs.bat batch file).
+
+<p>
+If you would like to specify a different shell for Emacs to use, then
+you should do one of two things.  You should either explicitly set the
+environment variable SHELL to be the shell you want to use, or, if you want
+to have the COMSPEC environment variable determine the shell, then you need
+to install Emacs using the addpm.exe program and ensure that the SHELL
+environment variable is <i>not</i> defined when you start up Emacs.
+
+<p>
+  Any replacement shell should follow Unix convention
+ for the -c option, or else be invoked via cmdproxy.exe if it follows
+ the DOS convention.
+
+<p>
+Note that sh-script.el does not recognize shell names when they have the
+'.exe' extension on them.  If you use sh-script, you should omit the '.exe'
+extension when specifying the SHELL variable.
+
+<p>
+Alternatively, if you do not want to mess with the SHELL or COMSPEC
+variables, you can explicitly place the following in your startup file:
+
+<blockquote><pre>
+;; For the interactive shell
+(setq explicit-shell-file-name "c:/bin/tcsh.exe")
+
+;; For subprocesses invoked via the shell (e.g., "shell -c command")
+(setq shell-file-name "c:/bin/tcsh.exe")
+</pre></blockquote>
+
+
+<A NAME="shell-bash" title="shell-bash"><!-- Anchor--></A>
+<h3><a name="TOC104">bash</a></h3>
+
+<p>
+You can get a version of bash with the Cygnus tools at <a href="http://www.cygnus.com/misc/gnu-win32" >http://www.cygnus.com/misc/gnu-win32</a>. To
+use bash with Emacs, place the following in your startup file:
+
+<blockquote><pre>
+(defun my-shell-setup ()
+  "For Cygwin bash under Emacs 20"
+  (setq comint-scroll-show-maximum-output 'this)
+  (setq comint-completion-addsuffix t)
+  ;; (setq comint-process-echoes t) ;; reported that this is no longer needed
+  (setq comint-eol-on-send t)
+  (setq w32-quote-process-args ?\")
+  (make-variable-buffer-local 'comint-completion-addsuffix))
+
+(setq shell-mode-hook 'my-shell-setup)
+</pre></blockquote>
+
+<p>
+Richard M. Heiberger's &lt;rmh@fisher.stat.temple.edu&gt; <a href="ntemacs/discuss/bash-setup-b19">setup for Cygnus B19</a>.
+
+<p>
+For more configuration information with bash, take a look at <a href="ntemacs/discuss/bash-setup">Jonathan Payne's
+&lt;jpayne@marimba.com&gt; setup</a>.
+
+<p>
+If you find that you are having trouble with Emacs tracking drive
+changes with bash, see <a href="ntemacs/discuss/drive-tracking">Mike
+Fabian's note</a> &lt;mike.fabian@it-mannesmann.de&gt;
+
+<p>
+The package <a
+href="ntemacs/contrib/cygwin32-mount.el">cygwin32-mount.el</a> teaches
+Emacs about cygwin32 mount points.
+
+<p>
+<b>WARNING:</b>The latest version of bash sets and uses the environment
+variable PID.  For some as yet unknown reason, if PID is set and Emacs
+passes it on to bash subshells, bash croaks (Emacs can inherit the PID
+variable if it's started from a bash shell).  If you clear the PID variable
+in your startup file, you should be able to continue to use bash as your
+subshell:
+
+<blockquote><pre>
+(setenv "PID" nil)
+</pre></blockquote>
+
+
+
+<A NAME="shell-att-ksh" title="shell-att-ksh"><!-- Anchor--></A>
+<h3><a name="TOC105">ksh</a></h3>
+
+<p>
+For a version of ksh by David Korn, take a look at <a href="http://www.research.att.com/sw/tools/uwin" >http://www.research.att.com/sw/tools/uwin</a>.
+I haven't tried this shell with Emacs, but I'm guessing that it works under
+Emacs and that you need the following for it to work properly:
+
+<blockquote><pre>
+(setq w32-quote-process-args t)     ; Emacs 20
+(setq shell-command-switch "-c")
+</pre></blockquote>
+
+<p>
+If you find out otherwise, let me know and I'll update this section.
+
+<p>
+<b>WARNING:</b> People have reported that UWIN 1.5 ksh doesn't work
+with Emacs.  I do not know why yet.  If you figure out why, please send
+mail to the list.
+
+
+<A NAME="shell-mks-ksh" title="shell-mks-ksh"><!-- Anchor--></A>
+<h3><a name="TOC106">MKS ksh</a></h3>
+
+<p>
+To use MKS ksh, place the following in your startup file:
+
+<blockquote><pre>
+(setq w32-quote-process-args t)   ; Emacs 20
+(setq shell-command-switch "-c")
+</pre></blockquote>
+
+
+<A NAME="shell-tcsh" title="shell-tcsh"><!-- Anchor--></A>
+<h3><a name="TOC107">tcsh</a></h3>
+
+<p>
+You can find tcsh at <a href="ftp://ftp.blarg.net/users/amol/tcsh">ftp://ftp.blarg.net/users/amol/tcsh</a>.
+To use tcsh, place the following in your startup file:
+
+<blockquote><pre>
+(setenv "SHELL" "tcsh.exe")
+(setq w32-quote-process-args t)   ; Emacs 20
+(setq shell-command-switch "-cf")
+</pre></blockquote>
+
+<p>
+For more configuration information with tcsh, take a look at <a href="ntemacs/discuss/tcsh-setup">Chris McMahan's
+&lt;cmcmahan@surefirev.com&gt; setup</a>.
+
+
+
+<A NAME="shell-zsh" title="shell-zsh"><!-- Anchor--></A>
+<h3><a name="TOC108">zsh</a></h3>
+
+<p>
+You can find zsh at <a href="ftp://ftp.blarg.net/users/amol/zsh/">ftp://ftp.blarg.net/users/amol/zsh/</a>
+
+
+<A NAME="dired-external-ls" title="dired-external-ls"><!-- Anchor--></A>
+<h3><a name="TOC109">How do I make dired use my external ls program?</a></h3>
+
+<p>&nbsp;To make dired, (the directory editor), use an external 'ls' program, which will allow you to see symbolic links, and such like you need to set two variables:
+
+<pre>
+	(setq ls-lisp-use-insert-directory-program t)      ;; use external ls
+	(setq insert-directory-program "c:/cygwin/bin/ls") ;; ls program name
+         ;; Change this to your absolute path --^
+</pre>
+
+</p>
+
+
+<A NAME="shell-echo" title="shell-echo"><!-- Anchor--></A>
+<h3><a name="TOC110">How do I prevent shell commands from being echoed?</a></h3>
+
+<p>
+Some shells echo the commands that you send to them, and the echoed
+commands appear in the output buffer.  In particular, the default
+shells, command.com on Windows 95 and cmd.exe on NT, have this
+behavior.
+
+<p>
+To prevent echoed commands from being printed, you can place the
+following in your startup file:
+
+<blockquote><pre>
+(defun my-comint-init ()
+  (setq comint-process-echoes t))
+(add-hook 'comint-mode-hook 'my-comint-init)
+</pre></blockquote>
+
+<p>
+If shell-mode still is not stripping echoed commands, then you'll have
+to explicitly tell the shell to not echo commands.  You can do this by
+setting the <tt>explicit-<i>SHELL</i>-args</tt> variable
+appropriately, where <tt><i>SHELL</i></tt> is the value of your shell
+environment variable (do a "M-: (getenv "SHELL")" to see what it is
+currently set to).  Assuming that you are on NT and that your SHELL
+environment variable is set to cmd.exe, then placing the following in
+your startup file will tell cmd.exe to not echo commands:
+
+<blockquote><pre>
+(setq explicit-cmd.exe-args '("/q"))
+</pre></blockquote>
+
+<p>
+The comint package will use the value of this variable as an argument
+to cmd.exe every time it starts up a new shell (as in shell-mode); the
+<tt>/q</tt> is the argument to cmd.exe that stops the echoing (in a
+shell, invoking "cmd /?" will show you all of the command line
+arguments to cmd.exe).
+
+<p>
+Note that this variable is case sensitive; if the value of your SHELL
+environment variable is CMD.EXE instead, then this variable needs to be
+named <tt>explicit-CMD.EXE-args</tt> instead.
+
+
+<A NAME="shell-dirsep" title="shell-dirsep"><!-- Anchor--></A>
+<h3><a name="TOC111">How do I have Emacs complete directories with / instead of "?</a></h3>
+
+<p>
+The character appended to directory names when completing in shell-mode
+is determined by the value of the variable
+<tt>comint-completion-addsuffix</tt>.  If the value of this variable it
+<tt>t</tt>, then a '/' is appended to directory names.  If the value of
+this variable is a cons pair, then the first value of the pair is appended.
+
+<p>
+
+<A NAME="shell-invalid" title="shell-invalid"><!-- Anchor--></A>
+<h3><a name="TOC112">When I run programs within a shell I get Incorrect DOS version messages. Why?</a></h3>
+
+<p>
+This might happen if, for example, you invoke nmake in a shell and it
+tries to create subshells.  The problem is related to the one above
+where, again, when the shell is initially created, the first argument
+to the shell is not the directory in which the shell program resides.
+When this happens, command.com fabricates a value for its COMSPEC
+environment variable that is incorrect.  Then, when other programs go
+to use COMSPEC to find the shell, they are given the wrong value.
+
+<p>
+The fix for this is to either prevent any arguments from being sent to
+the shell when it starts up (in which case command.com will use a default,
+and correct, value for COMSPEC), or to have the first argument be the
+directory in which the shell executable resides.
+
+
+<A NAME="shell-problems" title="shell-problems"><!-- Anchor--></A>
+<h3><a name="TOC113">When I do any shell-related commands, nothing happens. What could be wrong?</a></h3>
+
+<p>
+Chris Boucher &lt;chris@sorted.org&gt; reports that Dr. Solomon's
+WinGuard <a href="ntemacs/discuss/shell-winguard">prevents any shell
+related commands from working</a>.  He found that turning off "Scan all
+files" makes it work, though.
+
+
+<A NAME="mail-news-net" title="mail-news-net"><!-- Anchor--></A>
+
+
+
+<A NAME="mail" title="mail"><!-- Anchor--></A>
+<h3><a name="TOC114">How do I use mail with Emacs?</a></h3>
+
+
+<p>
+You do not need to do much to use mail with Emacs under Windows, but you
+do need to be able to communicate with local mail daemons and mail
+servers (they do most of the work) to both receive and send mail from
+your system.  These daemons and servers are typically running on the
+machines in your local network that are already handling mail for you
+and/or other users on other systems.
+
+<A NAME="mail-outgoing" title="mail-outgoing"><!-- Anchor--></A>
+<h3><a name="TOC115">Outgoing</a></h3>
+
+<p>
+For outgoing mail, you need to use smtpmail.el, which enables Emacs to
+talk SMTP with mail daemons (smtpmail.el was originally written by
+Tomoji Kagatani &lt;kagatani@rbc.ncl.omron.co.jp&gt; and is now included
+in the Emacs distribution).  You also need to add the following to
+your startup file (be sure to customize for you and your system):
+
+<blockquote><pre>
+(setq user-full-name <i>"Your full name"</i>)
+(setq user-mail-address <i>"Your email address"</i>)
+
+(setq smtpmail-default-smtp-server <i>"Domain name of machine with SMTP server"</i>)
+(setq smtpmail-local-domain nil)
+(setq send-mail-function 'smtpmail-send-it)
+
+(load-library "smtpmail")
+</pre></blockquote>
+
+<p>
+Note that if you want to change the name of the smtp server after
+you've loaded smtpmail.el, you'll want to change the variable
+<tt>smtpmail-smtp-server</tt>.
+
+<p>
+If you are using GNUS to send mail, then you will also need:
+
+<blockquote><pre>
+(load-library "message")
+(setq message-send-mail-function 'smtpmail-send-it)
+</pre></blockquote>
+
+<p>
+If you are experiencing problems with sending large messages, check
+the value of the variable <tt>smtpmail-debug-info</tt>.  If it is
+non-nil, you should set it to nil:
+
+<blockquote><pre>
+(setq smtpmail-debug-info nil)
+</pre></blockquote>
+
+
+<A NAME="mail-queued-outgoing" title="mail-queued-outgoing"><!-- Anchor--></A>
+<h3><a name="TOC116">Outgoing: Queued</a></h3>
+
+<p>
+If you would like to queue your outgoing mail so that you can then
+later send it all as a batch (e.g., when you are working disconnected on a
+laptop), you can use the feedmail package written by Bill Carpenter
+&lt;bill@bubblegum.net&gt;.
+
+<p>
+Feedmail comes with Emacs 20.
+
+<p>
+Fabio Somenzi &lt;Fabio@Colorado.EDU&gt; also sent the following as an
+example of setting up Feemail:
+
+<blockquote><pre>
+(setq send-mail-function 'feedmail-send-it)
+(autoload 'feedmail-send-it "feedmail")
+(autoload 'feedmail-run-the-queue "feedmail")
+(setq feedmail-buffer-eating-function 'feedmail-buffer-to-smtpmail)
+(setq feedmail-enable-queue t) ; optional
+(setq feedmail-queue-chatty nil) ; optional
+</pre></blockquote>
+
+<p>
+Fabio also redefined the function <tt>make-auto-save-file-name</tt> to
+auto-save files in one local directory ($HOME/.save) and to strip out
+invalid characters in file names .  Note
+that all files will auto-save to this directory; this allows Emacs to
+auto-save even when the folder files are on an inaccessible remote machine.
+Place the following definition of <a href="ntemacs/contrib/masfn.el"><tt>make-auto-save-file-name</tt></a> in
+your startup file to override the definition in winnt.el.
+
+<p>
+Lastly, if you would like to protect the primary folder from crashes
+while it is being written back to disk, then also place the following in
+your startup file (assuming you use VM):
+
+<blockquote><pre>
+(add-hook 'vm-mode-hook
+          '(lambda ()
+             (make-local-variable 'file-precious-flag)
+             (setq file-precious-flag t)))
+</pre></blockquote>
+
+
+<A NAME="mail-rmail" title="mail-rmail"><!-- Anchor--></A>
+<h3><a name="TOC117">Incoming: RMAIL and POP3</a></h3>
+
+<p>
+For incoming mail using the RMAIL package and a POP3 mail server, you
+need only place the following in your startup file (again, be sure to
+customize):
+
+<blockquote><pre>
+(setenv "MAILHOST" <i>"Domain name of machine with POP3 server"</i>)
+(setq rmail-primary-inbox-list
+    '("po:<i>Your login</i>") rmail-pop-password-required t)
+</pre></blockquote>
+
+<p>
+Note that you will need to customize the <i>Domain name of machine
+with POP3 server</i> and <i>Your login</i> fields to be the name of
+your POP server and your login name.
+
+
+<A NAME="mail-vm-pop3" title="mail-vm-pop3"><!-- Anchor--></A>
+<h3><a name="TOC118">Incoming: VM and POP3</a></h3>
+
+<p>
+For incoming mail using the VM package and a POP3 mail server, you
+first need the vm package (check any elisp archive) and then you need
+to place the following in your .vm configuration file:
+
+<blockquote><pre>
+(setq vm-spool-files
+      (list
+       (list "~/INBOX"
+             "<i>POP3 server</i>:110:pass:<i>POP user name</i>:<i>*</i>"
+             "~/INBOX.CRASH")))
+</pre></blockquote>
+
+<p>
+Note that you will need to customize the <i>POP3 server</i> and <i>POP
+user name</i> fields to be your login name and the name of your POP
+server.  You will also probably want to customize the name of your
+inbox and crash files (<tt>~/INBOX</tt> and <tt>~/INBOX.CRASH</tt> in
+the example above.)
+
+
+<A NAME="mail-gnus" title="mail-gnus"><!-- Anchor--></A>
+<h3><a name="TOC119">Incoming: GNUS</a></h3>
+
+<p>
+You should be able to use Gnus 5.2 and above as a mail reader.  The
+following was sent as an example by Marc Fleischeuers
+&lt;Marc.Fleischeuers@kub.nl&gt;:
+
+<blockquote><pre>
+(load-library "message")
+
+;; For sending mail
+(setq message-send-mail-function 'smtpmail-send-it)
+
+;; For reading mail (other backends can be substituted for nnml)
+(setq gnus-secondary-select-methods '((nnml "")))
+(setq nnmail-spool-file "po:<i>POP user name</i>")
+(setq nnmail-pop-password-required t)
+</pre></blockquote>
+
+<p>
+Be sure to customize the <i>POP user name</i> field appropriately.
+
+<A NAME="gnus-imap" title="gnus-imap"><!-- Anchor--></A>
+<h3><a name="TOC120">Using GNUS with IMAP</a></h3>
+
+<P>
+&nbsp;Setting up Gnus for reading IMAP email.
+</P>
+<P>
+   There are a number of different mail packages available within
+   emacs.  Unfortunately, only two of them (Gnus and Vm) currently
+   support IMAP.  Of those, only Gnus supports IMAP as intended
+   (leaving the messages on the server so that they can be accessed
+   from multiple clients).  Since our decision is made for us, here's
+   how to set up Gnus for reading IMAP mail at LLNL.
+</P>
+<P>
+   <UL>
+   <LI> Get the newest version of Gnus.  The one that ships with Emacs
+     is usually an older version that doesn't support IMAP.  The
+     latest version is available at  http://www.gnus.org
+
+   <LI> Install it somewhere on your Windows box.  I usuall use
+     ~/emacs/elisp for emacs packages and use a seperate
+     directory for each package.
+
+   <LI> Add the above directory to your load-path near the start of
+     the ~/.emacs file.  In my case, I use a line like this:
+     </UL>
+<PRE>
+    (setq load-path (cons (expand-file-name
+      "~/emacs/elisp/gnus-5.8.7/lisp/") load-path))
+</PRE>
+   <UL>
+   <LI>  Add the necessary configuration info to your ~/.emacs file.
+     In my case:
+   </UL>
+<PRE>
+   ;;
+   ;; Gnus for IMAP
+   ;;
+   ; setup nnimap to read the correct mailspool
+   (setq gnus-select-method
+         '(nnimap "mail-imap"
+             (nnimap-address "YOUR.IMAP.SERVER.HERE")))
+   (setq nnimap-list-pattern "INBOX")
+
+   ; I don't read usenet, so don't bother setting up a server for it
+   ; If you do read usenet, just move the stuff above to here.
+   (setq gnus-secondary-select-methods nil)
+   (setq gnus-check-new-newsgroups nil)
+
+   ; configure nnfolder to save sent messages and drafts
+   ; in this case it uses folders named ``sent.YEAR'' which
+   ; are created and rotated automatically
+   (setq nnfolder-active-file (expand-file-name "~/News/archive/active"))
+    (setq nnnfolder-directory (expand-file-name "~/News/archive/"))
+   (setq gnus-message-archive-method
+       '(nnfolder "archive"
+           (nnfolder-inhibit-expiry t)))
+   (setq gnus-message-archive-group (concat "sent." (format-time-string "%Y")))
+   (setq nndraft-directory (expand-file-name "~/News/drafts"))
+
+</PRE>
+</P>
+
+
+<A NAME="mail-sharing-rmail" title="mail-sharing-rmail"><!-- Anchor--></A>
+<h3><a name="TOC121">Sharing with Unix: RMAIL</a></h3>
+
+<p>
+If you want to share your rmail folders between Unix and Windows NT/95, you'll
+want to handle all your mail in binary format.  This includes mail stored
+in folders as well as incoming mail.  For mail stored in folders, you'll
+want to treat the directory in which you store your mail as an untranslated
+file system; see <a href="#translation">the section on translation below on
+how to do this</a>.
+
+<p>
+For incoming mail using RMAIL, you'll need to make a small patch to
+rmail.el.  See <a href="ntemacs/discuss/mail-sharing-rmail">Don Erway's
+&lt;derway@ndc.com&gt; message</a> describing the patch and what else he
+did to setup sharing between Unix and Windows NT/95.
+
+<A NAME="mail-notify" title="mail-notify"><!-- Anchor--></A>
+<h3><a name="TOC122">Mail notification</a></h3>
+
+<p>
+Mail packages often provide some way to notify you when email has
+arrived (a la "biff" in Unix), conveniently distracting you from getting
+any real work done.  There are myriad ways to do this, and as people tell
+me them I will try to mention them here.
+
+<ul>
+<li>Franklin Lee's  <A HREF="#mail-leave-rmail">epop3mail package</A> .
+</ul>
+
+<A NAME="mail-leave-rmail" title="mail-leave-rmail"><!-- Anchor--></A>
+<h3><a name="TOC123">Leaving on server: RMAIL</a></h3>
+
+<p>
+Franklin Lee &lt;lee.franklin@worldnet.att.net&gt; has extended the
+pop3 package so that you can have your mail left on the server instead
+of always being downloaded (it also has a biff-mode with international
+"barks", which can be used whether or not you download or leave your
+mail on the server).  You'll need to download a zip archive containing
+a patched pop3.el and some additional elisp files:
+
+<ul>
+<li><a href="ntemacs/contrib/ep3m-098.zip">ep3m-098.zip</a> (8/13/99)
+<li><a href="ntemacs/contrib/ep3m-098/README.TXT">README.TXT</a> (8/13/99)
+</ul>
+
+<p>
+If you unpack on Unix, be sure to use "unzip -a" to strip any carriage
+returns.
+
+<p>
+For instructions on how to install and configure this package so that
+you can leave your mail on your pop3 servers, see the instructions at the
+top of the <a href="ntemacs/contrib/ep3m-097/epop3mail.el">epop3mail.el
+file</a>.
+
+<p>
+This should potentially work with other mail packages that rely upon
+the pop3 elisp code.  If you find that it does, or implement the glue
+necessary to make it work, let me know and I'll update this FAQ entry.
+
+<A NAME="mail-leave-vm" title="mail-leave-vm"><!-- Anchor--></A>
+<h3><a name="TOC124">Leaving on server: VM</a></h3>
+<P>
+&nbsp;vm doesn't use pop3 (it has its own code) and leaving email on the
+server runs 'out of the box'.
+use:
+</P>
+<PRE>
+	(setq  vm-pop-expunge-after-retrieving nil)
+</PRE>
+<P>
+&nbsp;There's also a vm-pop-auto-expunge-alist variable.
+</P>
+
+
+<A NAME="mail-metamail" title="mail-metamail"><!-- Anchor--></A>
+<h3><a name="TOC125">Handling attachments: Metamail</a></h3>
+
+<p>
+<b>19.34</b> Metamail is a package that allows you to receive and send
+MIME attachments using Emacs.  For details, see the README file:
+
+<ul>
+<li><a href="ntemacs/contrib/mm_win32.README">README</a>
+<li><a href="ntemacs/contrib/mm_win32.zip">mm_win32.zip</a>
+</ul>
+
+<b>Note</b> that this version only works with Emacs 19.34.  John
+Dennis, who originally ported metamail, does not have the time to
+maintain the current version or upgrade it to Emacs 20.  If you have
+the time and interest to do the upgrade, I encourage you to try.  Many
+users would appreciate your efforts.  John lists the following tasks
+that need to be done to do the upgrade:
+
+<blockquote><pre>
+* win32 symbols are now w32.  (That is all symbols, and functions that used to have a &quot;win32&quot; prefix now begin with &quot;w32&quot;.
+
+* new support for coding systems should be taken advantage of and old
+references to binary vs. text for files and processes should be
+upgraded to the v20 approach.
+
+* deal with the references to mule and junet which are now wildly out of date.
+</pre></blockquote>
+
+
+<A NAME="mail-tm" title="mail-tm"><!-- Anchor--></A>
+<h3><a name="TOC126">Handling attachments: MIME with tm</a></h3>
+
+<p>
+I don't know of any complete ports of tm to the Windows environment, but
+Fabrice Popineau &lt;popineau@esemetz.ese-metz.fr&gt; has made some
+modifications to the OS2 version of tm.  See <a href="ntemacs/contrib/tm-support">his description</a> of what he has
+done for more info.  The support programs mentioned can be found in <a href="ntemacs/contrib/mm.zip">mm.zip</a> (note that they have only
+been tested on NT 4.0, though).
+
+
+<A NAME="mail-biff-pop" title="mail-biff-pop"><!-- Anchor--></A>
+<h3><a name="TOC127">Biff tools: POP</a></h3>
+
+<p>
+Gian Uberto Lauri &lt;lauri@eng.it&gt; has written a win-biff tool for
+use with pop mail servers. <a href="ntemacs/contrib/popit-info">[More
+Info]</a>
+
+<ul>
+<li> <a href="ntemacs/contrib/popit/distsource.zip">source.zip</a>,
+<a href="ntemacs/contrib/popit/disk1.zip">disk1.zip</a>,
+<a href="ntemacs/contrib/popit/disk2.zip">disk2.zip</a>
+</ul>
+
+<A NAME="gnus" title="gnus"><!-- Anchor--></A>
+<h3><a name="TOC128">How do I read news with Emacs using Gnus?</a></h3>
+
+<p>
+To read news with Emacs, you can use the Gnus package.  To invoke Gnus,
+type "M-x gnus" and Emacs will prompt you for a news server to connect to.
+For more information about using Gnus, take a look at:
+
+<ul>
+<li> The info files describing the package ("M-x info").
+<li> The FAQ at <a href="http://www.ccs.neu.edu/software/contrib/gnus/" >http://www.ccs.neu.edu/software/contrib/gnus/</a>.
+<li> The news group <a href="news:gnu.emacs.gnus">gnu.emacs.gnus</a>.
+<li> The <A HREF="#ntemacs-list">mailing list</A> archive at <a href="http://www.miranova.com/gnus-list" >http://www.miranova.com/gnus-list</a>.
+<li> And more at <a href="http://www.miranova.com/%7Esteve/gnus-local.html" >http://www.miranova.com/~steve/gnus-local.html</a>....
+</ul>
+
+
+<A NAME="gnus-attatch" title="gnus-attatch"><!-- Anchor--></A>
+<h3><a name="TOC129">How do I open attatchments with Gnus?</a></h3>
+
+<P>&nbsp;In your HOME directory create a file called &quot;.mailcap&quot;,
+place the following in it:
+</P>
+<PRE>
+application/* start "" %s
+</PRE>
+<P>&nbsp;After restarting Emacs, then you can open the default viewer for
+all attatchments by hitting return on the attatchment.  <B>Note</B> this
+will RUN any .exe attatchments - which may not be, quite, what you want.
+</P>
+
+<A NAME="gnus-auth" title="gnus-auth"><!-- Anchor--></A>
+<h3><a name="TOC130">How do I authenticate with Gnus?</a></h3>
+
+<p>
+If you need to connect and post to an authenticated news server,
+you'll need to give Gnus a password to send along to the server.
+To have Gnus prompt for a password, add the following to your
+startup file:
+
+<blockquote><pre>
+(add-hook 'nntp-server-opened-hook 'nntp-send-authinfo)
+</pre></blockquote>
+
+<p>
+For more discussion and other methods of giving Gnus a password, see
+<a href="ntemacs/discuss/gnus-auth">a discussion on the topic</a>.
+
+
+<A NAME="gnus-mime" title="gnus-mime"><!-- Anchor--></A>
+<h3><a name="TOC131">How do I use mime with Gnus?</a></h3>
+
+<p>
+See the <a href="http://www.cis.ohio-state.edu/text/faq/usenet/gnus-faq/faq-doc-16.html" >"Does
+Gnus have MIME support?"</a> question from the Gnus FAQ.
+
+
+<A NAME="gnus-untrans" title="gnus-untrans"><!-- Anchor--></A>
+<h3><a name="TOC132">How do I save messages in untranslated format?</a></h3>
+
+<p>
+To save messages untranslated (no carriage returns), you must set the
+default-buffer-file-type to binary:
+
+<blockquote><pre>
+(setq default-buffer-file-type t)
+</pre></blockquote>
+
+
+<A NAME="netscoop2000" title="netscoop2000"><!-- Anchor--></A>
+<h3><a name="TOC133">How do I read online newspapers with Emacs?</a></h3>
+
+<p>
+David Finucane &lt;finucane@myri.com&gt; has written an elisp/Java
+package that makes it easy to read online newspapers through Emacs:
+
+<ul>
+<li><a href="http://www.myri.com/staff/finucane" >Netscoop 2000</a>
+</ul>
+
+Recent versions of <A HREF="#gnus">GNUS</A> can also handle reading
+some web sites as news, Slashdot.org for example.
+
+<A NAME="w3" title="w3"><!-- Anchor--></A>
+<h3><a name="TOC134">How do I use the w3 package?</a></h3>
+
+<P>
+Download the latest version from the W3 homepage, <A HREF="ftp://ftp.xemacs.org/pub/xemacs/emacs-w3/">ftp://ftp.xemacs.org/pub/xemacs/emacs-w3/</A> and follow the directions in the README.NT file.
+</P>
+<P>
+&nbsp;You may find helpful information at the w3 homepage :
+<A HREF="http://www.cs.indiana.edu/elisp/w3/docs.html">http://www.cs.indiana.edu/elisp/w3/docs.html</A>.
+</p>
+
+<A NAME="browse-url" title="browse-url"><!-- Anchor--></A>
+<h3><a name="TOC135">How do I use the browse-url package?</a></h3>
+
+<p>
+<b>20.4 and later</b> You should be able to use the browse-url
+package that comes with the Emacs distribution.  It uses a new function to
+replace the external shellex helper program (see `w32-shell-execute' for
+details.
+
+<A NAME="simple-web" title="simple-web"><!-- Anchor--></A>
+<h3><a name="TOC136">Package for using browse-url for dictionary, search, etc. functions</a></h3>
+
+<p>
+Peter Breton &lt;pbreton@i-kinetics.com&gt; wrote a small package for
+using browse-url to do dictionary lookups, internet word searches, etc.
+The package is called <a href="ntemacs/contrib/simple-web.el">simple-web</a>.
+
+<A NAME="lang-translate" title="lang-translate"><!-- Anchor--></A>
+<h3><a name="TOC137">How do I use Emacs to translate text among languages?</a></h3>
+
+<p>
+David Finucane &lt;finucane@myri.com&gt; has written an elisp/Java
+package that uses the AltaVista translation service to translate text among
+a number of languages.
+
+<ul>
+<li><a href="http://www.myri.com/staff/finucane" >trans</a>
+</ul>
+
+<A NAME="ange-ftp" title="ange-ftp"><!-- Anchor--></A>
+<h3><a name="TOC138">How do I use FTP, (ange-ftp), within Emacs?</a></h3>
+<b>20.3</b><br>
+
+<p>
+Emacs 20.3 comes with an ange-ftp.el that can use the standard Windows
+ftp.exe, so you should not need to download anything to use ange-ftp.
+<p>
+If you are behind a firewall you may have problems, because the native
+FTP client doesn't support passive mode, if this is the case then you'll
+need to download <a href="ntemacs/contrib/ftp.exe">ftp.exe</a>, and follow the instructions below.
+
+<p>
+Place the ftp.exe executable in a directory where you keep your local
+executables.  Then be sure that the exec-path variable is set so that, when
+Emacs runs the ftp.exe program, it runs the one you downloaded (and not the
+default one).  As an example, assuming that you placed ftp.exe in, say,
+%HOME%\bin, you could set exec-path as follows in your startup file:
+
+<blockquote><pre>
+(setq exec-path (cons (expand-file-name "~/bin") exec-path))
+</pre></blockquote>
+
+<p>
+As another alternative, you can tell ange-ftp exactly which ftp program
+to use by customizing ange-ftp-ftp-program-name, e.g.:
+
+<blockquote><pre>
+(setq ange-ftp-ftp-program-name "c:/bin/ftp.exe")
+</pre></blockquote>
+
+<p>
+With this method you don't have to worry about the wrong ftp program
+being picked up through exec-path.
+
+<p>
+You will also want to customize the temporary directory that ange-ftp
+uses to cache files:
+
+<blockquote><pre>
+(setq ange-ftp-tmp-name-template
+      (concat (expand-file-name (getenv "TEMP")) "/ange-ftp"))
+(setq ange-ftp-gateway-tmp-name-template
+      (concat (expand-file-name (getenv "TEMP")) "/ange-ftp"))
+</pre></blockquote>
+
+
+<A NAME="telnet" title="telnet"><!-- Anchor--></A>
+<h3><a name="TOC139">How do I use telnet with Emacs?</a></h3>
+
+<p>
+Before you can use telnet-mode from within Emacs, you need a telnet
+client other than the one found on the system; the system telnet is a
+windows app, and cannot be used as a subprocess since it does not use stdio
+for input and output.
+
+<p>
+Two possible telnet clients that you can use are:
+
+<ul>
+
+<li><a href="ntemacs/contrib/telnet.zip">telnet</a>, a Windows version
+of telnet by Igor Milavec modified to use stdio by Naftali Ramati
+&lt;naftali@harmonic.co.il&gt; (includes source).
+
+<p>
+Unfortunately, this telnet program requires that the host be specified on
+the command line, but telnet-mode wants to specify the host using the
+"open" command once telnet has started.  Zoltan Kemenczy
+&lt;zoltan@nabu.isg.mot.com&gt; has <a href="ntemacs/contrib/telnet-mode.el">written a version of the telnet-mode
+function</a> that does this.  To use it, place "(require 'telnet)" in your
+startup file, followed by Zoltan's new telnet-mode code.
+
+<p>
+If the new telnet-mode still does not work for you, then you will
+probably find it easiest to run telnet inside of a shell buffer (instead of
+using telnet-mode).  If you use the Borland C compiler and want to do a
+little hacking, it would be great if you could change this telnet to be
+able to start up without requiring a host on the command line.  The source
+is included in the above zip file, and Naftali has <a href="ntemacs/discuss/telnet">some tips</a> for making this change.
+
+<p>
+<li><a href="ntemacs/contrib/jtelnet-1.0.tar.gz">jtelnet</a>,
+a Java telnet application by Ivan Ganza &lt;iganza@watchit.com&gt;
+(8/6/97).
+
+<p>
+The jtelnet page describes how to set it up for use with Emacs.  For the
+other telnet client, you can either place the telnet.exe program in your
+exec-path (e.g., anywhere in your PATH, or in the Emacs bin directory) or
+set the <tt>telnet-program</tt> variable in your startup file to point to
+the executable.
+
+</ul>
+
+<A NAME="modes-page" title="modes-page"><!-- Anchor--></A>
+
+
+
+<A NAME="tex" title="tex"><!-- Anchor--></A>
+<h3><a name="TOC140">How do I use TeX with Emacs?</a></h3>
+
+<p>
+(Note: If you use anti-virus software, see <a href="#anti-virus">the
+warnings</a> above.)
+<p>
+You will need to get an implementation of TeX The TeX User's Group (TUG)
+maintains a list of TeX implementations at:
+<UL>
+<LI><A HREF="http://www.tug.org/interest.html#free">http://www.tug.org/interest.html#free</A>.</LI>
+</UL>
+</P>
+
+<A NAME="miktex" title="miktex"><!-- Anchor--></A>
+<h3><a name="TOC141">MiKTeX</a></h3>
+
+<p>
+&nbsp;MiKTeX is a native Windows implementation of the TeX document processing
+system.  The MiKTeX project page is at <a href="http://www.miktex.org" >http://www.miktex.org</a>.
+</P>
+<P>
+&nbsp;The project page has instructions on where to download the distribution and
+how to install it.
+</P>
+
+<A NAME="auctex" title="auctex"><!-- Anchor--></A>
+<h3><a name="TOC142">AUCTeX</a></h3>
+
+<p>
+AUCTeX is a package for writing LaTeX files in Emacs.  The AUCTeX
+project page is at <a href="http://sunsite.auc.dk/auctex" >http://sunsite.auc.dk/auctex</a>, and
+has links for downloading the distribution and reading the manual.  Lars
+Schmidt-Thieme &lt;lschmidt@ix.urz.uni-heidelberg.de&gt; has written <a href="ntemacs/discuss/auctex-miktex">instructions on how to use AucTex with
+MikTex and Emacs</a>.
+
+<A NAME="fptex" title="fptex"><!-- Anchor--></A>
+<h3><a name="TOC143">FPTeX</a></h3>
+<P>
+FTTex is another port of a TeX system for windows - it is much closer to
+ the Unix TeX, for more details please see : <A HREF="http://www.tug.org/interest.html#free">http://www.tug.org/interest.html#free</A>.
+
+<A NAME="tex-directions" title="tex-directions"><!-- Anchor--></A>
+<h3><a name="TOC144">Putting it all together</a></h3>
+
+<p>
+Willem Minten &lt;Willem.Minten@esat.kuleuven.ac.be&gt; has put
+together a page that has everything you need to get MiKTex, AucTeX, and
+Emacs working together.  If you're starting from scratch, look here first.
+
+<ul>
+<li><a href="http://www.esat.kuleuven.ac.be/%7Eminten/NTTeXing/NTTeXing.html" >Directions</a>
+<li><a href="ftp://ftp.esat.kuleuven.ac.be/pub/SISTA/minten/soft/NTemacs/">Files</a>
+</ul>
+
+
+<A NAME="ispell" title="ispell"><!-- Anchor--></A>
+<h3><a name="TOC145">How do I perform spell checks, using Ispell?</a></h3>
+
+<P>
+  Ispell version 3 is the latest official supported version of the ispell
+ package for Windows.
+</P>
+<p>
+  Ispeel 3.1 has support for multiple languages, and may be used in
+ flyspell-mode.
+<p>
+The Cygnus port of ispell 3.1 works well with Emacs and the
+flyspell package. <a href="ntemacs/discuss/ispell31-cygwin">[Details]</a>
+
+
+<A NAME="sgml" title="sgml"><!-- Anchor--></A>
+<h3><a name="TOC146">Emacs for SGML editing and publishing on Windows</a></h3>
+
+<p>
+Lennart Staflin has written a mode called PSGML for editing SGML
+documents. The latest beta release also supports XML. All releases may be
+found at:
+
+<ul>
+<li><a href="http://www.lysator.liu.se/projects/about_psgml.html" >http://www.lysator.liu.se/projects/about_psgml.html</a>
+</ul>
+
+<p>
+An SGML validator is included in James Clark's DSSSL Engine, <a href="http://www.jclark.com/jade/" >Jade</a>.
+
+<p>
+Markus Hoenicka has prepared an NT-specific installation guide for
+PSGML, Jade and many related and useful packages at:
+
+<ul>
+<li><a href="http://ourworld.compuserve.com/homepages/hoenicka_markus/ntsgml.html" >http://ourworld.compuserve.com/homepages/hoenicka_markus/ntsgml.html</a>
+</ul>
+
+<p>
+Another good source of information for creating, managing, and processing TEI documents in SGML or XML. is:
+
+<ul>
+<li><a href="http://www.tei-c.org/Software/">http://www.tei-c.org/Software/</A></li>
+</ul>
+
+
+<A NAME="gpgp" title="gpgp"><!-- Anchor--></A>
+<h3><a name="TOC147">Emacs and Encryption, using GPG - or PGP</a></h3>
+
+<p>
+  GNU Privacy Guard is a free replacement for PGP which runs on
+ many Unix systems, and also Windows.  GPG can be found at
+ <A HREF="http://www.gnupg.org">http://www.gnupg.org</A>.
+<p>
+  GPG, and PGP can both be used with the version of mail-crypt
+ find mailcrypt at ...
+
+
+<A NAME="intellimouse" title="intellimouse"><!-- Anchor--></A>
+<h3><a name="TOC148">How do I use an Intellimouse with Emacs?</a></h3>
+
+<p>
+The Emacs 20.3 pretests and above support the Intellimouse on both NT
+and Win9X.  Emacs 19.34.6 supports it on NT, but not on Windows 95.
+
+<p>
+Clicking the mouse wheel is interpreted as a mouse-2 event, which is
+normally bound to mouse-yank-at-click (i.e., paste).  Since it is easy to
+accidentally click the mouse wheel, you might find that you inadvertantly
+paste text as you scroll the wheel.  To prevent this from happening, you
+can disable the mouse-2 binding in your startup file:
+
+<blockquote><pre>
+(global-unset-key [mouse-2])
+</pre></blockquote>
+
+<p>
+Walt Buehring &lt;buehring@i2.com&gt; has extended the <a href="ntemacs/contrib/mouse-wheel">implementations of
+mouse-wheel-scroll-line and mouse-wheel-scroll-screen</a>.  To use,
+download and place in your startup or site-init files.
+
+<p>
+For more details on interpreting mouse-wheel events in elisp, see
+Michael Duggan's &lt;md5i@schenley.com&gt; <a href="ntemacs/discuss/intellimouse">description of the implementation</a>.
+
+
+
+<A NAME="intelli-flywheel" title="intelli-flywheel"><!-- Anchor--></A>
+<h3><a name="TOC149">Interactions with FlyWheel</a></h3>
+
+<p>
+Apparently, FlyWheel and Emacs Intellimouse support don't work
+together.  You can selectively disable FlyWheel for Emacs using a registry
+entry; see the <a href="http://www.plannetarium.com/flywheelreadme.htm" >FlyWheel README</a>
+for how to disable it for a specific application.
+
+
+
+<A NAME="intelli-problems" title="intelli-problems"><!-- Anchor--></A>
+<h3><a name="TOC150">Why does Emacs ignore my mouse wheel?</a></h3>
+
+<p>
+Emacs is incompatible with the latest versions of mouse wheel devices.
+To get your mouse wheel to work with Emacs, you'll need to select some
+options in the device setup panels.
+
+<ul>
+<li><b>Intellimouse</b>: To use the wheel as a middle button, select
+"Standard behavior" and "Paste on one click".  To use the wheel,
+disable "Universal Scrolling".
+
+<li><b>MouseMan</b>: Select "Use Office 97 Compatible Scroll Only".
+</ul>
+
+
+
+<A NAME="perl" title="perl"><!-- Anchor--></A>
+<h3><a name="TOC151">How do I use perl-mode with Emacs?</a></h3>
+
+<p>
+A perl-mode comes with the Emacs distribution, and will be used when
+you load and edit Perl files.
+
+<p>
+Users have also recommended an alternate mode named cperl-mode.  You
+can get this from <a href="ftp://ftp.math.ohio-state.edu/pub/users/ilya/perl/">ftp://ftp.math.ohio-state.edu/pub/users/ilya/perl/</a>.
+
+
+<A NAME="perldb" title="perldb"><!-- Anchor--></A>
+<h3><a name="TOC152">How do I use the perl debugger with Emacs?</a></h3>
+
+<p>
+From Jay Rogers &lt;jay@rgrs.com&gt;:
+
+<blockquote>
+There are potentially two problems that cause the perl debugger to hang
+when started in emacs.  One's an emacs problem while the other's a perl
+problem.
+
+<p>
+First, get Emacs 19.34.4 or later for Windows 95/NT.  It contains a fix that
+allows emacs to read all ASCII characters from the perl debugger, including
+the dreaded ^Z (aka EOF in DOS).  It also groks the "drive:path" filename
+notation.
+
+<p>
+Second, some versions of the perl debugger itself need to be patched to
+work with emacs.  They are perl versions 5.001 and less, and version
+5.004_01.  To fix, locate and change the code similar to the following code
+in lib/perl5db.pl
+
+<pre>
+    if (-e "/dev/tty") {
+        $console = "/dev/tty";
+        $rcfile=".perldb";
+    }
+    elsif (-e "con") {
+        $console = "";                 <---- change "con" to ""
+        $rcfile="perldb.ini";
+    }
+    else {
+        $console = "sys\$command";
+        $rcfile="perldb.ini";
+    }
+</pre>
+</blockquote>
+
+<p>
+Doug Campbell &lt;soup@ampersand.com&gt; also has some <a href="ntemacs/discuss/perldb">suggestions</a> for improving the interaction
+of perldb and Emacs.
+
+
+
+<A NAME="python" title="python"><!-- Anchor--></A>
+<h3><a name="TOC153">How do I use python-mode with Emacs?</a></h3>
+
+<p>
+The python-mode shipped with Python 1.5 requires a new custom.el before
+it can be used with Emacs 19.34.  For more information, see the description
+of python-mode at <a href="http://www.python.org/emacs/python-mode/" >http://www.python.org/emacs/python-mode/</a>.
+
+
+
+<A NAME="grep" title="grep"><!-- Anchor--></A>
+<h3><a name="TOC154">How do I use grep with Emacs?</a></h3>
+
+<p>
+To use grep with Emacs, you first need to obtain a version of grep.
+Many of the packages listed in the section below on  <A HREF="#other-tools">Unix Tools</A>  come with a version of grep (and cousins
+egrep and fgrep).  Once you have grep, be sure that it is in your system
+path or in Emacs' exec-path.  Then you should be able grep from within
+Emacs using "M-x grep".
+
+<p>
+If you can't get access to grep, then you can use the findstr program
+that comes with Windows NT and Windows 95 instead.  It is much more limited in its
+searching ability, but if you have simple needs it may be adequate.  Peter
+Breton &lt;pbreton@i-kinetics.com&gt; <a href="ntemacs/discuss/findstr">shows you how to do this</a>.
+
+<p>
+Some users find the igrep package to be a more useful package for using
+grep (for example, it supports <A HREF="($grep-recursive)">recursive greps</A> directly).  Here are some <a href="ntemacs/discuss/igrep">pointers</a> from other users on what you need
+to do to get igrep working on your system.  You can download igrep from the
+elisp archive at <a href="ftp://ftp.cis.ohio-state.edu/pub/emacs-lisp/misc/igrep.el.gz">ftp://ftp.cis.ohio-state.edu/pub/emacs/emacs-lisp/misc/igrep.el.gz</a>.
+
+
+<A NAME="grep-recursive" title="grep-recursive"><!-- Anchor--></A>
+<h3><a name="TOC155">How do I do a recursive grep?</a></h3>
+
+<p>
+To do a recursive grep, you need the help of some other utilities.
+Probably included in the same package that has grep will be find, a program
+that can recursively traverse directories and invoke programs on the files
+it finds.  To do a recursive grep with find, invoke "M-x grep" and run the
+following command:
+
+<blockquote><pre>
+find . -name <i>pattern</i> -exec grep -n <i>string</i> NUL {} ;
+</pre></blockquote>
+
+(Note that find is not the same program as the find that comes with
+Windows, rather a port of the GNU Findutils component).
+
+<p>
+The <i>pattern</i> argument determines which files are matched (e.g.,
+"*.c" for all .c files).  The <i>string</i> argument specifies the string
+that you are searching for.  And the <tt>NUL</tt> argument is a standard
+way to ensure that grep reports filenames in the matches (grep reports
+filenames when it is invoked on more than one file, and the NUL device is
+simply another file that will never contain matches; on Unix, you would use
+/dev/null).
+
+<p>
+If you also have the xargs program, than you can make the recursive
+grep more efficient.  Instead of the above command, use:
+
+<blockquote><pre>
+find . -name <i>pattern</i> -print | xargs grep -n <i>string</i> NUL
+</pre></blockquote>
+
+<p>
+The xargs command collects lines from its input and concentates them
+together as one list of arguments, and invokes the specified program with
+the argument list (breaking the arguments up into multiple lists and
+invocations if necessary).  The above command first uses find to print out
+the set of filenames that match <i>pattern</i>, which then gets passed to
+xargs.  xargs concatenates the lines of filenames into lists of arguments
+and invokes grep on them.
+
+
+
+<A NAME="edt" title="edt"><!-- Anchor--></A>
+<h3><a name="TOC156">How do I use the EDT emulation mode in Emacs?</a></h3>
+
+<p>
+To use the EDT emulation package distributed with Emacs, place the
+following in your startup file:
+
+<blockquote><pre>
+(setenv "TERM" "pc")
+(setq term-setup-hook 'edt-emulation-on)
+</pre></blockquote>
+
+<p>
+You might want to also browse through the EDT emulation documentation
+in etc/edt-user.doc.  It describes which keys are emulated, how they are
+mapped onto the keypad and function keys, etc.
+
+
+<A NAME="desktop-saving" title="desktop-saving"><!-- Anchor--></A>
+<h3><a name="TOC157">How do I do desktop saving with Emacs?</a></h3>
+
+<p>
+Desktop saving refers to the ability to save and restore editing
+sessions (state of frames and buffers) between uses of Emacs.  Kevin
+Greiner &lt;kgreiner@geosys.com &gt; has collected <a href="ntemacs/discuss/desktop-saving">some elisp</a> for using the desktop
+saving features of Emacs that should prove useful for others interested in
+the feature.
+
+<p>
+Jari Aalto &lt;jari.aalto@poboxes.com&gt; also has collected references
+to packages that <a href="http://poboxes.com/jari.aalto/elisp.html#saving_emacs_state_information" >save
+Emacs state</a> and <a href="http://poboxes.com/jari.aalto/elisp.html#screen_and_window_management" >
+screen and window position</a>.
+
+<p>
+Chuck Siska &lt;<a href="mailto:chuck.siska@conexant.com">chuck.siska@conexant.com</a>&gt;
+wrote his own desktop frame window layout save and restore package called
+<a href="ntemacs/contrib/desktop-frame.el">desktop-frame.el</a>.
+
+
+<A NAME="develop-page" title="develop-page"><!-- Anchor--></A>
+
+<A NAME="vcpp" title="vcpp"><!-- Anchor--></A>
+<h3><a name="TOC158">How Do I Use Emacs with Microsoft Visual C++</a></h3>
+
+
+<A NAME="vcpp-visemacs" title="vcpp-visemacs"><!-- Anchor--></A>
+<h3><a name="TOC159">VisEmacs</a></h3>
+
+<p>
+For a close coupling of Emacs and MSVC, Christopher Payne wrote a Visual Studio add-in that makes Emacs the default text editor, this has now been taken over by
+Jeff Paquette &lt;<A HREF="mailto:paquette@mediaone.net">paquette@mediaone.net</A>&gt;
+See the following two URLS for details:
+
+<ul>
+<li><a href="http://sourceforge.net/projects/visemacs/">http://sourceforge.net/projects/visemacs/</a> - For the latest version.</li>
+<li><a href="http://www.atnetsend.net/computing/VisEmacs/">http://www.atnetsend.net/computing/VisEmacs/</A> - For notes on usage, etc.</li>
+</ul>
+
+
+<h4><a name="TOC160">Emacs and MSVC</a></h4>
+
+<p>
+Written by <a href="http://web.idirect.com/%7Eccurley/" >Charles
+Curley</a> with a lot of help from: <a href="mailto:sasdjb@unx.sas.com">David Biesack</a>, <a href="mailto:deupreec@interagp.com">Caleb T. Deupree</a>, <a href="mailto:jgardner@maxserv.com">John Huxoll Gardner</a>, <a href="mailto:andersl@csd.uu.se">Anders Lindgren</a>, and <a href="http://www.gnu.org/software/emacs/windows/yates@chromatic.com" >John Yates</a>.
+
+<p>
+This is an app note on how to use Microsoft Visual C++ with Emacs. The
+experiments done below were done with Emacs 19.34.1 on Windows 95, using
+Visual C++ 4.0 Standard Edition. Your mileage may vary.
+
+<p>
+This writeup assumes minimal knowledge of Emacs hacking on the part of
+the reader.
+
+
+<A NAME="vcppEnvironment" title="vcppEnvironment"><!-- Anchor--></A>
+<h3><a name="TOC161">VC++ Environmental Variables</a></h3>
+
+<p>
+First, Emacs requires any environmental variables to be set at boot time, in autoexec.bat (for Windows 95). This includes variables such as HOME. So if you haven't already done so, set the environment up so that Emacs' compile mode will correctly run VC++. There is a batch file in your VC++ installation's bin directory called "vcvars32.bat". Call it from your autoexec.bat file. Make sure you use the "call" keyword, or execution never returns from the called batch file. Here is what the relevant portion of my autoexec.bat looks like:
+
+<pre>
+rem set up for MS C++ 4.0
+call d:\msdevstd\bin\vcvars32.bat
+</pre>
+
+<p>
+Under NT, you can set the HOME and other environment variables in the System applet of the Control Panel.
+
+<p>
+<a href="mailto:jgardner@maxserv.com">John Huxoll Gardner</a> writes
+that
+<pre>
+These environment variables can be set through the control panel.
+
+Control Panel->System->Environment tab
+
+set include to d:\msdev\include;d:\msdev\mfc\include (or whatever)
+set lib to d:\msdev\lib;d:\msdev\mfc\lib (or whatever)
+set MSDevDir to d:\msdev
+</pre>
+
+<p>
+You should now be able to compile from Emacs. Load a source file from a VC++ project. Type M-X compile. Replace the proposed command line with:
+
+<pre>
+nmake -f MyProject.mak
+</pre>
+
+<p>
+You will find that this defaults to a win 32 debug build. You can change it to a release build with:
+
+<pre>
+nmake -f MyProject.mak CFG="MyProject - Win32 Release"
+</pre>
+
+<p>
+By the way, you can scroll in the M-X command buffer with up and down arrows. You can also scroll in the compile command buffer with the up and down arrows. Both seem to be fully editable as well.
+
+<A NAME="vcppSetting" title="vcppSetting"><!-- Anchor--></A>
+<h3><a name="TOC162">Setting the Default Command Line</a></h3>
+
+<p>
+Now set up the default value for the compile command line. Add the following to your .Emacs:
+
+<pre>
+; Set up for Visual C++ compiling
+(setq compile-command '("nmake -f .mak " . 10))
+</pre>
+
+<p>
+If you work on the same project extensively, toss that in to the default string. You can always override it when you work on another project.
+
+<p>
+By the way, many if not all Microsoft command line programs now accept
+a dash (-) as a switch specifier as well as a slash (/). This was true as
+long ago as Mess-DOS 6.0, I believe. I use it because that eliminates one
+area where I have to remember which OS I am using. <tt>:-)</tt>
+
+<p>
+<a href="mailto:sasdjb@unx.sas.com">David Biesack</a> suggests that perhaps
+it's easy to define Makefile in the project directory which does
+
+<pre>
+PROJECT=MyProject
+all: debug
+debug: FORCE
+        nmake /f $(PROJECT).mak CFG="$(PROJECT) - Win32 Debug"
+release: FORCE
+        nmake /f $(PROJECT).mak CFG="$(PROJECT) - Win32 Release"
+FORCE:
+</pre>
+
+<p>
+and then you can simply change compile-command to "nmake".
+
+<p>
+<a href="mailto:deupreec@interagp.com">Caleb T. Deupree</a> reports that on
+VC++ 5.0 and up, "You can also set an option on Options/Build to export a
+makefile every time the project is saved, which you can then use to compile
+with 'nmake -f project.mak'." VC++ 4.0 builds the make file every time, and
+there is no option.
+
+<A NAME="vcppHandling" title="vcppHandling"><!-- Anchor--></A>
+<h3><a name="TOC163">Handling Compile Time Errors</a></h3>
+
+<p>
+Those of you who never get compile time errors can skip this section.
+
+<p>
+One of the things that compile.el provides is the ability to scan the
+output from a compile session, and move from error message to error
+message. This facility depends on a series of regular expressions
+("regexes") which are applied to search the compiler output. Normally, you
+shouldn't have to do anything. However, if you have problems with this
+facility, you can comment out the regexes you don't need and
+recompile. Search the file for "compilation-error-regexp-alist" and comment
+out as needed.
+
+<p>
+To recompile, make the file the active buffer. Emacs will recognize it
+as an elisp file, and add a pull-down menu for elisp functions. One is for
+compiling, the other will compile and then load.
+
+<p>
+By the way, the best (and so far, only :-) book I've seen on regular
+expressions is Jeffrey E. F. Friedl, <a href="http://www.ora.com/catalog/regex/" >*Mastering Regular
+Expressions*</a>, <a href="http://www.ora.com/" >O'Reilly &amp; Assoc</a>,
+Inc, 1997. It covers regex syntax and usage for Emacs, perl and other tools
+that regexes.
+
+<A NAME="vcppReverting" title="vcppReverting"><!-- Anchor--></A>
+<h3><a name="TOC164">Reverting Buffers</a></h3>
+
+<p>
+Then there is the problem that sometimes you modify the source from Microsoft's IDE. Here's some help for that.
+
+<p>
+Occasionally, you need to add a new function or variable from the
+Visual C++ IDE. This means that the copy of the file in your Emacs buffer
+is now obsolete. The simplest thing to is a two part manual effort. First,
+before you leave Emacs for VC++, make sure you save all your buffers (C-X
+S). When you return, you can revert buffers you know have been changed with
+M-X revert-buffer. If you try to modify a file that has been changed from
+outside Emacs (say, by VC++), Emacs will warn you and offer you the chance
+to revert the buffer, so you can safely try modifying files after making a
+change from VC++.
+
+<p>
+However, this depends on the user remembering to do something, always a
+hazard. The obvious way to handle the problem is to automate it, which <a href="mailto:andersl@csd.uu.se">Anders Lindgren</a> has already done. He
+writes:
+
+<pre>
+This feature will be present in the next version of Emacs.  There will be
+two modes, `global-auto-revert-mode' that applies to all buffers while
+`auto-revert-mode' can be activated for individual buffers.
+
+You can get the latest version from:
+
+    <a href="http://www.csd.uu.se/%7Eandersl/emacs.shtml" >http://www.csd.uu.se/~andersl/emacs.shtml</a>
+
+Please note that this feature comes with a prize: Normally Emacs acts like
+an extra backup system, keeping a copy of the files you are editing.
+Should some external program mess up a file, you can always save the copy
+you're editing.  When using Auto-Revert mode Emacs will happily load the
+corrupt file, perhaps ruining you last chance to restore the original file
+content!
+
+        -- Anders
+
+;; .signature -- File added to the end of mail, containing joke or info.
+(defvar me '((profession . "Compiler Designer") (company . "IAR Systems")
+  (age . 27) (country . "Sweden") (hair . "Long") (water-skier . t)))
+;; .signature ends here.
+</pre>
+
+<p>
+(Now, *that* is an elisp hacker's sig line! <tt>:-)</tt>
+
+<p>
+The next version of Emacs to which Anders refers is, I believe, 20. I
+don't know when it will be released.
+
+<p>
+If you can't wait, you can scarf the source for autorevert.el in from
+Anders' web page. However, it is dependent on another Emacs package,
+Custom, which is not in the version of Emacs I have (19.34.1). Custom is
+available at <a href="http://www.dina.kvl.dk/%7Eabraham/custom/" >http://www.dina.kvl.dk/~abraham/custom/</a>. Installing
+the Custom package is beyond my meager elisp hacking skills, so you are on
+your own there. The next release will also include Custom.
+
+<p>
+<a href="mailto:deupreec@interagp.com">Caleb T. Deupree</a> also
+writes, "You might also mention a package mode-compile.el, which is a
+wrapper around compile mode and is available from the Emacs lisp archive or
+from <a href="http://www.cenatls.cena.dgac.fr/%7Eboubaker/Emacs/index.html" >http://www.cenatls.cena.dgac.fr/~boubaker/Emacs/index.html</a>.
+It detects makefiles in directories and parses them for valid targets,
+performing many of the same tasks which you do in your hooks."
+
+
+<A NAME="vcppExporting" title="vcppExporting"><!-- Anchor--></A>
+<h3><a name="TOC165">Exporting a File to Emacs</a></h3>
+
+<p>
+You can also set up VC++ to import a file into Emacs for you, all
+ready for editing. You will need the <a href="#assoc">Gnuclient
+package</a>, which is used to associate file extensions with Emacs. In
+VC++, go to the Tools pulldown menu, and click on Customize.... In the
+Tools tab, click on Add. Use Browse to locate your gnuclientw.exe
+file, and select it. For arguments, use +$(CurLine) "$(FilePath)" and
+for the directory use the $(WkspDir) (the quotes around FilePath
+handle paths with spaces in them). Set the Menu Text to say
+"Em&amp;acs". The "+$(CurLine)" will set point in Emacs to the same
+line as the cursor position in VC++. The ampersand in the word
+"Em&amp;acs" allows you to select emacs from the keyboard. (E is
+already used for the OLE control test container.)
+
+<p>
+You should now be able to go to any source file in your project. Then,
+use the pull-down menu Tools-&gt;Emacs. The active file in your VC++ ide
+should now be front and center in Emacs, all ready to edit as you wish. If
+you use keystrokes to work the menus, try &lt;alt&gt;T A to move the file
+into Emacs. Binding this tool to a keystroke will be left as an exercise
+for the student.
+
+<p>
+If you have the option of saving files before running tools, make sure
+this option is set. (I don't see it on VC++ 4.0.)
+
+
+<A NAME="cpp-builder" title="cpp-builder"><!-- Anchor--></A>
+<h3><a name="TOC166">Emacs and Borland C++ Builder</a></h3>
+
+<p>
+Jonathan Arnold's &lt;jdarnold@buddydog.org&gt; <a href="http://people.ne.mediaone.net/jdarnold/C++Builder/c++builder.html" >
+EmacsEdit "expert"</a> for interfacing C++ Builder and Emacs.
+
+
+<A NAME="java" title="java"><!-- Anchor--></A>
+<h3><a name="TOC167">Java</a></h3>
+
+<A NAME="java-imenu" title="java-imenu"><!-- Anchor--></A>
+<h3><a name="TOC168">How do I get imenu to work with Java?</a></h3>
+
+<p>
+Howard Melman &lt;howard@silverstream.com&gt; has put together <a href="ntemacs/contrib/java-imenu.el">some elisp</a> to get imenu
+working with Java.
+
+
+<A NAME="java-tags" title="java-tags"><!-- Anchor--></A>
+<h3><a name="TOC169">Creating TAGS files for Java source</a></h3>
+
+<p>
+To create TAGS files for Java source files, use Paul's JDE below.
+
+<A NAME="java-JDE" title="java-JDE"><!-- Anchor--></A>
+<h3><a name="TOC170">Java Development Environment</a></h3>
+
+<p>
+Paul Kinnucan &lt;paulk@mathworks.com&gt; has also implemented a Java
+Development Environment:
+
+<blockquote>
+The JDE is an Emacs Lisp package that provides a highly configurable
+Emacs wrapper for command-line Java development tools, such as those
+provided in JavaSoft's JDK. The JDE provides menu access to a Java
+compiler, debugger, and API doc.
+</blockquote>
+
+<p>
+The JDE can be found at <a href="http://sunsite.auc.dk/jde/" >http://sunsite.auc.dk/jde/</a> (also
+mirrored at <a href="http://www.geocities.com/SiliconValley/Lakes/1506/" >http://www.geocities.com/SiliconValley/Lakes/1506/</a>).
+
+<p>
+Since NT Emacs version <b>20.3.1</b>: Support for jdb has been added to gud.el package.
+
+<A NAME="java-jacob" title="java-jacob"><!-- Anchor--></A>
+<h3><a name="TOC171">The Jacob class browser and project manager</a></h3>
+
+<p>
+Jacob is a Java class browser and project manager for Emacs written by
+Clemens Lahme &lt;Clemens.Lahme@gmd.de&gt;.  For details about Jacob, see
+<a href="http://www.kclee.com/clemens/jacob/" >http://www.kclee.com/clemens/jacob/</a>.
+
+
+<A NAME="java-example" title="java-example"><!-- Anchor--></A>
+<h3><a name="TOC172">Example instructions for installing Emacs/JDE/JDK</a></h3>
+
+<p>
+David Fellows' &lt;fellows@roo.cs.unb.ca&gt; recipe for installing
+Emacs, JDE, and the Sun JDK: <a href="http://www.cs.unb.ca/courses/gen/getit-iz.html" >http://www.cs.unb.ca/courses/gen/getit-iz.html</a>.
+
+<blockquote>
+It provides emacs-19.34-6/jde-2.0.9/jdk-1.1{6,7}/rcs-5.7 plus some
+customizatins we feel are suitable for java begginners.  Installation is
+supposed to be a "no-brainer"; most times it is.
+
+<p>
+A caveat: Sun has just released jdk1.1.7 (and withdrawn 1.1.6) so the
+install file takehome.bat needs to be revised accordingly - the comments
+should make it obvious what to change.  I will be updating the distribution
+to reflect this no later than this weekend.
+</blockquote>
+
+<A NAME="revision-control" title="revision-control"><!-- Anchor--></A>
+<h3><a name="TOC173">How do I use revision/source control with Emacs?</a></h3>
+
+
+<A NAME="where-rcs" title="where-rcs"><!-- Anchor--></A>
+<h3><a name="TOC174">Is there a version of RCS for Win32?</a></h3>
+
+<p>
+There are a number of RCS x86 executables floating about.  There is an
+"official" port of GNU RCS available.
+
+<p>
+The "official" port of GNU RCS can be found in the following places:
+
+<blockquote>
+DOS, Win95/NT and OS/2 32-bit executables (including diff), as well as
+formatted documentation files:
+
+<ul>
+<li><a href="ftp://ftp.leo.org/pub/comp/os/os2/leo/devtools/gnu/rcs57pc1.zip">ftp://ftp.leo.org/pub/comp/os/os2/leo/devtools/gnu/rcs57pc1.zip</a>
+<li><a href="ftp://ftp.leo.org/pub/comp/os/os2/leo/devtools/gnu/rcs57pc2.zip">ftp://ftp.leo.org/pub/comp/os/os2/leo/devtools/gnu/rcs57pc2.zip</a>
+</ul>
+
+</blockquote>
+
+<p>
+ComponentSoftware CS-RCS is a Windows front end to GNU RCS.  Single
+user use of their software is free, and they even have directions on how to
+use it with Emacs:
+
+<ul>
+<li><a href="http://www.ComponentSoftware.com/csrcs/">CS-RCS</a>
+<li><a href="http://www.ComponentSoftware.com/csrcs/addons/ntemacs.htm">CS-RCS and NT Emacs</a>
+</ul>
+
+<p>
+David Matyas &lt;<A HREF="mailto:davidm@ComponentSoftware.com">davidm@ComponentSoftware.com</A>&gt;
+ By default, CS-RCS
+check-out files using the Windows line-break conventions
+(&lt;cr&gt;&lt;lf&gt;), as this mode is reasonable for most of the users. A
+"UNIX-Style" mode is available as well. (This mode is used mainly by users
+uses the Windows workstation as an X-Terminal.)
+
+<p>
+The Reed Kotler toolset can be found at <a href="http://www.reedkotler.com/RKTOOLS/rktools.html">http://www.reedkotler.com/RKTOOLS/rktools.html</a>.
+
+<p>
+<b>Note:</b> If the version of RCS you are using does not append the
+traditional ",v" to RCS files, try setting the environment variable
+"RCSINIT" to "-x,v" ("set RCSINIT=-x,v").
+
+<A NAME="where-cvs" title="where-cvs"><!-- Anchor--></A>
+<h3><a name="TOC175">Is there a version of CVS for Win32?</a></h3>
+
+<p>
+You can find a free port of CVS from <a href="http://www.cyclic.com">Cyclic Software</a>.
+
+<p>
+If you use the <tt>pcl-cvs</tt> package, you'll need to fix a couple of
+things in the elisp to make it work on NT; Michael M. Schmitz
+&lt;ms@ley.de&gt; has <a href="ntemacs/contrib/pcl-cvs.txt">some
+instructions</a> describing what you need to do.  John D. Amidon
+&lt;jda@jhk.com&gt; gives <a href="ntemacs/contrib/pcl-cvs2.txt">an
+example</a> of what he used to set up <tt>pcl-cvs</tt> in his .emacs.
+
+
+<A NAME="vc-mode" title="vc-mode"><!-- Anchor--></A>
+<h3><a name="TOC176">What do I need to do to get vc-mode (version control) working?</a></h3>
+<p>
+If you are having trouble getting vc-mode working with RCS or CVS, take
+a look at Peter Cherna's &lt;peter.cherna@scala.com&gt; <a href="ntemacs/discuss/vc-cherna">problem description and fix</a>.
+
+<A NAME="vc-mode-clearcase" title="vc-mode-clearcase"><!-- Anchor--></A>
+<h3><a name="TOC177">vc-mode and Clearcase</a></h3>
+
+<p>
+Andy Eskilsson &lt;andy.eskilsson@telelogic.se&gt; has modified vc-mode
+to work with Clearcase, and it reportedly works very well; see <a href="http://www.fukt.hk-r.se/~flognat/vc/">http://www.fukt.hk-r.se/~flognat/vc/</a>
+
+<p>
+Jari Aalto &lt;jari.aalto@poboxes.com&gt; has a page about using
+Clearcase software with Emacs.  See "9.8 Clearcase software" at <a href="ftp://cs.uta.fi/pub/ssjaaa/emacs-elisp.html">ftp://cs.uta.fi/pub/ssjaaa/emacs-elisp.html</a>.
+
+<A NAME="perl" title="perl"><!-- Anchor--></A>
+<h3><a name="TOC178">How do I use perl-mode with Emacs?</a></h3>
+
+<p>
+A perl-mode comes with the Emacs distribution, and will be used when
+you load and edit Perl files.
+
+<p>
+Users have also recommended an alternate mode named cperl-mode.  This is installed with Emacs 21.2 - if you are running an older version of Emacs you can find it online at:
+
+ <a href="ftp://ftp.math.ohio-state.edu/pub/users/ilya/perl/">ftp://ftp.math.ohio-state.edu/pub/users/ilya/perl/</a>.
+
+
+<A NAME="perldb" title="perldb"><!-- Anchor--></A>
+<h3><a name="TOC179">How do I use the perl debugger with Emacs?</a></h3>
+
+<p>
+From Jay Rogers &lt;jay@rgrs.com&gt;:
+
+<blockquote>
+There are potentially two problems that cause the perl debugger to hang
+when started in emacs.  One's an emacs problem while the other's a perl
+problem.
+
+<p>
+First, get Emacs 19.34.4 or later for Windows 95/98/NT.  It contains a fix that
+allows emacs to read all ASCII characters from the perl debugger, including
+the dreaded ^Z (aka EOF in DOS).  It also groks the "drive:path" filename
+notation.
+
+<p>
+Second, some versions of the perl debugger itself need to be patched to
+work with emacs.  They are perl versions 5.001 and less, and version
+5.004_01.  To fix, locate and change the code similar to the following code
+in lib/perl5db.pl
+
+<pre>
+    if (-e "/dev/tty") {
+        $console = "/dev/tty";
+        $rcfile=".perldb";
+    }
+    elsif (-e "con") {
+        $console = "";                 <---- change "con" to ""
+        $rcfile="perldb.ini";
+    }
+    else {
+        $console = "sys\$command";
+        $rcfile="perldb.ini";
+    }
+</pre>
+</blockquote>
+
+<p>
+Doug Campbell &lt;soup@ampersand.com&gt; also has some <a href="ntemacs/discuss/perldb">suggestions</a> for improving the interaction
+of perldb and Emacs.
+
+<A NAME="python" title="python"><!-- Anchor--></A>
+<h3><a name="TOC180">How do I use python-mode with Emacs?</a></h3>
+
+<p>
+The python-mode shipped with Python 1.5 requires a new custom.el before
+it can be used with Emacs 19.34.  For more information, see the description
+of python-mode at <a href="http://www.python.org/emacs/python-mode/" >http://www.python.org/emacs/python-mode/</a>.
+
+<A NAME="info-page" title="info-page"><!-- Anchor--></A>
+
+
+<A NAME="emacs-more-info" title="emacs-more-info"><!-- Anchor--></A>
+<h3><a name="TOC181">Where can I get general information about Emacs?</a></h3>
+
+
+<p>
+If you have general questions about Emacs, the best places to start
+looking are the Emacs manual and the standard Emacs FAQ.  If you already
+have Emacs, you can browse the manual using Info by typing "C-h i m Emacs
+RET", and you can view the FAQ by typing "C-h F".  Or you can browse both
+of them online:
+
+<ul>
+
+<li> The general Emacs website : <a href="http://www.emacs.org/" >http://www.emacs.org/</a>
+
+<li> Emacs FAQ
+<a href="http://www.emacs.org/emacsfaq.html" >[HTML]</a>
+
+<li> Emacs Manual
+<a href="http://www.mpae.gwdg.de/mpae_RZ/online_doc/emacs/emacs-19.34-a4.ps.gz" >[A4 Postscript 19.34]</a>
+<a href="http://www.delorie.com/gnu/docs/emacs/emacs_toc.html" >[HTML 20.3]</a>
+<a href="http://www.mpae.gwdg.de/mpae_RZ/software/emacs/manual/emacs-20.3-a4.ps.gz" >[A4 Postscript]</a>
+<a href="http://www.gnu.org/manual/emacs-20.3/emacs.html" >[FSF site, many formats, 20.3]</a>
+
+<li> Elisp manual
+<a href="http://www.mpae.gwdg.de/mpae_RZ/online_doc/emacs/elisp-manual-19-2.4.2-a4.ps.gz" >[A4 Postscript 19.34]</a>
+<a href="http://websites.ic.uva.nl/medewerkers/ksprenger/elisp-manual-20-2.5/" >[HTML 20.2.5]</a>
+<a href="ftp://prep.ai.mit.edu/pub/gnu/elisp-manual-20-2.5.tar.gz">[Info 20.2.5]</a>
+<a href="http://www.gnu.org/manual/elisp-manual-20-2.5/elisp.html" >[FSF site, many formats, 20.2.5]</a>
+
+<li> Intro to Elisp manual
+<a href="http://www.mpae.gwdg.de/mpae_RZ/software/emacs/lisp/intro/emacs-lisp-intro.ps.gz" >[A4 Postscript 19.34]</a>
+<a href="http://www.gnu.org/manual/emacs-lisp-intro/emacs-lisp-intro.html" >[FSF site, many formats, 1.05]</a>
+
+</ul>
+
+<A NAME="ntemacs-list" title="ntemacs-list"><!-- Anchor--></A>
+<h3><a name="TOC182">NTEmacs Mailing List</a></h3>
+
+<P>
+  NTEmacs has a vibrant and helpfull mailing list, for people to report
+ problems, and suggest improvements.
+</P>
+
+<p>
+The name of the NT Emacs mailing list is
+<b>help-emacs-windows@gnu.org</b>.  It's a majordomo administered
+list, so, if you would like to subscribe to the mailing list, send a
+message to <a href="mailto:help-emacs-windows-request@gnu.org">help-emacs-windows-request@gnu.org</a>
+with the word "subscribe" in the <b>body</b> of the message.
+
+<p>
+To unsubscribe from the list, send a message to <a href="mailto:help-emacs-windows-request@gnu.org">help-emacs-windows-request@gnu.org</A>
+with the word "unsubscribe" in the <b>body</b> of the
+message. <i>Please</i> do not send the unsubscribe message to the list
+itself, but to the request alias instead.  Sending the message to the list
+does not unsubscribe you from it, and it tends to be annoying to people on
+the list.
+<P>
+The mailing list has a web based interface, and an archive of the
+list..
+<P>
+<dl>
+<dt><a href="http://mail.gnu.org/mailman/listinfo/help-emacs-windows">http://mail.gnu.org/mailman/listinfo/help-emacs-windows</a></td>
+<dd>This is the account maintainance page, which will allow you to subscribe, or unsubscribe yourself from the mailing list.</dd>
+<dt><a href="http://mail.gnu.org/pipermail/help-emacs-windows/">http://mail.gnu.org/pipermail/help-emacs-windows/</a></dt>
+<dd>This is an online archive of all the messages which have been sent to the mailing list.</dd>
+</dl>
+
+
+
+<A NAME="mule-lists" title="mule-lists"><!-- Anchor--></A>
+<h3><a name="TOC183">Extra information about MULE</a></h3>
+<P>
+  There are several sites that may be of interest to users of MULE:
+<A HREF="ftp://ftp.etl.go.jp/">ftp://ftp.etl.go.jp/"</A>, and
+<A HREF="ftp://ftp.scphys.kyoto-u.ac.jp/">ftp://ftp.scphys.kyoto-u.ac.jp/</A> both contains papers written by the original developers of
+Mule., and <A HREF="http://www.m17.org/">http://www.m17.org/</A>
+is another site with Multilingual info.
+</P>
+<P>
+I've recently discovered that there are also two MULE mailing lists,
+one in Japanese and another one in English. The English list is low
+traffic but alive. To subscribe, send
+</P>
+<P>
+
+   subscribe <your name>
+</P>
+<P>
+to mule-ctl@m17n.org.
+<p>
+
+<A NAME="find-lisp" title="find-lisp"><!-- Anchor--></A>
+<h3><a name="TOC184">Where can I find more Lisp packages?</a></h3>
+<p>
+  The best place to start looking is in the newsgroup
+  <A HREF="news:gnu.emacs.sources">gnu.emacs.sources</A>, this
+  can be searched online via <A HREF="http://groups.google.com/groups?q=gnu.emacs.sources&hl=en&lr=&ssite=groups" TITLE="Google web interface for gnu.emacs.sources">Google</A>
+<p>
+  After that the <A HREF="http://www.anc.ed.ac.uk/~stephen/emacs/ell.html">Emacs Lisp List</A>,
+ which is maintained by
+Stephen Eglen &lt;<A HREF="mailto:stephen@anc.ed.ac.uk">stephen@anc.ed.ac.uk</A>&gt;
+, is another good starting point, this lists several hundred lisp files,
+ and a brief description, and thanks to <A HREF="http://www.anc.ed.ac.uk/~stephen/emacs/ell.el">ell.el</A> can be
+ used from within Emacs.
+<p>
+  Many people maintain small pages of packages that they have written,
+ or maintain - the best way to
+
+<A NAME="woman" title="woman"><!-- Anchor--></A>
+<h3><a name="TOC185">Reading MAN pages without Man, (WoMan)</a></h3>
+
+<p>
+
+WoMan allows Unix MAN pages to be browsed within Emacs, this lisp
+package requires no external programs.
+<p>
+This is included with the latest Emacs, if you're running an older version you can find it online at; <A HREF="http://centaur.maths.qmw.ac.uk/Emacs/WoMan/">http://centaur.maths.qmw.ac.uk/Emacs/WoMan/</A>.
+<A NAME="diff" title="diff"><!-- Anchor--></A>
+<h3><a name="TOC186">Where can I find a port of the diff program (e.g, for ediff)?</a></h3>
+
+<p>
+You'll need a port of diff before you can use the ediff package in
+Emacs.  Each of the GNU-Win32, UWIN, and Reed-Kotler toolsets have a port
+of diff that you can use with Emacs; see the <a href="#other-tools">Unix
+tools port section</a> below.  If you just want diff and aren't in the mood
+for switching to a new toolset environment, then you can download the RK
+toolset and use the diff from there in isolation.
+
+<A NAME="patch" title="patch"><!-- Anchor--></A>
+<h3><a name="TOC187">Where can I find a port of the patch program?</a></h3>
+
+<p>
+Patch 2.5 based upon mods by Tim Smith &lt;tzs@halcyon.com&gt; and a
+few by Andrew Innes &lt;andrewi@harlequin.co.uk&gt;:
+
+<ul>
+<li><a href="ntemacs/contrib/patch-2.5.zip">Source and executable.</a>
+</ul>
+
+
+<A NAME="other-tools" title="other-tools"><!-- Anchor--></A>
+<h3><a name="TOC188">What other Unix tools have been ported to NT and/or Windows 95/98?</a></h3>
+
+<p>
+Probably the first place you should look for more GNU tools is at
+Cygwin toolset.  The toolset is a port of the GNU tools to the Windows
+API, as well as a set of libraries that allow Unix programs to compile
+to Windows with little or no modification.  The project is at <a href="http://sourceware.cygnus.com/cygwin/" >http://sourceware.cygnus.com/cygwin/</a>
+</p>
+<p>
+Michael Main &lt;main@cs.colorado.edy&gt; has collected together ports
+of various Unix programming environments and languages to Windows for
+classes that he teaches.  See <a href="http://www.cs.colorado.edu/%7Emain/plcd.html" >http://www.cs.colorado.edu/~main/plcd.html</a>
+for an overview; e.g., a version of the mingw32 port of Unix tools is at <a href="http://www.cs.colorado.edu/%7Emain/mingw32/" >http://www.cs.colorado.edu/~main/mingw32/</a>.
+</p>
+<p>
+There is also a directory of GNU software which has been ported to the
+Windows platform, which is available at <A HREF="http://www.gnusoftware.com/">http://www.gnusoftware.com/</A>.  This directory also contains several
+patches for Emacs running on Windows, to give extra functionality, see
+<A HREF="http://www.gnusoftware.com/Emacs/">here</A> for details.
+</p>
+<p>
+The UWIN project at AT&amp;T Research is another project whose goal is to
+enable UNIX applications to build and run with little or no modification on
+Windows NT/95.  Part of the UWIN project includes a port of ksh done by
+David Korn.  For more information, see <a href="http://www.research.att.com/sw/tools/uwin" >http://www.research.att.com/sw/tools/uwin</a>.
+</p>
+
+<p>
+An older set of the GNU tools that I have seen offered on ftp sites for
+NT and Windows 95 have been based on the Congruent tools (I have heard mixed
+reviews of these ports, so use with your own discretion).  An ftp site that
+seems to offer the full set of these tools is <a href="ftp://ftp.cc.utexas.edu/microlib/nt/gnu">ftp.cc.utexas.edu/microlib/nt/gnu</a>.
+</p>
+
+<p>
+Microsoft also has a collection of tools for use with NT, including
+Unix tools such as cron, ps, kill, and nice, as well as a number of NT
+specific tools.  A list of these tools is at <a href="http://www.microsoft.com/ntserver/nts/exec/vendors/freeshare/maintnce.asp" >http://www.microsoft.com/ntserver/nts/exec/vendors/freeshare/maintnce.asp</a>.
+</p>
+<p>
+If you're a perl user, then you probably want the port of perl to Windows.
+You can download a perl distribution from any of the CPAN mirror sites,
+such as <a href="ftp://ftp.cdrom.com/pub/perl/CPAN/ports/win32/Standard/">ftp://ftp.cdrom.com/pub/perl/CPAN/ports/win32/Standard/</a>.
+For a complete list of CPAN mirrors, see <a href="ftp://ftp.cdrom.com/pub/perl/CPAN/SITES.html">ftp://ftp.cdrom.com/pub/perl/CPAN/SITES.html</a>.
+</p>
+<p>
+David Wihl is maintaining a FAQ about porting Unix applications to NT.
+It can be found at <a href="http://www.nentug.org/unix-to-nt" >http://www.nentug.org/unix-to-nt</a>.
+</p>
+<p>
+Chris Szurgot is also collecting and implementing Unix style tools for
+Windows 95 (and presumably NT).  See <a href="http://www.itribe.net/virtunix" >http://www.itribe.net/virtunix</a>.
+</p>
+<p>
+Jeff Paquette &lt;paquette@mediaone.net&gt; has a collection of the GNU
+text utilities for Windows. See <a href="http://atnetsend.ne.mediaone.net/%7Epaquette/WinProgramming.html" >http://atnetsend.ne.mediaone.net/~paquette/WinProgramming.html</a>.
+</p>
+
+<p>
+<a href="http://www.ntware.com/" >NTWare.com</a> collects free software
+for NT (Win9X?).
+</p>
+<hr>
+<table width=100%>
+<tr>
+<td align=left>
+Combined Document
+ | <A HREF="faq.html">Split Document</A>
+<address>Steve Kemp, FAQ Maintainer
+<br>
+&lt;<a href="mailto:skx@tardis.ed.ac.uk">skx@tardis.ed.ac.uk</a>&gt;
+</address>
+</td>
+<td align=right>
+     <a href="http://validator.w3.org/check/referer"><img border="0"
+         src="http://www.w3.org/Icons/valid-html401"
+         alt="Valid HTML 4.01!" height="31" width="88"></a>
+   <br>
+	Last Modified : Thursday 1 August 2002
+</td>
+</Table>
+</body></HTML>

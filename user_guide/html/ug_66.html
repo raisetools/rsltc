@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 13.5 Using the tool</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_65.html"><img border="0" alt="13.4 Confidence condition verification" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">13.4 Confidence condition verification</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>13.5 Using the tool</b></font></td></tr></table>
+<h2>13.5 Using the tool</h2>
+
+<p>The RSL-SAL translator works on different operative
+systems. In particular, it is possible to use Linux and Windows platforms. 
+<p>For using
+the tool on Windows platform it is necessary to:
+<ul><p><li>Install DJGPP for RAISE and RAISE setup
+<p>  (ftp://ftp.iist.unu.edu/pub/RAISE/rsltc/windows/)
+<p><li>Install the Linux-like environment for
+  Windows "Cygwin" 
+<p>(http://www.cygwin.com)
+<p>  In "Cygwin Setup" select "Interpreters Packages" and install
+  "m4".
+<p><li>Install SAL model checker for Windows (http://sal.csl.sri.com/)
+</ul>
+<p>For using
+the tool on Linux platform it is necessary to:
+<ul><p><li>Install "rsltc-2.5-1.i386.rpm" or "rsltc&#95;2.5.1-1&#95;i386.deb" 
+<p>  (ftp://ftp.iist.unu.edu/pub/RAISE/rsltc/linux/)
+<p><li><p>  Install the Unix macro processor"m4" (from the Linux distribution)
+<p><li>Install SAL model checker for Linux (http://sal.csl.sri.com/)
+</ul>
+
+<h3><a name="id1">13.5.1 Activating the SAL translator</a></h3>
+<p>The translator's activation is through the Emacs editor, so for using the
+RSL-SAL translator
+<ul><p><li>Open a file with extension ".rsl" using Emacs editor
+<p><li>Select the "RSL" option
+<p><li>Execute the  "Translate to SAL" option
+</ul>
+<p>When the "Translate to SAL" option is executed, the tool generate some files (they are in the same folder where
+.rsl file is). Some of these  files are:
+<ul><p><li><b>SAL&#95;TYPES.sal</b> file contains the RSL type declarations
+translated to SAL types. This type declaration is used to avoid
+circular dependencies among SAL modules. 
+<p><li><b>SAL&#95;GLOBAL.sal</b> file contains the boundaries for Integer type and
+Natural type. These are values for <em>DefaultNatHigh</em> (default 4), <em>DefaultIntLow</em> (default -4) and <em>DefaultIntHigh</em> (default 4).  See
+section&nbsp;<a href="ug_63.html#id4">13.2.1</a> to see how the default values may be changed.
+<p><li><b>IT&#95;AN.sal</b> file contains the definition of Integer type:
+<pre>
+IT_AN : CONTEXT =
+BEGIN
+  Int_: TYPE = [SAL_GLOBAL!DefaultIntLow .. SAL_GLOBAL!DefaultIntHigh];
+
+END
+</pre>
+<p><li><b>L&#95;BUILTIN.sal</b> file contains the definition of Integer type
+  for checking CC:
+<pre>
+L_BUILTIN : CONTEXT =
+BEGIN
+  Not_a_value_type: TYPE = DATATYPE  
+    ...
+  END;
+
+  Bool__cc: TYPE = DATATYPE  
+    Bool__cc(Bool__val: BT_AN!Bool_),
+    Bool__nav(Bool__nav_val: Not_a_value_type)
+  END;
+
+  Int__cc: TYPE = DATATYPE  
+    Int__cc(Int__val: IT_AN!Int_),
+    Int__nav(Int__nav_val: Not_a_value_type)
+  END;
+
+END
+</pre>
+<p><li><b>L&#95;BUILTIN&#95;simple.sal</b> file contains the definition of Integer type
+  for checking CC simple (it gives less diagnostic information):
+<pre>
+L_BUILTIN_simple : CONTEXT =
+BEGIN
+  Not_a_value_type: TYPE = DATATYPE  
+    nav
+  END;
+
+  Bool__cc: TYPE = DATATYPE  
+    Bool__cc(Bool__val: BT_AN!Bool_),
+    Bool__nav(Bool__nav_val: Not_a_value_type)
+  END;
+
+  Int__cc: TYPE = DATATYPE  
+    Int__cc(Int__val: IT_AN!Int_),
+    Int__nav(Int__nav_val: Not_a_value_type)
+  END;
+
+END
+</pre>
+<p><li><b>NT&#95;AN.sal</b> file contains the definition of Natural type:
+<pre>
+NT_AN : CONTEXT =
+BEGIN
+  Nat_: TYPE = [0 .. SAL_GLOBAL!DefaultNatHigh];
+
+END
+</pre>
+<p><li><b>BT&#95;AN.sal</b> file contains the definition of Boolean type:
+<pre>
+BT_AN : CONTEXT =
+BEGIN
+  Bool_: TYPE = BOOLEAN;
+
+END
+</pre>
+<p><li><b><i>&lt;</i>file<i>&gt;</i>.sal</b> file contains definitions
+of the model. This file only is generated if some valid RSL value
+declarations exist in the source RSL file.
+<p><li><b><i>&lt;</i>file<i>&gt;</i>&#95;cc.sal</b> file contains definitions
+of the model to allow checking of CC. This file only is generated if some valid RSL value
+declarations exist in the source RSL file.
+<p><li><b><i>&lt;</i>file<i>&gt;</i>&#95;cc&#95;simple.sal</b> file contains definitions
+of the model to allow checking CC, giving less
+diagnostic information. This file only is generated if some valid RSL value
+declarations exist in the source RSL file.
+<p><li>For each Set type or Map type declared, the following files are
+generated:
+<p><b>- <i>&lt;</i>NameType<i>&gt;</i>&#95;<i>&lt;</i>Type<i>&gt;</i>&#95;OPS.sal
+<p>- <i>&lt;</i>NameType<i>&gt;</i>&#95;<i>&lt;</i>Type<i>&gt;</i>&#95;cc&#95;OPS.sal
+<p>- <i>&lt;</i>NameType<i>&gt;</i>&#95;<i>&lt;</i>Type<i>&gt;</i>&#95;cc&#95;OPS&#95;simple.sal
+</b>
+<p>where <i>&lt;</i>NameType<i>&gt;</i> is the name in the declaration and <i>&lt;</i>Type<i>&gt;</i> is Map or
+Set. In these files there are functions such as "emptySet"function and
+"add" function (of Set type) used to translate RSL expressions to
+SAL (see section <a href="ug_63.html#SetExpressions">13.2.5</a>).  
+</ul>
+<p>Once the "Translate to SAL" option has been executed, it is possible to
+check if the specification resulting from the translation is well
+formed. This one is activated in the Emacs editor, selecting the
+"RSL" option and the "Run SAL well-formed checker" option. This
+step also generates some .sal files from some .m4 files and so is essential.
+<p>After executing the "Run SAL well-formed checker" option, other utilities
+provided for the tool are enabled. Also they are activated using the Emacs
+editor. In this case, it is necessary to select the "RSL" option and
+some one of the following, 
+<pre>
+  Run SAL deadlock checker 
+    Base 
+    CC 
+    Simple CC
+  Run SAL model checker  
+    Base 
+    CC 
+    Simple CC 
+</pre>
+<p>In the next subsection an example is used to show how the
+tool works in more detail.
+
+<h3><a name="id2">13.5.2 An example</a></h3>
+<p><p>The following code is in a file named "TOKENS.rsl",
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> TOKENS = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Token == a | b | c | d | e | f, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;State :: </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;S1 : Token<b>-set</b> &#8596; re&#95;S1&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;S2 : Token<b>-set</b> &#8596; re&#95;S2 </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;init : State = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;mk&#95;State(&#123;a, b, c&#125;, &#123;d, e, f&#125;), </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;give21 : Token &#215; State &#8594; State</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;give21(t, s) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;re&#95;S1(&#123;t&#125; &#8746; S1(s), re&#95;S2(S2(s) &#92; &#123;t&#125;, s))</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;give12 : Token &#215; State &#8594; State</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;give12(t, s) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;re&#95;S2(&#123;t&#125; &#8746; S2(s), re&#95;S1(S1(s) &#92; &#123;t&#125;, s)), </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>transition&#95;system</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[sys]</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>local</b> state : State := init </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;([] tok : Token &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;[give21] </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;tok &#8712; S2(state) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;state&#8242; = give21(tok, state))</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[]</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;([] tok : Token &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;[give12] </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;tok &#8712; S1(state) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;state&#8242; = give12(tok, state)) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>ltl&#95;assertion</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[consistent] sys &#8192; G(S1(state) &#8745; S2(state) = &#123;&#125;), </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[no&#95;loss] </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;sys &#8192; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;G(S1(state) &#8746; S2(state) = &#123;a, b, c, d, e, f&#125;), </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[empty&#95;S1&#95;reachable] sys &#8192; G(S1(state) &#8800; &#123;&#125;), </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[empty&#95;S2&#95;reachable] sys &#8192; G(S2(state) &#8800; &#123;&#125;) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        
+
+<h4><a name="id3">- Translating to SAL</a></h4>
+<p>If the "TOKENS.rsl" file is opened using the Emacs editor and
+the "Translate to SAL" option is executed, the tool will generate these files,
+<pre>
+Bool__cc_OPS.m4
+Bool__cc_OPS_simple.m4
+BT_AN.sal
+Int__cc_OPS.m4
+Int__cc_OPS_simple.m4
+Int__OPS.m4
+IT_AN.sal
+L_BUILTIN.sal
+L_BUILTIN_simple.sal
+NT_AN.sal
+SAL_GLOBAL.sal
+SAL_TYPES.sal
+SAL_TYPES_cc.sal
+SAL_TYPES_cc_simple.sal
+State_cc_OPS.m4
+State_cc_OPS_simple.m4
+Token_cc_OPS.m4
+Token_cc_OPS_simple.m4
+Token_set_cc_OPS.m4
+Token_set_cc_OPS_simple.m4
+Token_set_OPS.m4
+TOKENS.sal
+TOKENS_cc.sal
+TOKENS_cc_simple.sal
+</pre>
+
+<h4><a name="id4">- Running SAL well-formed checker</a></h4>
+<p>Now, it is possible to check if "TOKENS.sal", "TOKENS&#95;cc.sal" and
+"TOKENS&#95;cc&#95;simple.sal" are well formed. For that, the tool first copies prelude files, and later it generates .sal files from .m4
+files. 
+<p>The well formed checking is enabled selecting the "Run SAL
+well-formed checker" option. So, the compilation buffer shows,<br /><pre>
+sal_wfc_check TOKENS
+
+sal-wfc TOKENS
+Ok.
+sal-wfc TOKENS_cc
+Ok.
+sal-wfc TOKENS_cc_simple
+Ok.
+
+Compilation finished at ...
+</pre>
+<p><p>And the following files are generated:
+<pre>
+Bool__cc_OPS.sal
+Bool__cc_OPS_simple.sal
+Bool_cc_prelude
+cc_type_prelude
+Int__cc_OPS.sal
+Int__cc_OPS_simple.sal
+Int__OPS.sal
+int_cc_prelude
+int_prelude
+map_cc_prelude
+map_prelude
+set_cc_prelude
+set_prelude
+State_cc_OPS.sal
+State_cc_OPS_simple.sal
+Token_cc_OPS.sal
+Token_cc_OPS_simple.sal
+Token_set_cc_OPS.sal
+Token_set_cc_OPS_simple.sal
+Token_set_OPS.sal
+</pre>
+
+<h4><a name="id5">- Running SAL deadlock checker</a></h4>
+<p>SAL model checking is only valid if there are no deadlock states. The
+tool allows one to check for no deadlock states, selecting the "Run
+SAL deadlock checker" option. Next, it is necessary to choose between
+"base", "CC", or "simple&#95;CC" options. In all these cases, the
+Emacs minibuffer shows,
+<p><tt>Transition system identifier:
+</tt>
+<p>Then it is necessary to specify a transition system identifier (in the
+TOKEN example its name is "sys"), 
+<p><tt>Transition system identifier: sys
+</tt>
+<p>So, if previously the "base" option was selected, the compilation buffer will show,
+<p><tt>sal-deadlock-checker TOKENS sys
+<p>ok (module does NOT contain deadlock states).
+</tt>
+
+<h4><a name="id6">- Running SAL model checker</a></h4>
+<p>The
+tool allows one to run the SAL model checker, selecting the "Run SAL model checker" option. Next, it is necessary to choose between
+"base", "CC", or "simple&#95;CC" options. In all these cases, the
+Emacs minibuffer shows,
+<p><tt>Assertion identifier (default all assertions): 
+</tt>
+<p>If an assertion identifier is specified (for example, "consistent"),
+and previously the "base" option was selected, the compilation buffer will show,<br /><p><tt>sal-smc TOKENS consistent
+<p>proved.
+</tt><br /><p>But if no particular assertion identifier is specified, by default
+all assertions are checked. In this case, the result is
+<pre>
+sal-smc TOKEN2 
+
+Counterexample for 'empty_S1_reachable' located at [Context: TOKEN2, line(49), column(0)]:
+========================
+Path
+========================
+Step 0:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!9 : Token):
+           (arg!9 /= f) and (arg!9 /= e) and (arg!9 /= d)),
+         (LAMBDA (arg!10 : Token):
+           (arg!10 = f) or (arg!10 = e) or (arg!10 = d)))
+------------------------
+Transition Information: 
+(module instance at [Context: TOKEN2, line(47), column(21)]
+  (with tok = a at [Context: TOKEN2, line(40), column(0)]
+    (label give12
+      transition at [Context: TOKEN2, line(42), column(4)])))
+------------------------
+Step 1:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!11 : Token):
+           (arg!11 /= f) and
+           (arg!11 /= e) and
+           (arg!11 /= d) and
+           ((arg!11 = c) or (arg!11 = b))),
+         (LAMBDA (arg!12 : Token):
+           (arg!12 = f) or
+           (arg!12 = e) or
+           (arg!12 = d) or
+           (arg!12 /= c) and (arg!12 /= b)))
+------------------------
+Transition Information: 
+(module instance at [Context: TOKEN2, line(47), column(21)]
+  (with tok = c at [Context: TOKEN2, line(40), column(0)]
+    (label give12
+      transition at [Context: TOKEN2, line(42), column(4)])))
+------------------------
+Step 2:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!13 : Token):
+           (arg!13 /= f) and
+           (arg!13 /= e) and
+           (arg!13 /= d) and
+           (arg!13 /= c) and
+           (arg!13 = b)),
+         (LAMBDA (arg!14 : Token):
+           (arg!14 = f) or
+           (arg!14 = e) or
+           (arg!14 = d) or
+           (arg!14 = c) or
+           (arg!14 /= b)))
+------------------------
+Transition Information: 
+(module instance at [Context: TOKEN2, line(47), column(21)]
+  (with tok = b at [Context: TOKEN2, line(40), column(0)]
+    (label give12
+      transition at [Context: TOKEN2, line(42), column(4)])))
+------------------------
+Step 3:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!15 : Token): false),
+         (LAMBDA (arg!16 : Token): true))
+
+Counterexample for 'empty_S2_reachable' located at [Context: TOKEN2, line(50), column(0)]:
+========================
+Path
+========================
+Step 0:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!17 : Token):
+           (arg!17 /= f) and (arg!17 /= e) and (arg!17 /= d)),
+         (LAMBDA (arg!18 : Token):
+           (arg!18 = f) or (arg!18 = e) or (arg!18 = d)))
+------------------------
+Transition Information: 
+(module instance at [Context: TOKEN2, line(47), column(21)]
+  (with tok = d at [Context: TOKEN2, line(34), column(0)]
+    (label give21
+      transition at [Context: TOKEN2, line(36), column(4)])))
+------------------------
+Step 1:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!19 : Token):
+           (arg!19 /= f) and (arg!19 /= e)),
+         (LAMBDA (arg!20 : Token): (arg!20 = f) or (arg!20 = e)))
+------------------------
+Transition Information: 
+(module instance at [Context: TOKEN2, line(47), column(21)]
+  (with tok = f at [Context: TOKEN2, line(34), column(0)]
+    (label give21
+      transition at [Context: TOKEN2, line(36), column(4)])))
+------------------------
+Step 2:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!21 : Token):
+           (arg!21 = f) or (arg!21 /= e)),
+         (LAMBDA (arg!22 : Token): (arg!22 /= f) and (arg!22 = e)))
+------------------------
+Transition Information: 
+(module instance at [Context: TOKEN2, line(47), column(21)]
+  (with tok = e at [Context: TOKEN2, line(34), column(0)]
+    (label give21
+      transition at [Context: TOKEN2, line(36), column(4)])))
+------------------------
+Step 3:
+--- System Variables (assignments) ---
+state =
+mk_State((LAMBDA (arg!23 : Token): true),
+         (LAMBDA (arg!24 : Token): false))
+
+Summary:
+The assertion 'consistent' located at [Context: TOKEN2, line(47), column(0)] is valid.
+The assertion 'no_loss' located at [Context: TOKEN2, line(48), column(0)] is valid.
+The assertion 'empty_S1_reachable' located at [Context: TOKEN2, line(49), column(0)] is invalid.
+The assertion 'empty_S2_reachable' located at [Context: TOKEN2, line(50), column(0)] is invalid.
+
+Compilation finished ...
+</pre>
+
+<h3><a name="id7">13.5.3 Confidence conditions</a></h3>
+<p>SAL is only sound when there are no deadlocks.  So you have to check
+for deadlocks in the CC version as well as the basic one.
+<p>To illustrate this, and show how to get information from the CC
+version, we use the lift example from section <a href="ug_64.html#AnExample">13.3.4</a>.  Suppose we
+change, in the BUTTONS module, the definition of "required&#95;beyond" to
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;-- wrong version</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;required&#95;beyond : T.Direction &#215; T.Floor &#215; Buttons &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;required&#95;beyond(d, f, bs) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>let</b> f&#8242; = T.next&#95;floor(d, f) <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;required&#95;here(d, f&#8242;, bs) &#92;/</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;T.is&#95;next&#95;floor(d, f&#8242;) /&#92;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>let</b> f&#8242;&#8242; = T.next&#95;floor(d, f&#8242;) <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;required&#95;here(d, f&#8242;&#8242;, bs) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b> /&#92; T.is&#95;next&#95;floor(d, f)
+</td></tr></table>
+
+                        <p>Note that we gave moved the conjunct T.is&#95;next&#95;floor(d, f)
+from the beginning to the end.  This looks logically equivalent to the
+original, because /&#92; is normally commutative.  But we have to
+remember RSL's left-to-right evaluation rule, and also recall that
+T.is&#95;next&#95;floor(d, f) is a precondition of
+T.next&#95;floor(d, f).  In the original version, if
+T.is&#95;next&#95;floor(d, f) is <b>false</b>, then T.next&#95;floor(d, f)
+is not evaluated.  In the new version, this is not so and we can get a
+precondition violation.
+<p>If we make this change to required&#95;beyond, recompile to SAL,
+check well-formedness, and model check the CC version it reports all
+is well.  But if we remember to also run the deadlock checker on the
+CC version it reports a deadlock:
+<pre>
+Total number of deadlock states: 1.0
+Deadlock states:
+State 1
+--- System Variables (assignments) ---
+lift =
+Lift_cc(mk_Lift_(mk_Cage_(up, halted, 0),
+                 mk_Doors_(open, shut, shut),
+                 mk_Buttons_(lit, lit, lit, lit, lit, lit, lit)))
+</pre>
+<p>This tells us that the "no errors" report from the CC model check
+cannot be trusted, but otherwise is not very helpful, because no Nav value is
+reported.  We might notice that the buttons have all become lit, which
+means that the press transition is not enabled.  The other transition
+must also not be enabled (since we have a deadlock), which means that
+can&#95;next(lift) must not be true.  In fact can&#95;next
+contains a Nav.  We can investigate what is happening by adding a
+variable to the system so that we can see the value of
+can&#95;next:
+<ul><p><li>We add a variable cn of type <b>Bool</b> to the transition
+  system.  We initialise it to <b>true</b>: the chosen initial value
+  does not matter since nothing will depend on it.
+<p><li>We set cn to the value of can&#95;next at the end of
+  each transition, by adding the update
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;cn&#8242; = can&#95;next(lift&#8242;)
+</td></tr></table>
+
+                        to each of the two transitions.  Note the use of lift&#8242; here so
+that cn contains the guard to be used in the <em>next</em> transition:
+we want to see what causes the deadlock before it happens.
+<p><li>We retranslate to SAL, check well-formedness, and run the CC
+  model check.
+</ul>
+<p>Now we get the result that the check on the variables is invalid:
+cn contains a Nav:
+<pre>
+Step 1:
+--- System Variables (assignments) ---
+lift =
+Lift_cc(mk_Lift_(mk_Cage_(up, halted, 0),
+                 mk_Doors_(open, shut, shut),
+                 mk_Buttons_(clear, lit, clear, clear, clear, clear, clear)))
+cn =
+Bool__nav(Precondition_of_function_T_next_floor_not_satisfied)
+
+Summary:
+The assertion 'LIFT_max_floor_cc_check' located at [Context: LIFT_cc, line(180), column(0)] is valid.
+
+The assertion 'LIFT_min_floor_cc_check' located at [Context: LIFT_cc, line(181), column(0)] is valid.
+
+The assertion 'LIFT_L_cc_check' located at [Context: LIFT_cc, line(209), column(0)] is invalid.
+</pre>
+<p>and we see that T.next&#95;floor is the function whose precondition is
+violated.  We can proceed in the same way if necessary, adding more
+variables to show how the values of particular expressions change in
+this run, until we find the error.
+
+
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>13.5 Using the tool</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_65.html"><img border="0" alt="13.4 Confidence condition verification" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">13.4 Confidence condition verification</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr></table></body></html>

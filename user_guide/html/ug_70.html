@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 16 Test coverage support</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_69.html"><img border="0" alt="15 Mutation testing" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">15 Mutation testing</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_71.html"><img border="0" alt="17 LaTeX&#32;support" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">17 LaTeX&#32;support</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>16 Test coverage support</b></font></td></tr></table>
+<h1>16 Test coverage support</h1>
+
+<p>This section assumes you have installed emacs.  It also assumes you
+are familiar with the test case feature recently added to RSL: see
+section&nbsp;<a href="ug_8.html">1.7</a>. 
+<p>The tool supports test coverage analysis with the SML translator and SML
+run-time system.  When you run the translated SML code to
+execute some test cases you may see messages of the form
+<pre>
+Unexecuted expressions in X.rsl
+</pre>
+or
+<pre>
+Complete expression coverage of X.rsl
+</pre>
+<p>There may be several such messages if the system being tested involves
+several RSL modules.  The first indicates that not all expressions in
+X.rsl were executed; the second indicates that they all were.
+<p>In the first case, to see the unexecuted expressions, open the file
+<tt>X.rsl</tt> and select the RSL menu item <tt>Show test
+  coverage</tt>.  The unexecuted expressions will be highlighted in red.
+The highlighting can be cancelled again by selecting the RSL menu item
+<tt>Cancel test coverage</tt>.  It is possible that several coverage
+files from different tests are being merged to create an overall
+coverage, and the result of the merge may be to show that all
+expressions were in fact executed, in which case instead of some highlighting
+you will see the message <tt>Coverage is complete</tt>.
+<p>It is possible to run several tests (i.e.&#32;translate and run several
+different RSL files containing test cases) and combine the results.
+This is done automatically.  The coverage results from executing <tt>X.rsl</tt>
+are held in files <tt>X.rsl.eln</tt>, where <tt>n</tt> may be missing
+or may be an integer.
+<p>If the file <tt>X.rsl</tt> is edited in any way then the coverage
+results are redundant, as the behaviour may have changed.  Even
+editing such as pretty printing, which makes no functional changes,
+invalidates the coverage results as they are based on the positions in the
+buffer of the unexecuted expressions.  So as soon as you change
+<tt>X.rsl</tt> you will get the RSL menu item <tt>Delete old
+  coverage results</tt>, which should be selected to remove the
+<tt>X.rsl.eln</tt> files.  It is sensible but not critical to remove
+such old coverage files: any coverage file <tt>X.rsl.eln</tt> older
+than <tt>X.rsl</tt> is ignored when calculating the coverage.
+<p>Note that the support for test coverage analysis currently depends on all
+the RSL files needed being stored in one directory.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>16 Test coverage support</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_69.html"><img border="0" alt="15 Mutation testing" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">15 Mutation testing</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_71.html"><img border="0" alt="17 LaTeX&#32;support" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">17 LaTeX&#32;support</td></tr></table></td></tr></table></body></html>

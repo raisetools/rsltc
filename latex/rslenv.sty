@@ -1,0 +1,1144 @@
+%************************************************************************
+%                                                                       *
+%      RSL ENVIRONMENT STYLE   (C) Computer Resources International A/S *
+%                                                                       *
+%      This file contains the declaration of a LaTeX style file to be   *
+%      used in connection with the RSL pretty printer and rslatex.      *
+%                                                                       *
+%      Modification Log                                                 *
+%                                                                       *
+%          1987, 1988 : Steen Lynenskjold,                              *
+%                       Ole Frost Mikkelsen,                            *
+%                       Lars Toftegaard Olsen                           *
+%                                                                       *
+%                       Created                                         *
+%                                                                       *
+%          1990       : Peter Haastrup                                  *
+%                                                                       *
+%                       Updated to RSL-2                                *
+%                                                                       *
+%          1991       : Bent DanDanell                                  *
+%                       Major cleanup  and compatible with rslatex      *
+%                                                                       *
+%             Jan-21  : PMB: Overflow problem in \CB solved.            *
+%                       (\@maxpassed counter introduced in \N)          *
+%             Jan-22  : PMB: \global added to \rslrunwidth              *
+%             Apr-19  : BDH parindent restored                          * 
+%             Apr-24  : PMB: Dropping commas problem solved             *
+%             May-30  : PMB: \@maxnbr breaks lines in long specs        *
+%             Jul-05  : PMB: Moved \makeatletter to top                 *
+%                                                                       *
+%          1992       : PHA: Added keywords for devt relations ...      *
+%             Jul-07  : PMB: \CB no longer treated as a \O              *
+%             Jul-07  : PH: \stylett (corresponding to %S(tt: ... %S) ) *
+%                           \styleph (corresponding to %S(ph: ... %S) ) *
+%                              for non-placeholders                     *
+%             Aug-21  : PMB: Uses \linewidth instead of \hsize          *
+%                                                                       *
+%       All right reserved.                                             *
+%                                                                       *
+%************************************************************************
+%                                                                       *
+%************************************************************************
+%          1995 May 4 : CWG \rsl removed                                *
+%************************************************************************
+%          1998 January 26 : CWG additions for new RSL tools:           *
+%           \CONTTWO turned on and off by \context, \nocontext          *
+%           latexsym required (for use with LaTeX2e)                    *
+%           \RAISEINBOX added.  Allows use of fboxsep to separate       * 
+%                               frame from contents.                    *
+%                               Requires boxedminipage.                 *
+%************************************************************************
+%          1998 September 1 : CWG deleted \comment                      *
+%                             (clashes with hyperlatex and not needed)  *
+%************************************************************************
+
+\makeatletter
+
+\typeout{RSL Environment, Version V1.6.1-0, Copyright CRI A/S}
+
+% added by CWG 26/1/98
+\RequirePackage{latexsym}
+\RequirePackage{boxedminipage}
+\newlength{\raisefboxsep}
+\newlength{\savefboxsep}
+\setlength{\raisefboxsep}{1mm}
+
+\newcommand{\CONDPAGEBREAK}{\egroup
+  \N%
+  \global\rslpageval \z@\relax\bgroup}
+
+%\newcommand{\CONDPAGEBREAK}{\egroup
+%  \rule[-\baselineskip]{0pt}{\baselineskip}\N%
+%  \global\rslpageval \z@\relax\bgroup}
+
+
+%************************************************************************
+%                                                                       *
+%       The RSL-Environment error- and warningmessages.                 *
+%                                                                       *
+%       Based on TEX-facilities.                                        *
+%                                                                       *
+%       20 July 1987  Ole Frost Mikkelsen                               *
+%                                                                       *
+%************************************************************************
+
+% This function makes a RSL environment errormessage with the #1 text.
+\newcommand{\@rslerrmessage}[1]
+  {\begingroup%
+   \typeout{%
+     ! ********************* RSL-Environment Error ************************.%
+     ^^J!^^J! #1^^J!}%
+   \def\@rslstarline{%
+     **********************************************************************}
+   \errmessage{\@rslstarline}%
+   \endgroup}
+
+% This function makes a rsl environment warning with the #1 text.
+\newcommand{\@rslwarning}[1]
+  {\typeout{%
+     ! ********************* RSL-Environment Warning ************************.%
+     ^^J!^^J! #1^^J!^^J%
+     ! **********************************************************************.%
+  }}
+
+
+%************************************************************************
+%                                                                       *
+%       Compatibility with rslatex                                      *
+%                                                                       *
+%       7 January 1990 Bent DanDanell                                   *
+%                                                                       *
+%************************************************************************
+
+\newlength{\rslatexindentlength}
+\setlength{\rslatexindentlength}{3ex}
+\newcommand{\raiseindent}{\hspace*{\rslatexindentlength}}
+\newenvironment{program}{\begin{tabbing}
+                            \raiseindent\=\raiseindent\=\raiseindent\=%
+                            \raiseindent\=\raiseindent\=\raiseindent\=%
+                            \raiseindent\=\raiseindent\=\raiseindent\=%
+                            \raiseindent\=\raiseindent\=\raiseindent\=\kill
+                        }%
+                        {\end{tabbing}\vspace{1mm}
+                        }
+
+\newcommand{\bp}{\begin{program}}
+
+\newcommand{\ep}{\end{program}}
+
+
+%************************************************************************
+%                                                                       *
+%       The rsl group handling.                                 *
+%                                                                       *
+%       Heavily based on TEX-facilities.                                *
+%                                                                       *
+%       20 July 1987  Ole Frost Mikkelsen                               *
+%                                                                       *
+%************************************************************************
+
+% No rsl-command has been given
+\@ifdefinable\@rslnothing%
+  {\def\@rslnothing{NOTHING}}
+
+% The rsl-command that made the current group (The name of the group)
+\@ifdefinable\@rslcom%
+  {\def\@rslcom{NOTHING}}
+
+% The expected rsl-commands, which should terminate the group (pure text)
+\@ifdefinable\@rslexp%
+  {\def\@rslexp{NOTHING}}
+
+\@ifdefinable\@rsltemp%
+  {\def\@rsltemp{}}
+
+% This function enters a new group named #1 and hopefully ended by #2
+\newcommand{\@rslbegin}[2]
+  {\begingroup%
+   \def\@rslcom{#1}%
+   \def\@rslexp{#2}}
+
+% This function terminates the group named #1 by the #2-command
+\newcommand{\@rslend}[2]
+  {\def\@rsltemp{#1}%
+   \ifx\@rsltemp\@rslcom%
+   \else%
+     \@rslerrmessage{\@rslcom\space ended by #2 (\@rslexp\space was expected)}%
+   \fi%
+   \ifx\@rslcom\@rslnothing%
+   \else%
+     \endgroup%
+   \fi%
+   \ignorespaces}
+
+% This function starts a rsl environment named #1 and hopefully ended by #2
+% It is impossible to nest rsl environments and end the document before
+% all rsl environments are terminated.
+\newcommand{\@rslenvbegin}[2]
+  {\ifx\@rslcom\@rslnothing%
+   \else%
+     \@rslerrmessage{%
+       #1 started before end of \@rslcom\space%
+           (\@rslexp\space was expected)^^J%
+       ! (This might later cause some strange errors)}%
+     %*** The following line prevents repeated report of the same error (dirty)
+     \def\@rslcom{NOTHING}%
+   \fi%
+   \@rslbegin{#1}{#2}%
+   %*** \enddocument is redefined to report all the nonterminated groups
+   %*** observe the recursive call of \enddocument each time a group is
+   %*** terminated.
+   \def\enddocument{%
+     \@rslerrmessage{%
+       Document ended illegal (\@rslexp\space was expected)%
+       ^^J! (It probably also causes some LaTeX errors)}%
+     \endgroup%
+     \enddocument}%
+  }
+
+% This function terminates a rsl environment named #1 by #2
+\newcommand{\@rslenvend}[2]
+  {\@rslend{#1}{#2}}
+
+
+%************************************************************************
+%                                                                       *
+%      Added aspects to suit with RSL Pretty Printer                    *
+%                                                                       *
+%      1988-11-28. Steen Lynenskjold.                                   *
+%                                                                       *
+%************************************************************************
+
+% Define command to turn of linenumbering
+
+\def\nonumbering{%
+  \renewcommand{\@rslnuma}{\@rslboxe{\nonumindent}\@rslboxe{\rslindent}}%
+  \renewcommand{\@rslnumb}{\@rslboxe{\nonumindent}\@rslboxe{\rslindent}}%
+  \renewcommand{\@rslnonumb}{\@rslboxe{\nonumindent}\@rslboxe{\rslindent}}%
+  \setlength{\numwid}{\nonumindent}%
+}
+
+\def\numbering{
+  \renewcommand{\@rslnuma}
+   {{\rm%
+     \@rslboxr{\leftnumwid}{\therslform}%
+     .%
+     \@rslboxl{\rightnumwid}{\thersllin}%
+     \@rslboxe{\rslindent}%
+   }}
+  \renewcommand{\@rslnumb}
+   {{\rm%
+     \@rslboxe{\leftnumwid}%
+     .%
+     \@rslboxl{\rightnumwid}{\thersllin}%
+     \@rslboxe{\rslindent}%
+   }}
+  \renewcommand{\@rslnonumb}
+   {\@rslboxe{\numwid}%
+    \@rslboxe{\rslindent}}
+}
+
+% Define macro to turn-off error recovering
+
+\newcommand{\noerror}
+  {\renewcommand{\@rslbegin}[2]{}%
+   \renewcommand{\@rslend}[2]{}%
+   \renewcommand{\@rslenvbegin}[2]{}%
+   \renewcommand{\@rslenvend}[2]{}%
+  }
+
+
+%************************************************************************
+%                                                                       *
+%       Optimized LaTeX commands.                                       *
+%                                                                       *
+%       These specialized commands are based on TEX-facilities.         *
+%       They make the formatting of formulas more than twice as         *
+%       fast as before.                                                 *
+%                                                                       *
+%       30. July 1987   Ole Frost Mikkelsen                             *
+%                                                                       *
+%************************************************************************
+
+\newsavebox{\@rsltempbox}
+
+%***** print #2 in a box of size #1
+ 
+\newcommand{\@rslboxc}[2]
+%  {\makebox[#1]{#2}}
+  {\leavevmode\hbox to#1{\hss #2\hss}}
+
+\newcommand{\@rslboxr}[2]
+%  {\makebox[#1][r]{#2}}
+  {\leavevmode\hbox to#1{\hss#2}}
+  
+\newcommand{\@rslboxl}[2]
+%  {\makebox[#1][l]{#2}}
+  {\leavevmode\hbox to#1{#2\hss}}
+
+\newcommand{\@rslboxe}[1]
+%  {\makebox[#1]{}}
+  {\leavevmode\hbox to#1{\hss}}
+
+%***** print #1 key-word bold-faced
+
+\newcommand{\@rslkeyw}[1]
+%  {\underline{\raisebox{0ex}[...][0ex]{\rm #1}}
+  {\setbox\@rsltempbox\hbox{\bf #1}%
+   \dp\@rsltempbox 0ex%
+   \box\@rsltempbox}
+
+%***** print #1 identifier
+
+\newcommand{\@rslid}[1]
+  {\setbox\@rsltempbox \hbox{#1}%
+   \dp\@rsltempbox 0ex%
+   \box\@rsltempbox} 
+
+\newcommand{\PH}[1]
+  {$<:${\it #1\/}$:>$}
+\def\TXT#1{\PH{#1}}
+
+%************************************************************************
+%                                                                       *
+%       RSL font command, counter declarations, lengths                 *
+%       declarations, length initialisation                             *
+%                                                                       *
+%************************************************************************
+
+\newlength\rslrunwidth     % Remaining space on line.
+\newlength\saverslrunwidth % Temporary store of remaining space on line.
+\newlength\rslblkwidth     % Width of text between \@Nbegin and \@Nend
+\newbox\rsloptbox          % Box of text between \@Nbegin and \@Nend
+\newcount\rslpageval       % Pagebreak allowed: 0, disallowed: 4.
+
+\newcommand{\RSLTXTTYPE}{}
+
+\newcounter{rslform}       % formula number
+\newcounter{rsllin}        % linenumber in formula
+\newcounter{domform}
+\newcounter{domlin}
+
+\def\theformula{\arabic{rslform}.\arabic{rsllin}}
+
+\newlength{\formvspace}    % vertical space between formula
+\newlength{\linevspace}    % vertical space corresponding to some 
+                           % vertical space
+
+\newlength{\leftnumwid}    % width of n in linenumber n.m 
+\newlength{\rightnumwid}   % width of m in linenumber n.m
+\newlength{\numwid}        % width of linenumber n.m
+\newlength{\nonumindent}   % indentation after \nonumbering
+
+\newlength{\deltarslindent}% one 'standard' indentation-unit
+\newlength{\rslindent}     % current indentation
+\newlength{\@piggyspace}  % Extra space for text trailing \CB{}.
+
+\newcommand{\initrsllengths}
+  {\setlength{\formvspace}{3ex}%
+   \setlength{\linevspace}{.5ex}%
+   \setlength{\leftnumwid}{2em}%
+   \setlength{\rightnumwid}{2.5em}%
+   \setlength{\deltarslindent}{0.75em}%
+   \setlength{\rslindent}{0em}}
+
+\initrsllengths
+\settowidth{\nonumindent}{12}%
+\settowidth{\numwid}{\rm .}%
+\addtolength{\numwid}{\leftnumwid}%
+\addtolength{\numwid}{\rightnumwid}%
+%\settowidth{\@piggyspace}{\rm ~~~}%
+\setlength{\@piggyspace}{0em}
+
+
+%************************************************************************
+%                                                                       *
+%       The indentation handling functions (aux. func.)                 *
+%                                                                       *
+%************************************************************************
+
+% n.m
+\newcommand{\@rslnuma}
+   {{\rm%
+     \@rslboxr{\leftnumwid}{\therslform}%
+     .%
+     \@rslboxl{\rightnumwid}{\thersllin}%
+     \@rslboxe{\rslindent}%
+   }}
+
+%  .m
+\newcommand{\@rslnumb}
+   {{\rm%
+     \@rslboxe{\leftnumwid}%
+     .%
+     \@rslboxl{\rightnumwid}{\thersllin}%
+     \@rslboxe{\rslindent}%
+   }}
+% move in corresponding to width og linenumber
+\newcommand{\@rslnonumb}
+   {\@rslboxe{\numwid}%
+    \@rslboxe{\rslindent}}
+
+
+\newlength{\rsldiff}% new indentation - old indentation
+
+% advance indentation one 'standard indentation unit'
+
+\newcount\rslinout
+
+\newcommand{\rslin}
+  {%\rsldiff\deltarslindent%
+   \global\advance\rslindent\deltarslindent% % WWW
+%   \global\advance\rslinout \@ne
+  }
+
+% move indentation back one 'standard indentation unit'
+
+\newcommand{\rslout}%
+  {%\setlength{\rsldiff}{0em}%
+   \global\advance\rslindent-\deltarslindent % WWW
+%   \global\advance\rslinout -\@ne
+  }
+
+\def\resetrslrunwidth{%
+  \global\rslrunwidth \linewidth
+  \global\advance \rslrunwidth -\numwid
+  \global\advance \rslrunwidth -\rslindent
+  \global\advance \rslrunwidth -\@piggyspace
+  \global\rslpageval 3\relax}
+
+% advance indentation corresponding to width of #1
+\newcommand{\rslinw}[1]%
+%  {\settowidth{\rsldiff}{#1}%
+%   \addtolength{\rslindent}{\rsldiff}}
+  {\setbox\@rsltempbox \hbox{#1}%
+   \rsldiff\wd\@rsltempbox%
+   \advance\rslindent\rsldiff}
+
+%***** print #1 and advance indention corresponding to #1
+\newcommand{\dent}[1]%
+  {\setbox\@rsltempbox \hbox{#1}%
+   \rsldiff\wd\@rsltempbox%
+   \advance\rslindent\rsldiff%
+   \box\@rsltempbox}
+\newcommand{\opin}[1]%
+  {\dent{#1\ }}
+\newcommand{\opinnosp}[1]%
+  {\dent{#1}}
+
+%***** move forward
+\newcommand{\rslforw}
+  {\@rslboxe{\rsldiff}}
+
+%***** move back to last 'left-margin'-position
+\newcommand{\rslback}%
+  {\@rslboxe{-\rsldiff}}
+
+
+\newlength{\linespacing}
+\newcommand{\HSPACEW}[1]
+  {\settowidth{\linespacing}{#1}%
+   \@rslboxe{\linespacing}}
+
+\newcommand{\FORMVSPACE}
+   {\par%
+    \addvspace{\formvspace}}
+\newcommand{\LINEVSPACE}
+   {\nopagebreak%
+    \samepage%
+    \vspace{\linevspace}}
+
+
+%************************************************************************
+%                                                                       *
+%       Latex interface to the Cornell Synthesizer Generator.           *
+%                                                                       *
+%       Do not expect exactly the same results as CSG but something     *
+%       similar...                                                      *
+%                                                                       *
+%       %n                          ==  \N                              *
+%       %t                          ==  \T                              *
+%       %b                          ==  \B                              *
+%       %{ ... %c ... %c ... %}     ==  \CB{ ... \C ... \C ... }        *
+%       %[ ... %c ... %c ... %]     ==  \T\CB{ ... \C ...\C ... }\B     *
+%                                                                       *
+%       April 28. 1988  Ole Frost Mikkelsen                             *
+%                                                                       *
+%************************************************************************
+
+
+
+%************************************************************************
+%                                                                       *
+%       Connected line breaks.                                          *
+%                                                                       *
+%       These specialized commands are heavely based on TEX-facilities  *
+%       so don't change them unless very familiar with TeX.             *
+%                                                                       *
+%       The syntax is: \CB{ ... \C ... \C ... }                         *
+%                                                                       *
+%       The ...-expressions can contain the command \N (newline) but    *
+%       should not contain any \RSLLN, \RSLLE, ...                      *
+%                                                                       *
+%       April 28. 1988  Ole Frost Mikkelsen                             *
+%                                                                       *
+%************************************************************************
+
+%\newsavebox{\@rsltempbox}
+\newlength{\@rsltempboxwidth}   
+\newcount\rslsavelin 
+\newcount\@maxpassed
+\newcount\@nbrpassed
+
+% Heuristic constant \@maxnbr: If we meet more than this number of \C's and
+% \O's then, we assume that the text is longer than one line.
+\chardef\@maxnbr=100
+
+\def\@AFTERMAX{%
+  \ifnum\@nbrpassed<\@maxnbr%
+  \else
+    \def\CB##1{}%
+    \def\N{}%
+    \def\T{}%
+    \def\B{}%
+    \def\C{}%
+    \def\O##1{}%
+    \def\MB{}%
+  \fi
+}
+
+\def\@FOO#1{#1}
+\def\CB#1{\@CB{#1}}
+
+\def\@CB#1{%
+  \@Nend
+  \@maxpassed\z@
+  \global\@nbrpassed\z@
+  \begingroup%
+    \def\CB{}%
+    \def\B{}%
+    \def\T{}%
+    \def\C{\global\advance\@nbrpassed\@ne\@AFTERMAX}%
+    \def\O{\global\advance\@nbrpassed\@ne\@AFTERMAX}%
+    \def\N{%
+         \global\@nbrpassed\@maxnbr
+         \@AFTERMAX
+          }% 
+    \def\MB{}% optional \rslback
+    \def\DEFINING##1{}%
+    \def\USING##1{}%
+    \rslsavelin\c@rsllin
+    \global\setbox \@rsltempbox \hbox{#1}%
+    \c@rsllin\rslsavelin
+  \endgroup%
+  \ifnum\@nbrpassed<\@maxnbr%
+    \@rsltempboxwidth \wd\@rsltempbox \relax%
+    \ifdim \@rsltempboxwidth > \rslrunwidth%
+      \gdef\@Nend{\@NNend}%
+      \saverslrunwidth\rslrunwidth%
+      \@Nbegin
+         \@FOO#1%
+      \@Nend
+    \else%
+      \begingroup% Don't break \C
+        \def\C{}%
+        \def\O##1{##1}%
+        \def\MB{}%
+        \def\CB##1{##1}%
+        \@FOO#1%
+        \global\advance \rslrunwidth -\@rsltempboxwidth
+%        \global\rslindent\rslindent
+      \endgroup%
+    \fi
+  \else
+    \gdef\@Nend{\@NNend}%
+    \saverslrunwidth\rslrunwidth%
+    \@Nbegin
+      \@FOO#1%
+    \@Nend
+  \fi%
+  \gdef\@Nend{\@NNend}%
+  \@Nbegin
+}
+
+
+%************************************************************************
+%                                                                       *
+%       Commands to print two texts at the same place.                  *
+%                                                                       *
+%************************************************************************
+
+\newlength{\maxwidth}
+\newcommand{\overlayl}[2]
+  {{\settowidth{\maxwidth}{\shortstack{#1\\#2}}%
+    \@rslboxl{0em}{#1}%
+    \@rslboxl{\maxwidth}{#2}%
+  }}
+\newcommand{\overlayc}[2]
+  {{\settowidth{\maxwidth}{\shortstack{#1\\#2}}%
+    \@rslboxc{\maxwidth}{%
+      \@rslboxc{0em}{#1}%
+      \@rslboxc{0em}{#2}%
+    }%
+  }}
+\newcommand{\overlayr}[2]
+  {{\settowidth{\maxwidth}{\shortstack{#1\\#2}}%
+    \@rslboxr{\maxwidth}{#1}%
+    \@rslboxr{0em}{#2}%
+  }}
+
+
+%************************************************************************
+%                                                                       *
+%       Commands to set the formula- and linenumber explicitly.         *
+%       Commands to get the current formula- and linenumber.            *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\SETFORM}[1]
+  {\setcounter{rslform}{#1}%
+   \addtocounter{rslform}{-1}}
+\newcommand{\SETLIN}[1]
+  {\setcounter{rsllin} {#1}}
+
+\newcommand{\GETFORM}[1]
+  {\setcounter{#1}{\value{rslform}}}
+\newcommand{\GETLIN}[1]
+  {\setcounter{#1}{\value{rsllin}}}
+
+
+%************************************************************************
+%                                                                       *
+%       The commands to print keywords and enumerated values.           *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\KEYW}[1]
+  {'\@rslkeyw{#1}'}
+   
+\newcommand{\QUOT}[1]
+  {\underline{\raisebox{0ex}[1ex][0ex]{\sc #1}}}
+\newcommand{\Q}[1]
+  {\QUOT{#1}}
+
+
+%************************************************************************
+%                                                                       *
+%       The structure definition environment.                           *
+%                                                                       *
+%************************************************************************
+
+\newlength{\thenwidth}
+\newlength{\oldparindent}
+
+\newcommand{\INITRSLA}
+   {\refstepcounter{rslform}% 
+    \setcounter{rsllin}{-1}%
+    \addvspace{\formvspace}}
+
+\newcommand{\INITRSLB}
+   {\RSLTXTTYPE%
+    \initrsllengths%
+    \settowidth{\thenwidth}{\@rslkeyw{then}}%
+    %\vspace*{-\baselineskip}
+    \addpenalty{-\@highpenalty}}
+%***** Enter and exit RSL-environment
+
+\newcommand{\RSL}
+{\INITRSLA%
+ \bgroup%
+ \def\N{\@Nend \RSLLN \gdef\@Nend{\@NNend}\@Nbegin}%
+ \def\T{\rslin}%
+ \def\B{\rslout}%
+ \def\L{\rslforw}%
+ \def\C{\N}%
+ \def\O##1{\CB{{}\C \CB{{}##1}}}%
+ \def\MB{\rslback}%
+ \INITRSLB%
+ \parindent\z@%
+ \parskip\z@%
+}
+
+\newcommand{\LSR}
+   {\@Nend\egroup\par
+    %\addvspace{\formvspace}%
+    \addpenalty{-\@highpenalty}}
+%***** Line-numbering
+
+% n.     first line 
+\newcommand{\RSLLBI}
+{\raggedbottom\refstepcounter{rsllin}%
+    \@rslnuma \resetrslrunwidth
+    \gdef\@Nend{\@NNend}%
+    \@Nbegin}
+
+\def\RSLLB{%
+  \typeout{*** Error:}
+  \typeout{Outdated pretty-print encountered. Please re-pretty-print or use}
+  \typeout{oldrslenv in your documentstyle.}
+  \def\T{}%
+  \def\B{}%
+  \def\N{}%
+  \def\C{}%
+  \def\O{}%
+  \def\MB{}%
+  \def\CB##1{##1}
+  
+  {\bf The following entity was pretty-printed using an old version of
+       the RAISE tools. In order to make it look right, either refer to
+       oldrslenv.sty in the documentstyle or re-pretty-print using
+       the latest version of the tools.
+  }
+
+  \bgroup
+}
+
+\def\@Nbegin{%
+  \def\C{\N}%
+  \setbox\rsloptbox\hbox\bgroup}
+
+\def\@NNend{%
+  \egroup
+  \rslblkwidth \wd\rsloptbox
+  \global\advance \rslrunwidth -\rslblkwidth
+  \ifdim  \rslrunwidth < 0pt%  Captures missing \C's in unparse spec.
+%     \global\advance\rslindent \deltarslindent
+%     \RSLLN
+%     \global\advance \rslrunwidth -\rslblkwidth
+%     \global\advance\rslindent -\deltarslindent
+    \makebox[0pt][l]{\box\rsloptbox}%
+  \else
+    \box\rsloptbox
+  \fi
+  \gdef\@Nend{}%
+}
+\def\@Nend{\@NNend}
+
+%  .m    
+\newcommand{\RSLLN}
+   {\hfill\par%
+    \refstepcounter{rsllin}%
+    \nopagebreak[\rslpageval]%
+    \@rslnumb \resetrslrunwidth}
+
+% add some vertical space
+\newcommand{\RSLL}
+   {\nopagebreak%
+    \samepage%
+    \vspace{\linevspace}%
+    \samepage}
+
+% n.m    last line
+\newcommand{\RSLLE}
+   {\hfill\\%
+    \refstepcounter{rsllin}%
+    \@rslnuma}
+
+\newcommand{\RSLDIE}
+   {\hfill\\%
+    \@rslnumb}
+
+% new line, not numbered
+\newcommand{\RSLLI}
+   {\hfill\\%
+    \@rslnonumb}
+
+% Input a specification in a frame
+
+\newcommand{\RAISEINFRAME}[2]
+  {%\mbox{ }    
+%   \newline
+%   \vspace{.5cm}
+   \setlength{\oldparindent}{\parindent}%
+   \setlength{\parindent}{0em}%
+  \par\mbox{ }%
+   \framebox[#1]{
+     \begin{minipage}[t]{#1}
+%        \mbox{}
+%        \par
+        \input{#2}
+     \end{minipage}
+   }%
+  \setlength{\parindent}{\oldparindent}%
+  }
+
+% added by CWG 26/1/98
+% allows use of fboxsep to separate frame from contents
+\newcommand{\RAISEINBOX}[1]
+{
+  \setlength{\savefboxsep}{\fboxsep}%
+  \setlength{\fboxsep}{\raisefboxsep}%
+  \setlength{\oldparindent}{\parindent}%
+  \setlength{\parindent}{0em}%
+      \begin{boxedminipage}[t]{\textwidth}
+        \input{#1}
+        \vspace*{-\baselineskip}
+      \end{boxedminipage}
+  \setlength{\parindent}{\oldparindent}%
+  \setlength{\fboxsep}{\savefboxsep}%
+}
+
+% Input a specification
+
+\newcommand{\RAISEIN}[1]{%
+  \setlength{\oldparindent}{\parindent}%
+  \setlength{\parindent}{0em}%
+  \par
+  \input{#1}%
+  \setlength{\parindent}{\oldparindent}%
+}%
+
+%removed by CWG 4/5/95 to avoid conflict with UNU/IIST's global.sty
+%\newcommand{\rsl}{{\sc RSL}}
+\newcommand{\ra}{{\sc RAISE}}
+
+
+
+%************************************************************************
+%                                                                       *
+%       indexing facilities, etc.                                       *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\I}[1]
+   {\mbox{$_{\RSLTXTTYPE #1}$}}
+
+
+  
+%************************************************************************
+%                                                                       *
+%       This supports the reference to names in normal text.            *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\NAME}[1]
+   {{\RSLTXTTYPE #1\/}}
+\newcommand{\NAMEB}[1]
+   {\mbox{\RSLTXTTYPE #1\/}}
+
+% TWO versions added by CWG 26/1/98
+\newcommand{\ORGCONTEXT}[1]
+   {{\stylett context}\COLON\ \T\T\T\@FOO#1\B\B\B\N\N}
+\newcommand{\ORGCONTTWO}[1]{\textbf{context:} #1}
+\def\CONTEXT{\ORGCONTEXT}
+\def\CONTTWO{\ORGCONTTWO}
+\newcommand{\NOCONTEXT}
+   {\renewcommand{\CONTEXT}[1]{}\renewcommand{\CONTTWO}[1]{}}
+\newcommand{\nocontext}
+   {\renewcommand{\CONTEXT}[1]{}\renewcommand{\CONTTWO}[1]{}}
+\newcommand{\context}
+   {\renewcommand{\CONTEXT}[1]{\ORGCONTEXT}\renewcommand{\CONTTWO}[1]{\ORGCONTTWO}}
+%************************************************************************
+%                                                                       *
+%       RSLatex Definitions                                             *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\Parrightarrow}{\mbox{$\stackrel{\sim}{\Rightarrow}$}}
+\newcommand{\at}{\mbox{\char'100}}
+\newcommand{\bprim}{$\!$\raisebox{-0.2ex}{\large \char'022}$\!$}
+% removed by CWG 1/9/98 (clashes with hyperlatex and not needed)
+% \newcommand{\comment}{\mbox{--\,-- }}
+\newcommand{\concat}{\mbox{$\,\widehat{\;}\,$}}
+\newcommand{\detchoice}{\mbox{$\lceil\!\rceil\!\!\!\!\!\!\;\lfloor\!\rfloor$}}
+\newcommand{\emptymap}{\mbox{[$\:$]}}
+\newcommand{\eqdef}{\raisebox{-0.375ex}{$\stackrel{\triangle}{=}\:$}}
+\newcommand{\extch}{\mbox{$\!\Box\!$}}
+\newcommand{\fleftrightarrow}{\mbox{$\stackrel{f}{\leftrightarrow}$}}
+\newcommand{\frightarrow}{\mbox{$\stackrel{f}{\rightarrow}$}}
+\newcommand{\hash}{\mbox{\scriptsize \#}}
+\newcommand{\hide}{\mbox{$\setminus\!\setminus$}}
+\newcommand{\intch}{\mbox{$\sqcap$}}
+\newcommand{\interleave}{\mbox{$\mid \hskip -0.1ex \mid \hskip -0.1ex \mid$\hskip 0.1ex}} %{\mbox{$|\!|\!|$}}
+\newcommand{\intl}{\mbox{$\mid\mid\mid$}}
+\newcommand{\kw}[1]{{\bf #1}}
+\newcommand{\leftsem}{\mbox{$[\![$}}
+\newcommand{\lrarrow}{\mbox{\scriptsize $\leftrightarrow$}}
+\newcommand{\lrec}{\mbox{$\{|$}}
+\newcommand{\lunion}{\mbox{$[|$}}
+\newcommand{\marrow}{\mbox{$\:\rightarrow \!\!\!\!\!\!\!\!\!{\mbox{ }_{m}}\;$}}
+\newcommand{\nondetchoice}{\mbox{$\lceil\!\rceil$}}
+\newcommand{\parleftrightarrow}{\mbox{$\stackrel{\sim}{\leftrightarrow}$}}
+\newcommand{\parl}{\mbox{$\parallel$}}
+\newcommand{\parrightarrow}{\mbox{$\stackrel{\sim}{\rightarrow}$}}
+\newcommand{\prim}{\raisebox{1ex}[1ex][0ex]{\protect\scriptsize$\prime$}}
+%\newcommand{\prim}{\raisebox{1ex}{\footnotesize$\prime$}}
+\newcommand{\rdot}{\mbox{\raisebox{.4ex}{\tiny $\bullet$}}}
+\newcommand{\renbeg}{\mbox{$[_{_{\alpha}}$}}
+\newcommand{\renend}{\mbox{$]_{_{\alpha}}$}}
+\newcommand{\rightsem}{\mbox{$]\!]$}}
+\newcommand{\rrec}{\mbox{$|\}$}}
+\newcommand{\runion}{\mbox{$|]$}}
+\newcommand{\sem}[1]{\leftsem~\mbox{#1}~\rightsem}
+\newcommand{\s}{\char'022}
+\newcommand{\tie}{\mbox{--$\!\!\!\|$}}
+\newcommand{\wildcard}{\mbox{\underline{\hspace*{.7em}}}}
+\newcommand{\leftgoal}{%
+{\mbox{\setlength{\unitlength}{1em}\thicklines%
+ \begin{picture}(.4,1)(0,.15)%
+   \put(0,0){\line(1,0){.3}} %
+   \put(0,0){\line(0,1){.45}} %
+ \end{picture}%
+}}}
+\newcommand{\rightgoal}{%
+{\mbox{\setlength{\unitlength}{1em}\thicklines%
+ \begin{picture}(.5,1)(0,.15)%
+   \put(.1,0){\line(1,0){.3}} %
+   \put(.4,0){\line(0,1){.45}} %
+ \end{picture}%
+}}}
+
+
+%************************************************************************
+%                                                                       *
+%       SSL styles                                                      *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\stylett} {\bf}
+\newcommand{\styleph} {\it}
+
+
+%************************************************************************
+%                                                                       *
+%       R S L - K E Y W O R D S    &    S Y M B O L S                   *
+%                                                                       *
+%************************************************************************
+
+\newcommand{\LCOMMENT}        {\SLASH\AST}
+\newcommand{\RCOMMENT}        {\AST\SLASH}
+\newcommand{\LBRACKET}        {$[\,$}
+\newcommand{\NOTISIN}         {$\not \in$}
+\newcommand{\NOTEQ}           {${\neq}$}
+\newcommand{\SIM}             {${\sim}$}
+\newcommand{\RBRACE}          {\mbox{$\}$}}
+\newcommand{\RTYPEBRACE}      {\mbox{$|\}$}}
+\newcommand{\PARL}            {\mbox{$\parallel$}}
+\newcommand{\NONDETCHOICE}    {$\nondetchoice$}
+\newcommand{\RARRBRACKET}     {\mbox{$|]$}}
+\newcommand{\DETCHOICE}       {$\detchoice$}
+\newcommand{\BAR}             {$|$}
+\newcommand{\LTYPEBRACE}      {\mbox{$\{|$}}
+\newcommand{\LBRACE}          {\mbox{$\{$}}
+\newcommand{\UNDERLINE}       {\wildcard}
+\newcommand{\CONCAT}          {\raisebox{0ex}[1ex]{$\,\widehat{\;}\,$}}
+\newcommand{\RBRACKET}        {$\,]$}
+\newcommand{\VEE}             {$\vee$}
+\newcommand{\SETMINUS}        {$\backslash$}
+\newcommand{\LARRBRACKET}     {\mbox{$[|$}}
+\newcommand{\QUERY}           {$?$}
+\newcommand{\SUPSETEQ}        {$\supseteq$}
+\newcommand{\SUPSET}          {$\supset$}
+\newcommand{\GEQ}             {$\geq$}
+\newcommand{\TIMES}           {$\times$}
+\newcommand{\GT}              {$>$}
+\newcommand{\DBLRIGHTARROW}   {$\Rightarrow$}
+\newcommand{\EQEQ}            {$==$}
+\newcommand{\EQ}              {$=$}
+\newcommand{\LEQ}             {$\leq$}
+\newcommand{\SUBSETEQ}        {$\subseteq$}
+\newcommand{\SUBSET}          {$\subset$}
+\newcommand{\LANGLE}          {$\langle$}
+\newcommand{\LEFTRIGHTARROW}  {$\leftrightarrow$}
+\newcommand{\LT}              {$<$}
+\newcommand{\SEMI}            {$;$}
+\newcommand{\COLONEQ}         {\mbox{$:=$}}
+\newcommand{\COLONCOLON}      {\mbox{$::$}}
+\newcommand{\RDOT}            {\raisebox{.4ex}{\tiny $\bullet$}}
+\newcommand{\COLON}           {$:$}
+\newcommand{\WEDGE}           {$\wedge$}
+\newcommand{\SLASH}           {$/$}
+\newcommand{\RANGLE}          {$\rangle$}
+\newcommand{\DOTDOT}          {\mbox{$..$}}
+\newcommand{\DOTDOTDOT}       {\mbox{$...$}}
+\newcommand{\DOT}             {$.$}
+\newcommand{\PARRIGHTARROW}   {\parrightarrow}
+\newcommand{\SET}             {\mbox{{\bf -set}}}
+\newcommand{\MARROW}          {\marrow}
+\newcommand{\PARMARROW}       {\mbox{$\stackrel{\sim}{\marrow}$}}
+\newcommand{\LIST}            {$^{*}$}
+\newcommand{\INFSET}          {\mbox{{\bf -infset}}}
+\newcommand{\INFLIST}         {$^{\omega}$}
+\newcommand{\LAMBDA}          {$\lambda$}
+\newcommand{\RIGHTARROW}      {$\rightarrow$}
+\newcommand{\PRIM}            {\protect\raisebox{1ex}[1ex][0ex]{\protect\scriptsize$\prime$}}
+\newcommand{\MINUS}           {$-$}
+\newcommand{\COMMA}           {$,$}
+\newcommand{\MAPSTO}          {$\mapsto$}
+\newcommand{\TIE}             {\tie}
+\newcommand{\LEFTGOALBR}      {\leftgoal}
+\newcommand{\RIGHTGOALBR}     {\rightgoal}
+\newcommand{\SIMEQ}           {$\simeq$}
+\newcommand{\TURNSTILE}       {$\vdash$}
+\newcommand{\SQSUBSETEQ}      {$\sqsubseteq$}
+\newcommand{\IMPLEMENTS}      {$\preceq$}
+\newcommand{\RULEEQUIV}       {$\simeq$}
+\newcommand{\RULELREQUIV}      {$\equiv>$}
+\newcommand{\PLUS}            {$+$}
+\newcommand{\UPARROW}         {$\uparrow$}
+\newcommand{\AST}             {$\ast$}
+\newcommand{\RPAR}            {$)$}
+\newcommand{\LPAR}            {$($}
+\newcommand{\HASH}            {$^{\circ}$}
+\newcommand{\EXCLAM}          {$!$}
+\newcommand{\CROSS}           {$\times$}
+\newcommand{\DAGGER}          {$\dagger$}
+\newcommand{\WRITE}           {\@rslkeyw{write}}
+\newcommand{\WITH}            {\@rslkeyw{with}}
+\newcommand{\WHILE}           {\@rslkeyw{while}}
+\newcommand{\VARIABLE}        {\@rslkeyw{variable}}
+\newcommand{\VALUE}           {\@rslkeyw{value}}
+\newcommand{\USE}             {\@rslkeyw{use}}
+\newcommand{\UNTIL}           {\@rslkeyw{until}}
+\newcommand{\UNION}           {$\cup$}
+\newcommand{\TYPE}            {\@rslkeyw{type}}
+\newcommand{\TRUE}            {\@rslkeyw{true}}
+\newcommand{\TL}              {\@rslkeyw{tl}}
+\newcommand{\THEN}            {\@rslkeyw{then}}
+\newcommand{\SWAP}            {\@rslkeyw{swap}}
+\newcommand{\STOP}            {\@rslkeyw{stop}}
+\newcommand{\SKIP}            {\@rslkeyw{skip}}
+\newcommand{\SCHEME}          {\@rslkeyw{scheme}}
+\newcommand{\RNG}             {\@rslkeyw{rng}}
+\newcommand{\READ}            {\@rslkeyw{read}}
+\newcommand{\PRE}             {\@rslkeyw{pre}}
+\newcommand{\POST}            {\@rslkeyw{post}}
+\newcommand{\OUT}             {\@rslkeyw{out}}
+\newcommand{\OF}              {\@rslkeyw{of}}
+\newcommand{\OBJECT}          {\@rslkeyw{object}}
+\newcommand{\LOCAL}           {\@rslkeyw{local}}
+\newcommand{\LET}             {\@rslkeyw{let}}
+\newcommand{\LEN}             {\@rslkeyw{len}}
+\newcommand{\ISIN}            {$\in$}
+\newcommand{\IS}              {$\equiv$}
+\newcommand{\INTER}           {$\cap$}
+\newcommand{\INITIALISE}      {\@rslkeyw{initialise}}
+\newcommand{\INDS}            {\@rslkeyw{inds}}
+\newcommand{\IN}              {\@rslkeyw{in}}
+\newcommand{\IF}              {\@rslkeyw{if}}
+\newcommand{\HIDE}            {\@rslkeyw{hide}}
+\newcommand{\HD}              {\@rslkeyw{hd}}
+\newcommand{\FORALL}          {\@rslkeyw{forall}}
+\newcommand{\FOR}             {\@rslkeyw{for}}
+\newcommand{\FALSE}           {\@rslkeyw{false}}
+\newcommand{\EXTEND}          {\@rslkeyw{extend}}
+\newcommand{\EXISTS}          {$\exists$}
+\newcommand{\END}             {\@rslkeyw{end}}
+\newcommand{\ELSIF}           {\@rslkeyw{elsif}}
+\newcommand{\ELSE}            {\@rslkeyw{else}}
+\newcommand{\ELEMS}           {\@rslkeyw{elems}}
+\newcommand{\DOM}             {\@rslkeyw{dom}}
+\newcommand{\DO}              {\@rslkeyw{do}}
+\newcommand{\CLASS}           {\@rslkeyw{class}}
+\newcommand{\CHAOS}           {\@rslkeyw{chaos}}
+\newcommand{\CHANNEL}         {\@rslkeyw{channel}}
+\newcommand{\CASE}            {\@rslkeyw{case}}
+\newcommand{\CARD}            {\@rslkeyw{card}}
+\newcommand{\AS}              {\@rslkeyw{as}}
+\newcommand{\AXIOM}           {\@rslkeyw{axiom}}
+\newcommand{\ANY}             {\@rslkeyw{any}}
+\newcommand{\ALWAYS}          {$\Box$}
+\newcommand{\ALL}             {$\forall$}
+\newcommand{\ABS}             {\@rslkeyw{abs}}
+\newcommand{\UNIT}            {\@rslkeyw{Unit}}
+\newcommand{\TEXT}            {\@rslkeyw{Text}}
+\newcommand{\REAL}            {\@rslkeyw{real}}
+\newcommand{\Real}            {\@rslkeyw{Real}}
+\newcommand{\NAT}             {\@rslkeyw{Nat}}
+\newcommand{\Int}             {\@rslkeyw{Int}}
+\newcommand{\INT}             {\@rslkeyw{int}}
+\newcommand{\CHAR}            {\@rslkeyw{Char}}
+\newcommand{\BOOL}            {\@rslkeyw{Bool}}
+\newcommand{\UNDERSCORE}      {\_}
+\newcommand{\BQUOT}           {$\!$\raisebox{-0.2ex}{\large \char'022}$\!$}
+\newcommand{\DEVTRELATION}    {\@rslkeyw{devt}\_\@rslkeyw{relation}}
+\newcommand{\THEORY}          {\@rslkeyw{theory}}
+\newcommand{\HINT}            {\@rslkeyw{hint}}
+\newcommand{\EDITING}         {\it{(editing)}}
+\newcommand{\AREDIFFERENT}     {\@rslkeyw{are}\_\@rslkeyw{different}}
+\newcommand{\ASSIGNMENTDISJOINT}    {\@rslkeyw{assignment}\_\@rslkeyw{disjoint}}
+\newcommand{\ASSUME}           {\@rslkeyw{assume}}
+\newcommand{\BINDINGRULES}     {\@rslkeyw{binding}\_\@rslkeyw{disjoint}}
+\newcommand{\CASES}           {\@rslkeyw{cases}}
+\newcommand{\CLASSRULES}       {\@rslkeyw{class}\_\@rslkeyw{disjoint}}
+\newcommand{\COMMUNICATIONDISJOINT}    {\@rslkeyw{communication}\_\@rslkeyw{disjoint}}
+\newcommand{\CONVERGENT}       {\@rslkeyw{convergent}}
+\newcommand{\DECLRULES}        {\@rslkeyw{decl}\_\@rslkeyw{rules}}
+\newcommand{\DISJOINT}         {\@rslkeyw{disjoint}}
+\newcommand{\EXPRESS}          {\@rslkeyw{express}}
+\newcommand{\FOLLOWS}          {\@rslkeyw{follows}}
+\newcommand{\FROM}             {\@rslkeyw{from}}
+\newcommand{\LEMMA}            {\@rslkeyw{lemma}}
+\newcommand{\INFERENCERULES}   {\@rslkeyw{inference}\_\@rslkeyw{rules}}
+\newcommand{\IRRELEVANT}       {\@rslkeyw{irrelevant}}
+\newcommand{\ISINHABITED}      {\@rslkeyw{is}\_\@rslkeyw{inhabited}}
+\newcommand{\ISINSUBTYPE}      {\@rslkeyw{isin}\_\@rslkeyw{subtype}}
+\newcommand{\ISLITERAL}        {\@rslkeyw{is}\_\@rslkeyw{literal}}
+\newcommand{\JUSTIFICATION}    {\@rslkeyw{justification}}
+\newcommand{\NOCAPTURE}        {\@rslkeyw{no}\_\@rslkeyw{capture}}
+\newcommand{\NONEWCAPTURE}     {\@rslkeyw{no}\_\@rslkeyw{new}\_\@rslkeyw{capture}}
+\newcommand{\OBJECTRULES}      {\@rslkeyw{object}\_\@rslkeyw{rules}}
+\newcommand{\PATTERNRULES}     {\@rslkeyw{pattern}\_\@rslkeyw{rules}}
+\newcommand{\PURE}             {\@rslkeyw{pure}}
+\newcommand{\QED}              {\@rslkeyw{qed}}
+\newcommand{\READONLY}         {\@rslkeyw{readonly}}
+\newcommand{\READWRITEONLY}    {\@rslkeyw{readwriteonly}}
+\newcommand{\SIMPLIFY}         {\@rslkeyw{simplify}}
+\newcommand{\SINCE}            {\@rslkeyw{since}}
+\newcommand{\SUBSTBINDING}     {\@rslkeyw{subst}\_\@rslkeyw{binding}}
+\newcommand{\SUBSTEXPR}        {\@rslkeyw{subst}\_\@rslkeyw{expr}}
+\newcommand{\TYPERULES}        {\@rslkeyw{type}\_\@rslkeyw{rules}}
+\newcommand{\TYPINGRULES}      {\@rslkeyw{typing}\_\@rslkeyw{rules}}
+\newcommand{\VALUERULES}       {\@rslkeyw{value}\_\@rslkeyw{rules}}
+\newcommand{\WHEN}             {\@rslkeyw{when}}
+
+
+%************************************************************************
+%                                                                       *
+%                                                                       *
+%      Cross referencing handling                                       *
+%                                                                       *
+%                                                                       *
+%************************************************************************
+
+ 
+\def\xref #1{\if@filesw \newwrite\@xreffile
+             \immediate\openout\@xreffile=\jobname.xrf
+             \typeout{Writing xref file \jobname.xrf } 
+ \fi
+
+\def\DEFINING##1{\@bsphack\if@filesw {\let\protect\string\let\ #1\relax
+   \xdef\@gtempa{\write\@xreffile{
+      {##1} \string d {#1}}}}\@gtempa
+   \if@nobreak \ifvmode\nobreak\fi\fi\fi\@esphack}
+             
+
+\def\USING##1{\@bsphack\if@filesw {\let\protect\string\let\ #1\relax
+   \xdef\@gtempa{\write\@xreffile{
+      {##1} \string u {#1}}}}\@gtempa
+   \if@nobreak \ifvmode\nobreak\fi\fi\fi\@esphack}
+         }
+
+
+\def\DEFINING{\@bsphack\begingroup \@sanitize\@index}
+ 
+\def\@DEFINING#1{\endgroup\@esphack}
+
+\def\USING{\@bsphack\begingroup \@sanitize\@index}
+ 
+\def\@USING#1{\endgroup\@esphack}
+
+
+     
+\newif\if@restonecol
+\def\thexref{\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
+\columnseprule \z@
+\columnsep 35pt\twocolumn[\section*{Cross-References}]
+ \@mkboth{XREF}{XREF}\thispagestyle{plain}\parindent\z@
+ \parskip\z@ plus .3pt\relax\let\item\@xrfitem}
+\def\@xrfitem{\par\hangindent 40pt}
+\def\subitem{\par\hangindent 40pt \hspace*{20pt}}
+\def\subsubitem{\par\hangindent 40pt \hspace*{30pt}}
+\def\endthexref{\if@restonecol\onecolumn\else\clearpage\fi}
+\def\xrefspace{\par \vskip 10pt plus 5pt minus 3pt\relax}

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 9.3 Declarations</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_22.html"><img border="0" alt="9.2 Activating the SML translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">9.2 Activating the SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_24.html"><img border="0" alt="9.4 Class expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9.4 Class expressions</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>9.3 Declarations</b></font></td></tr></table>
+<h2>9.3 Declarations</h2>
+A declaration translates to one or more type, constant, function or
+variable declarations as described below for the various kinds of
+declarations.
+
+<h3><a name="id1">9.3.1 Scheme declarations</a></h3>
+Apart from the top level module (which is translated as if it were an
+object), schemes are only translated when they are instantiated as
+objects.  So a scheme that is instantiated several times will
+therefore be translated several times.  This may appear wasteful, but
+it saves the need for the restrictions on scheme parameters that would
+be needed if functors were used for schemes.
+
+<h3><a name="id2">9.3.2 Object declarations</a></h3>
+An object translates as its translated declarations in a structure of
+the same name as the object.
+<p>An object definition in RSL<i><sub>SML</sub></i> cannot have a formal array parameter.
+
+<h3><a name="id3">9.3.3 Type declarations</a></h3>
+<p>Type declarations are translated according to their constituent
+definitions.
+<p>Mutually recursive type definitions are not accepted. 
+
+<h4><a name="id4">Sort definitions</a></h4>
+<p>Not accepted.
+
+<h4><a name="id5">Variant definitions</a></h4>
+<p>A variant definition translates to a <tt>structure</tt> containing an
+SML datatype defining the constructors, plus definitions of any
+destructors and reconstructors.  Equality and "toString" functions
+are also defined.
+<p>Wildcard constructors are not accepted. 
+
+<h4><a name="id6">Short record definitions</a></h4>
+A short record definition translates to a <tt>structure</tt> containing an
+SML datatype defining the constructor, plus definitions of any
+destructors and reconstructors.  Equality and "toString" functions
+are also defined.
+
+<h4><a name="id7">Abbreviation definitions</a></h4>
+An abbreviation definition translates to an SML type definition.
+
+<h3><a name="id8">9.3.4 Value declarations</a></h3>
+
+<h4><a name="id9">Typings</a></h4>
+Typings are not accepted.
+
+<h4><a name="id10">Explicit value definitions</a></h4>
+An explicit value definition translates to an SML value definition.
+
+<h4><a name="id11">Implicit value definitions</a></h4>
+Implicit value definitions are not accepted.
+
+<h4><a name="sml:fun">Explicit function definitions</a></h4>
+
+An explicit function definition translates to an SML function
+definition. 
+<p>If the parameter type(s) are subtype(s), run-time checking that
+arguments satisfy the relevant conditions is included.
+<p>If there is a precondition, run-time checking the the precondition is
+true when the function is invoked is included.
+<p>Access descriptors are ignored.  The kind of
+function arrow (&#8594; or -~-&gt;) does not matter.
+<p>It is not required that the number of parameters matches the number of
+components in the 
+domain of the function's type expression.  For example, the following
+are all accepted: 
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;U = <b>Int</b> &#215; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f1: <b>Int</b> &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f1(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f2: (<b>Int</b> &#215; <b>Bool</b>) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f2(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f3: U &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f3(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f4: U &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f4(x, y) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f5: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f5(x, y) &#8801; ...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f6: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f6(x) &#8801; ...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f7: <b>Int</b> &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f7(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f8: (<b>Int</b> &#215; <b>Bool</b>) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f8(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f9: U &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f9(x) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f10: U &#215; <b>Int</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f10((x, y), z) &#8801; ...,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f11: (<b>Int</b> &#215; <b>Bool</b>) &#215; <b>Bool</b> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;f11((x, y), z) &#8801; ...
+</td></tr></table>
+
+                        
+<h4><a name="id13">Implicit function definitions</a></h4>
+Implicit function definitions are not accepted.
+
+<h3><a name="id14">9.3.5 Variable declarations</a></h3>
+A variable declaration translates to SML variable definitions.
+<p>If the variable type is a subtype, run-time checking that the initial
+value is in the subtype is included.
+<p>Multiple variable definitions, and uninitialised single variable
+definitions are not accepted.
+
+<h3><a name="id15">9.3.6 Channel declarations</a></h3>
+Not accepted.
+
+<h3><a name="id16">9.3.7 Axiom declarations</a></h3>
+Not accepted.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>9.3 Declarations</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_22.html"><img border="0" alt="9.2 Activating the SML translator" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">9.2 Activating the SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_24.html"><img border="0" alt="9.4 Class expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9.4 Class expressions</td></tr></table></td></tr></table></body></html>

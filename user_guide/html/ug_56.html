@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 12.2 General Description of UML2RSL</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_55.html"><img border="0" alt="12.1 Introduction" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">12.1 Introduction</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_54.html"><img border="0" alt="12 UML to RSL translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">12 UML to RSL translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_57.html"><img border="0" alt="12.3 Distribution Files" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">12.3 Distribution Files</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>12.2 General Description of UML2RSL</b></font></td></tr></table>
+<h2>12.2 General Description of UML2RSL</h2>
+
+<p>The overall pattern of use of UML2RSL is
+<ul><p><li>Draw a UML class diagram using a graphical  tool
+<p><li>Export the class diagram in XML
+<p><li>Use UML2RSL to convert the XML file into a collection of RSL files
+</ul>
+<p>This is explained in more detail below.
+<p>UML2RSL  has been  developed in  Java, which  makes it  a portable
+tool. As is shown in figure&nbsp;<a href="#f17">12.2</a>, it takes as input an XML
+file produced by a UML-based graphical tool, where all the information
+about a class diagram has been  stored; it parses the XML file and, if
+the input is syntactically correct, translates the class diagram to an
+RSL specification based on the proposed semantics in <a href="ug_78.html#UNUIIST:253">[9]</a>.
+
+<div align="center"><p>
+  <a name="f17">
+ <img alt="Component diagram" src="UML2RSL_f17.png"></img>
+<div align="center">Component diagram</div>
+  </a>
+</p></div>
+The input XML file must be compliant with the XMI DTD version 1.2.
+There are several commercially available UML-based graphical tools
+having among their features the possibility of generating this kind of
+file. Free tools can be downloaded from
+<a href="http://www.magicdraw.com">http://www.magicdraw.com</a> and from
+<a href="http://www.gentleware.com">http://www.gentleware.com</a>. The
+examples presented in this guide have been produced using the version 7.5
+community edition of the MagicDraw tool.
+<p>To decide if the class diagram is syntactically correct, UML2RSL bases
+the analysis on a set of rules given in <a href="ug_78.html#UNUIIST:253">[9]</a>.
+<p> The resulting  RSL specification is  modular. It consists  of several
+RSL files.  One  of them is named <tt>S.rsl</tt> and  it corresponds to the
+top-level  module. This  module  has the  specification  of the  model
+represented  by the  whole class  diagram.   <tt>S.rsl</tt> uses  a set  of
+auxiliary modules.   Each of them has  the specification corresponding
+to one of  the classes in the class diagram.  These modules receive as
+name the  corresponding class name  in upper case, followed  by
+<tt>S&#95;</tt>. Each RSL  module generated  for a  class use, in  turn, a  lower level
+module  where the specification  for one  object of  the corresponding
+class is given. They receive the same name than the class in upper case
+followed by <tt>&#95;</tt>. Finally, each one of these lower
+level modules  uses, in turn,  a module named <tt>TYPES.rsl</tt>  where all
+the abstract types present in the diagram are defined.  There is a
+variation in the module structure of the specification  when
+generalization relationships or templates
+classes are used as we will see  in sections 
+<a href="ug_60.html#Generalization">12.6.2</a> and <a href="ug_60.html#TemplateClasses">12.6.3</a>.
+<p>In   figure&nbsp;<a href="#f1">12.2</a>  we   give   a  class   diagram   in  UML   taken
+from&nbsp;<a href="ug_78.html#Zhi01">[10]</a> for  a simple system:  a Point of Sale  System. This
+example serves  to illustrate the resulting  specification produced by
+the translator and to show the corresponding RSL dependency graph.
+
+<div align="center"><p>
+  <a name="f1">
+ <img alt="Class diagram for a Point of Sale System" src="UML2RSL_f1.png"></img>
+<div align="center">Class diagram for a Point of Sale System</div>
+  </a>
+</p></div>
+The  produced specification  consists  of the  top-level module  <tt>S</tt>
+which  uses <tt>SALES&#95;</tt>, <tt>SALELINEITEMS&#95;</tt>,  <tt>MANAGERS&#95;</tt>,  <tt>PRODUCTS&#95;</tt>, 
+<tt>PRODUCTCATALOGS&#95;</tt>,     <tt>PAYMENTS&#95;</tt>,    <tt>POSTS&#95;</tt>,    <tt>CASHIERS&#95;</tt>,
+<tt>ITEMS&#95;</tt>,  <tt>CUSTOMERS&#95;</tt>,  and  <tt>STORES&#95;</tt>.  Each of  them
+correspond to  a class in  the class diagram and they  use respectively <tt>SALE&#95;</tt>,
+<tt>SALELINEITEM&#95;</tt>,       <tt>MANAGER&#95;</tt>,       <tt>PRODUCT&#95;</tt>,      
+<tt>PRODUCTCATALOG&#95;</tt>,  <tt>PAYMENT&#95;</tt>,  <tt>POST&#95;</tt>,  <tt>CASHIER&#95;</tt>,  <tt>ITEM&#95;</tt>,
+<tt>CUSTOMER&#95;</tt>, and <tt>STORE&#95;</tt> that have the specification for an object
+of the  corresponding class.  Finally, the last ones  use  the module
+<tt>TYPES</tt>.  Figure&nbsp;<a href="#f18">12.2</a>  below shows the  dependency module graph
+produced by the RSL tool for the specification obtained from the class
+diagram.
+
+<div align="center"><p>
+  <a name="f18">
+ <img alt="RSL module dependency graph" src="UML2RSL_f18a.png"></img>
+<div align="center">RSL module dependency graph</div>
+  </a>
+</p></div>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>12.2 General Description of UML2RSL</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_55.html"><img border="0" alt="12.1 Introduction" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">12.1 Introduction</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_54.html"><img border="0" alt="12 UML to RSL translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">12 UML to RSL translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_57.html"><img border="0" alt="12.3 Distribution Files" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">12.3 Distribution Files</td></tr></table></td></tr></table></body></html>

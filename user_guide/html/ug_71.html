@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 17 LaTeX&#32;support</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_70.html"><img border="0" alt="16 Test coverage support" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">16 Test coverage support</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_72.html"><img border="0" alt="18 Installation" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">18 Installation</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>17 LaTeX&#32;support</b></font></td></tr></table>
+<h1>17 LaTeX&#32;support</h1>
+
+This section assumes you have installed emacs.
+<p>If you use LaTeX&#32;you should get and install auctex 
+<a href="http://www.gnu.org/software/auctex">http://www.gnu.org/software/auctex</a>
+which provides
+very useful support for LaTeX&#32;in emacs.  A good guide to getting and
+installing emacs, auctex, Miktex (a LaTeX&#32;for Windows) plus
+previewers is <tt>NTTeXing.html</tt> by Willem Minton (supplied with
+rsltc).
+<p>Then include in your .emacs file
+<pre>
+(require 'latex)
+(load "rslconvert")
+(define-key LaTeX-mode-map "\C-cs" 'latex-symbol)
+(define-key LaTeX-mode-map "\C-c\C-t" 'do-rsl)
+(define-key LaTeX-mode-map "\C-c\C-u" 'undo-rsl)
+</pre>
+<p>Now you can do several useful things:
+<ul><p><li>typing the ASCII for an RSL symbol, like "<code>-&gt;</code>", and then
+  immediately pressing Ctrl-c followed by s changes it to
+  "<code>{\RIGHTARROW}</code>".
+<p><li>You can put a larger piece of RSL be between <code>\RSLatex</code> and
+  <code>\endRSLatex</code>.  These look like LaTeX&#32;commands but are in
+  fact not.  For example, you type
+<pre>
+\RSLatex
+if a &gt; b then c
+  else d
+end
+\endRSLatex
+</pre>
+<p>where <code>\RSLatex</code> and <code>\endRSLatex</code> must be in lines of their
+own and with no spaces in front of them.  Ctrl-c Ctrl-t with the point
+anywhere
+after the <code>\RSLatex</code> changes this to
+<pre>
+%\RSLatex
+%if a &gt; b then c
+%  else d
+%end
+%\endRSLatex
+\bp
+\kw{if} a {\GT} b \kw{then} c\\
+\&gt;\kw{else} d\\
+\kw{end}
+\ep
+</pre>
+<p>which will print with key words bold, the LaTeX&#32;versions of symbols, and with the
+original layout (it is best to use two spaces for each indentation).
+Ctrl-c Ctrl-u will revert to the original form for editing.
+<p><li>The command
+<code>\RAISEIN{X}</code> will cause a LaTeX&#32;version of <tt>X.rsl</tt> to
+be included, provided you first use the emacs command <tt>M-x
+  mkdoc</tt> on the LaTeX&#32;file that includes one or more such
+<code>\RAISEIN</code> commands.  <tt>mkdoc</tt> generates a file
+<tt>X.tex</tt> for each such file, unless there is already such a file
+dated later than the corresponding <tt>X.rsl</tt> file.  So it is easy
+to keep documents up to date with the latest versions of your RSL
+files.
+<p>The file name in the <code>\RAISEIN</code> can include a path if
+<tt>X.rsl</tt> is in a different directory, but should not include <tt>.rsl</tt>.
+</ul>
+<p><code>\RAISEINBOX</code> is an alternative to <code>\RAISEIN</code> that also puts
+a frame around the RSL.
+<p>The definitions of the RSL symbols are in <tt>rslenv.sty</tt>, and so
+your LaTeX&#32;document needs to include in the preamble the line
+<pre>
+\usepackage{rslenv}
+</pre>
+<p>(If you still use <code>\documentstyle</code>, i.e.&nbsp;you are not using
+LaTeX2e, then you include <tt>rslenv</tt> as an option to <code>\documentstyle</code>.)
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>17 LaTeX&#32;support</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_70.html"><img border="0" alt="16 Test coverage support" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">16 Test coverage support</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_72.html"><img border="0" alt="18 Installation" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">18 Installation</td></tr></table></td></tr></table></body></html>

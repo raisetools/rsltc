@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 2.2 Contexts</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_11.html"><img border="0" alt="2.1 Mathematical characters" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">2.1 Mathematical characters</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_10.html"><img border="0" alt="2 Putting RSL into files" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">2 Putting RSL into files</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>2.2 Contexts</b></font></td></tr></table>
+<h2>2.2 Contexts</h2>
+
+<p>A module (scheme or object) S that uses other modules A and B needs to
+tell the type checker that A and B are its context.  The file S.rsl
+for S will start
+<pre>
+A, B
+
+scheme S = ...
+</pre>
+<p>The type checker will check A and B (recursively including any modules
+in their contexts) and then S.  The order of A and B does not matter.
+If B is also in the context of A then it does not matter if B is
+included in the context of S or not.
+<p>The context illustrated above means that the type checker will look
+for A.rsl and B.rsl in the same directory as S.rsl.  Context files may
+also be in other directories (on the same drive in Windows).
+References to them may use absolute or relative paths, and Unix-style
+paths are used (so that RSL files may be passed between Windows and
+Unix systems).
+<p>For example, suppose S.rsl is in /home/user/raise/rsl, and A.rsl is in<br />/home/user/raise/rsl/lower.  Then the context reference to A in S.rsl may be
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"><tt>lower/A</tt>                           </td><td nowrap colspan="99" align="left">&nbsp;or</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"><tt>/home/user/raise/rsl/lower/A</tt>      </td><td nowrap colspan="99" align="left">&nbsp;or even</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<tt>../rsl/lower/A</tt>
+</td></tr></table>
+
+<p>When a module is checked, the context modules are checked first, so
+you only need run the tool on top level modules.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>2.2 Contexts</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_11.html"><img border="0" alt="2.1 Mathematical characters" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">2.1 Mathematical characters</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_10.html"><img border="0" alt="2 Putting RSL into files" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">2 Putting RSL into files</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr></table></body></html>

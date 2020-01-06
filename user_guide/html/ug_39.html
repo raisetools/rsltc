@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.11 Identifiers and operators</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_38.html"><img border="0" alt="10.10 Names" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.10 Names</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_40.html"><img border="0" alt="10.12 Universal types" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.12 Universal types</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.11 Identifiers and operators</b></font></td></tr></table>
+<h2>10.11 Identifiers and operators</h2>
+An identifier translates to the same identifier, or, if it is from a
+binding in an inner scope, to the same identifier plus a unique
+extension.
+<p>Identifiers that collide with C++ reserved words are not allowed.
+Failure to observe this rule is likely to cause compilation errors: it
+is not detected by the translator.
+<p>Users should avoid using identifiers beginning or ending with the 3
+characters "rsl" (in any combinations of upper and lower case).
+Many generated names start <tt>RSL&#95;</tt>.  The character <code>`</code> is
+converted to <tt>Rsl</tt>, and the character <code>'</code> to <tt>rsL</tt>.
+Guards for header files terminate in <tt>&#95;RSL</tt>.
+<p>Built-in operators are translated as in the tables in
+sections&nbsp;<a href="ug_36.html#cpp:infix">10.8.17</a> and <a href="ug_36.html#cpp:prefix">10.8.18</a>.  User-defined operators
+are translated as identifiers according to the table in section&nbsp;<a href="ug_31.html#cpp:fun">10.3.4</a>.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.11 Identifiers and operators</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_38.html"><img border="0" alt="10.10 Names" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">10.10 Names</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_40.html"><img border="0" alt="10.12 Universal types" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.12 Universal types</td></tr></table></td></tr></table></body></html>

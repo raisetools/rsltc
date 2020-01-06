@@ -1,0 +1,49 @@
+This is a new and rather untested installation for MacOS.  It should
+work for both PowerPC and Intel machines.  rsltc was compiled to run
+on both processors; SML, PVS and SAL seem to be compiled for PowerPCs but
+will also run on Intels.
+
+You should already have emacs installed.
+
+You will need root access rights.
+
+1.  Uncompress rsltc.gz and place it on your path (or set exec-path
+    accordingly - see below).
+
+2.  Unpack rsl_share.tgz in /usr/share.  This will create a directory
+    /usr/share/rsltc, itself containing 4 sub-directories.
+
+3.  Unpack rsl_emacs.tgz in a directory that is on your emacs load-path,
+    or, if you prefer, in some other directory <dir>.  In the latter
+    case add to your .emacs file
+
+(setq load-path (cons "<dir>" load-path))
+
+4.  Add to your .emacs file 
+
+(require 'rsl-mode)
+
+5.  Install a fairly recent SML from http://www.smlnj.org/.  We have
+    tested with 110.59.  Make sure that the binary sml is on your path
+    (or set exec-path accordingly - see below).
+
+6.  Install PVS from http://pvs.csl.sri.com/prototypes.shtml.  There
+    is a bug in version 3.3 that currently makes it not work with the
+    RSL libraries for PVS, but we hope there will be a fix for this
+    soon.  (Versions before 3.3 do not have a Mac version available.)
+    Make sure pvs is on your path (or set exec-path accordingly - see
+    below). 
+
+7.  Install SAL from http://sal.csl.sri.com/sal-2.3-binaries.shtml
+    Make sure the sal binaries such as sal-smc are on your path (or
+    set exec-path accordingly - see below). 
+
+8.  If you are not starting Emacs from a terminal in X11 but rather
+    using a native MacOS X application, make sure that it knows about
+    your PATH environment variable. You may have to set the
+    'exec-path' variable correspondingly in the .emacs initialization
+    file. 
+
+
+
+

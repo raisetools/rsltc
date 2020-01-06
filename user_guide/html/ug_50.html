@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 11.7 Value expressions</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_49.html"><img border="0" alt="11.6 Type expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.6 Type expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_51.html"><img border="0" alt="11.8 Bindings and typings" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.8 Bindings and typings</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.7 Value expressions</b></font></td></tr></table>
+<h2>11.7 Value expressions</h2>
+
+<h3><a name="id1">11.7.1 Value literals</a></h3>
+The RSL value literals are translated into their PVS counterparts.
+<p>There are no real literals in PVS, so a real literal <i>i.d</i>
+(where <i>i</i> is the integer part of the real number and <i>d</i> its
+decimal part) is translated into <i>i
++ d/10<sup>dn</sup></i> where <i>dn</i> is the number of decimal digits.
+
+<h3><a name="id2">11.7.2 Names</a></h3>
+A value name translates as a name.
+
+<h3><a name="id3">11.7.3 Pre names</a></h3>
+Not accepted.
+
+<h3><a name="id4">11.7.4 Basic expressions</a></h3>
+Basic expressions (<b>chaos</b>, <b>skip</b>, <b>stop</b>,
+and <b>swap</b>) are not accepted.
+
+<h3><a name="id5">11.7.5 Product expressions</a></h3>
+A product expression translates to a PVS tuple expression.
+
+<h3><a name="id6">11.7.6 Set expressions</a></h3>
+Sets are modelled in the PVS prelude as functions that return
+<tt>true</tt> when applied to a member of the set, <tt>false</tt>
+otherwise.
+<p>All set expressions are accepted, as illustrated below.
+
+<div align="center"><p>
+  <table border><tbody><tr><td colspan="1" align="LEFT">
+
+RSL </td><td colspan="1" align="LEFT"> PVS </td></tr>
+<tr><td colspan="1" align="LEFT">
+&#123;&#125; </td><td colspan="1" align="LEFT"> <tt>emptyset</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#123;x, y&#125; </td><td colspan="1" align="LEFT"> <tt>add(x, add(y, empyset))</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#123;x .. y&#125; </td><td colspan="1" align="LEFT"> 
+<tt>LAMBDA (z : int):  x &lt;= z AND z &lt;= y</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#123; b | b : T &#8226; p &#125; </td><td colspan="1" align="LEFT"> 
+<tt>&#123; b : T | p &#125;</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#123; e | b : T &#8226; p &#125; </td><td colspan="1" align="LEFT">
+<tt>&#123; u : U | EXISTS (b : T) : p AND u = e&#125;</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+  <div align="center">Set expressions</div>
+  <a name="tab:sets">&nbsp;</a>
+</p></div>
+The third example is a special case of a set comprehension.  The more
+general case is the last, where <tt>u</tt> is a new identifier not
+free in <tt>p</tt> or <tt>e</tt>, and <tt>U</tt> is the type of <tt>e</tt>.
+
+<h3><a name="id8">11.7.7 List expressions</a></h3>
+All finite list expressions are accepted, as illustrated below.
+
+<div align="center"><p>
+  <table border><tbody><tr><td colspan="1" align="LEFT">
+
+RSL </td><td colspan="1" align="LEFT"> PVS </td></tr>
+<tr><td colspan="1" align="LEFT">
+&#9001;&#9002; </td><td colspan="1" align="LEFT"> <tt>(::)</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#9001;x, y&#9002; </td><td colspan="1" align="LEFT"> <tt>(:x, y:)</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#9001;x .. y&#9002; </td><td colspan="1" align="LEFT"> <tt>ranged&#95;list(x, y)</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+&#9001;e | b <b>in</b> l &#8226; p&#9002; </td><td colspan="1" align="LEFT"> 
+<tt>map(LAMBDA (b: &#123;b: T | member(b, l) AND p&#125;): e,</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td><td colspan="1" align="LEFT"> <tt>&#32;&#32;&#32;&#32;filter(l, LAMBDA (b: &#123;b: T | member(b, l)&#125;): p))</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+  <div align="center">List expressions</div>
+  <a name="tab:lists">&nbsp;</a>
+</p></div>
+<tt>ranged&#95;list</tt> is defined in the RSL prelude.  <tt>map</tt>,
+<tt>member</tt>, and
+<tt>filter</tt> are defined in the PVS prelude.
+
+<h3><a name="id10">11.7.8 Map expressions</a></h3>
+All map expressions are accepted, but either RSL confidence conditions
+or PVS TCCs may be generated to check the map is deterministic.
+Examples are shown below.
+
+<div align="center"><p>
+  <table border><tbody><tr><td colspan="1" align="LEFT">
+
+RSL </td><td colspan="1" align="LEFT"> PVS</td></tr>
+<tr><td colspan="1" align="LEFT">
+[] </td><td colspan="1" align="LEFT"> <tt>emptymap</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+[x &#8614; p, y &#8614; q] </td><td colspan="1" align="LEFT"> <tt>add&#95;in&#95;map(x,p,add&#95;in&#95;map(y,q,emptymap))</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+[b &#8614; e | b : T &#8226; p] </td><td colspan="1" align="LEFT">
+<tt>LAMBDA (b : T): IF p THEN mk&#95;rng(e) ELSE nil ENDIF</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+[e1 &#8614; e2 | b : T &#8226; p] </td><td colspan="1" align="LEFT">
+<tt>LAMBDA (u : U):</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td><td colspan="1" align="LEFT"> <tt>&#32;&#32;LET b = RSL&#95;inverse(LAMBDA (b : T): e1)(u) IN</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td><td colspan="1" align="LEFT"> <tt>&#32;&#32;IF p THEN mk&#95;rng(e2) ELSE nil ENDIF</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+  <div align="center">Map expressions</div>
+  <a name="tab:maps">&nbsp;</a>
+</p></div>
+<tt>emptymap</tt>, <tt>add&#95;in&#95;map</tt>, <tt>mk&#95;rng</tt>, and
+<tt>RSL&#95;inverse</tt> are defined in the RSL prelude.  The last is the
+same as the PVS prelude's <tt>inverse</tt> function, but with a
+subtype to generate a TCC that <tt>LAMBDA (b : T): e1</tt> is an
+injective function, a sufficient condition for the map to be
+deterministic.  <tt>u</tt> is a new identifier not free in <tt>p</tt>,
+<tt>e1</tt>, or <tt>e2</tt>, and <tt>U</tt> is the type of
+<tt>e1</tt>.
+<p>A confidence condition that x&#8800;y is generated for the second
+example, again a sufficient condition  for the map to be deterministic.
+
+<h3><a name="id12">11.7.9 Function expressions</a></h3>
+Function expressions are accepted.
+
+<h3><a name="id13">11.7.10 Application expressions</a></h3>
+An application expression may be translated to a function call, a list
+application or a map application.
+
+<h3><a name="id14">11.7.11 Quantified expressions</a></h3>
+Quantified expressions are accepted.
+
+<h3><a name="id15">11.7.12 Equivalence expressions</a></h3>
+Equivalence expressions translate as equalities in PVS.
+
+<h3><a name="id16">11.7.13 Post expressions</a></h3>
+Post expressions translate as <tt>LET</tt> expressions, as shown below. 
+
+<div align="center"><p>
+  <table border><tbody><tr><td colspan="1" align="LEFT">
+
+RSL </td><td colspan="1" align="LEFT"> PVS</td></tr>
+<tr><td colspan="1" align="LEFT">
+e <b>as</b> b <b>post</b> p </td><td colspan="1" align="LEFT"> <tt>LET b = e IN p</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+  <div align="center"><b>post</b> expressions</div>
+  <a name="tab:post">&nbsp;</a>
+</p></div>
+
+<h3><a name="id18">11.7.14 Disambiguation expressions</a></h3>
+Disambiguation expressions are accepted.
+
+<h3><a name="id19">11.7.15 Bracketed expressions</a></h3>
+A bracketed expression translates to a bracketed expression.
+
+<h3><a name="id20">11.7.16 Infix expressions</a></h3>
+An infix expression translates to the corresponding PVS expression.
+Some infix operators in RSL translate to functions in PVS.
+
+<h3><a name="id21">11.7.17 Prefix expressions</a></h3>
+A prefix expression translates to the corresponding PVS
+expression.
+<p>The universal prefix expression &#9633; e is translated as e, since
+&#9633; e is equivalent to e for applicative expressions.
+
+<h3><a name="id22">11.7.18 Initialise expressions</a></h3>
+Not accepted.
+
+<h3><a name="id23">11.7.19 Assignment expressions</a></h3>
+Not accepted.
+
+<h3><a name="id24">11.7.20 Input expressions</a></h3>
+Not accepted.
+
+<h3><a name="id25">11.7.21 Output expressions</a></h3>
+Not accepted.
+
+<h3><a name="id26">11.7.22 Local expressions</a></h3>
+Not accepted.
+
+<h3><a name="id27">11.7.23 Let expressions</a></h3>
+Let expressions are accepted.
+
+<h3><a name="id28">11.7.24 If expressions</a></h3>
+<p>If expressions are accepted.
+
+<h3><a name="id29">11.7.25 Case expressions</a></h3>
+<p>Case expressions are accepted.  They translate to PVS <tt>IF</tt>
+expressions since the case patterns in RSL are more general than those
+in PVS.
+
+<h3><a name="id30">11.7.26 While expressions</a></h3>
+Not accepted.
+
+<h3><a name="id31">11.7.27 Until expressions</a></h3>
+Not accepted.
+
+<h3><a name="id32">11.7.28 For expressions</a></h3>
+Not accepted.
+
+<h3><a name="id33">11.7.29 Class scope expressions</a></h3>
+
+<p>A class scope expression translates to a PVS <tt>THEORY</tt>.  So an
+RSL <b>theory</b> containing several class scope expressions as axioms
+will in general translate to a PVS file containing a number of
+theories.  The PVS <tt>THEORY</tt> from the class scope expression <b>in</b>
+C &#8192; p contains the translation of the class
+expression C plus the translation of p as a <tt>LEMMA</tt>, i.e.&#10;something to be proved.
+<p>When, however, a number of class scope expressions have a class
+expression which is an instantiation of the same non-parameterized
+scheme, the scheme is translated as a separate PVS <tt>THEORY</tt> and
+the class scope expressions are translated as a single <tt>THEORY</tt>
+that imports the <tt>THEORY</tt> for the scheme and contains all the
+resulting <tt>LEMMA</tt>s.  This makes it possible to use earlier
+lemmas in proving later ones, since they share the same definitions
+from the imported <tt>THEORY</tt>.
+
+<h3><a name="id34">11.7.30 Implementation relations and expressions</a></h3>
+<p>These are expanded into their conditions and these conditions translated.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.7 Value expressions</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_49.html"><img border="0" alt="11.6 Type expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.6 Type expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_51.html"><img border="0" alt="11.8 Bindings and typings" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.8 Bindings and typings</td></tr></table></td></tr></table></body></html>

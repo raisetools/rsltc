@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 14.1 Emacs on Windows</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_67.html"><img border="0" alt="14 Use with emacs" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">14 Use with emacs</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>14.1 Emacs on Windows</b></font></td></tr></table>
+<h2>14.1 Emacs on Windows</h2>
+
+<p>If you obtain a full version of emacs for Windows then things will run
+as described in section&nbsp;<a href="ug_67.html">14</a> and you need read no further,
+except to note that if you have a two-button mouse, pressing both
+buttons emulates the middle mouse button normal with Unix and Linux.
+<p>There is a cut down version of emacs, version 19.34, supplied with
+rsltc for Windows.  This lacks the ability to run a sub-process, and so two
+features of the use with emacs described in section&nbsp;<a href="ug_67.html">14</a> are
+a little different:
+<ul><p><li>To run VCG, first use the menu item "Draw module dependency
+  graph" from <tt>X.rsl</tt>.  This will generate <tt>X.vcg</tt> but
+  will not display it.  Start a DOS shell, move to the directory where
+  <tt>X.rsl</tt> is located, and use the following command to start
+  VCG:
+<pre>
+&lt;dir&gt;/vcg X.vcg
+</pre>
+<p>where <tt>vcg.exe</tt> is stored in <tt>&lt;dir&gt;</tt>.
+<p><li>To run SML, first use the menu item "Translate to SML" from
+  <tt>X.rsl</tt>.  This will generate <tt>X.sml</tt> and
+  <tt>X&#95;.sml</tt>, where the latter is loaded by the former.  Start a DOS shell, move to the directory where
+  <tt>X.rsl</tt> is located, and use the following command to start
+  SML:
+<pre>
+&lt;dir&gt;/sml
+</pre>
+where <tt>sml.exe</tt> is stored in <tt>&lt;dir&gt;</tt>.
+<p>This starts the SML run-time system in its own window.  In that
+window, after the prompt <code>-</code>,
+give the command
+<pre>
+use "X.sml";
+</pre>
+<p>Note the semicolon ";" at the end of
+this command.  If you forget it you will get a prompt <code>=</code> on the
+next line, and you can type it there.
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>14.1 Emacs on Windows</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_67.html"><img border="0" alt="14 Use with emacs" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">14 Use with emacs</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr></table></body></html>

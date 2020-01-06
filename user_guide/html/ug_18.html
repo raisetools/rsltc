@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 8 Drawing a module dependency graph</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_17.html"><img border="0" alt="7 Showing module dependencies" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">7 Showing module dependencies</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>8 Drawing a module dependency graph</b></font></td></tr></table>
+<h1>8 Drawing a module dependency graph</h1>
+
+<p>If run on a file <tt>X.rsl</tt> this generates input for the
+Visualisation of Computer Graphs (VCG) tool in a file <tt>X.vcg</tt>.
+For example, applying it to the scheme QSI from
+section&nbsp;<a href="ug_42.html">10.14</a> generates a file which VCG displays as below.
+
+  <div align="center"><p>
+<img alt="Module dependencies for the scheme QSI" src="QSI.png"></img> <div align="center">Module dependencies for the scheme QSI</div>
+    <a name="fig:QSI">&nbsp;</a>
+  </p></div>
+Schemes are drawn as red rectangles, objects as light-blue rectangles,
+theories as yellow diamonds, and development relations as cyan
+triangles.
+<p>VCG does automatic layout, but there are a number of parameters that
+may be set interactively or in the file <tt>X.vcg</tt> to change the
+result.  The graph can be exported as a graphic file in various formats
+for printing or use in documents.
+<p>For printing diagrams in black and white involving schemes and
+objects, it is useful to change "red" to "white" near the start of
+<tt>X.vcg</tt>, and to export from VCG to postscript format using the
+"grey" colour mode rather than "b&#38;w".  This gives a black and
+white diagram in which schemes are white rectangles and objects are
+lightly shaded rectangles.
+<ul>
+<li><a href="ug_19.html">8.1 Long file names in Windows</a>
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>8 Drawing a module dependency graph</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_17.html"><img border="0" alt="7 Showing module dependencies" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">7 Showing module dependencies</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td></tr></table></body></html>

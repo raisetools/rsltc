@@ -1,0 +1,988 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--Converted with LaTeX2HTML 97.1 (release) (July 13th, 1997)
+ by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippman, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>No Title</TITLE>
+<META name="keywords" content="pc, emacs, auctex, miktex, latex,
+latex2e, DVI preview, YAP, dvips, GhostScript, GhostView, install">
+<META name="description" content="Describes a proper installation of a full featured 32-bit environment for LaTeX [LaTeX2e (the MiKTeX distribution), emacs, AucTeX and other useful lisp files] on PC">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso_8859_1">
+<LINK REL="STYLESHEET" HREF="NTTeXing.css">
+</HEAD>
+<BODY >
+<script type="text/javascript" language="JavaScript">
+<!--
+document.write("<img src=\"http://www.nedstat.nl/cgi-bin");
+document.write("/referstat.gif?name=32bTeXing&refer=");
+document.write(escape(document.referrer));
+document.write("\" align=right width=1 height=1 alt=\"\">");
+// -->
+</script>
+<!--Navigation Panel-->
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/next_motif_gr.gif"> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/up_motif_gr.gif"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/previous_motif_gr.gif">   
+<BR>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<P><FONT SIZE=-1>[<A HREF="http://www.esat.kuleuven.ac.be/~minten">Willem Minten's Home Page</A>]
+[<A HREF="http://www.esat.kuleuven.ac.be/sista/sista.html">SISTA</A>]
+[<A HREF="http://www/">Department of Electrical Engineering (ESAT)</A>]
+[<A HREF="http://www.cs.kuleuven.ac.be/faculty/cwis/fac-E.shtml">Faculty
+of Engineering</A>] [<A HREF="http://www.kuleuven.ac.be/kuleuven/KUL_en.html">K.U.Leuven</A>]
+</FONT></P>
+<P><a href="http://www.nedstat.nl/cgi-bin/viewstat?name=32bTeXing"><img
+src="http://www.nedstat.nl/cgi-bin/nedstat.gif?name=32bTeXing"
+border=0 alt="" width=32 height=32></a>
+<P><A NAME="tex2html1"
+ HREF="#5"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/foot_motif.gif"></SUP></A><H1><A NAME="SECTION00010000000000000000">
+Native 32-bit TeXing on PC</A>
+</H1>
+<EM>This page explains the basic installation steps to obtain  a full-featured 32
+bit environment of L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X on a Win95 or WinNT4 PC.</EM> <BR>
+<P>
+Last
+modification June 29, 1998
+<BR>
+Feedback? <A NAME="tex2html1"
+ HREF="mailto:Willem.Minten@esat.kuleuven.ac.be"><TT>Willem.Minten@esat.kuleuven.ac.be</TT></A>
+<BR>
+Page on
+<BR>
+<code>http://www.esat.kuleuven.ac.be/~minten/NTTeXing/NTTeXing.html</code>
+<BR>
+Software, and lisp files can be found in
+<BR>
+<A NAME="tex2html1"
+ HREF="ftp://ftp.esat.kuleuven.ac.be/pub/SISTA/minten/soft/NTemacs"><TT>ftp://ftp.esat.kuleuven.ac.be/pub/SISTA/minten/soft/NTemacs/</TT></A>
+.
+<BR>
+<P>
+<DIV ALIGN="CENTER">
+<U> </U>
+</DIV>
+<BR>
+<H2><A NAME="SECTION00020000000000000000">
+Contents</A>
+</H2>
+<!--Table of Contents-->
+<UL>
+<LI><A NAME="tex2html15"
+ HREF="NTTeXing.html#SECTION00020000000000000000">
+Contents</A>
+<LI><A NAME="tex2html16"
+ HREF="NTTeXing.html#SECTION00030000000000000000">
+Installing MiKT<SMALL>E</SMALL>X1.12</A>
+<LI><A NAME="tex2html17"
+ HREF="NTTeXing.html#SECTION00040000000000000000">
+Installing emacs20.3</A>
+<LI><A NAME="tex2html18"
+ HREF="NTTeXing.html#SECTION00050000000000000000">
+Installing AUC-T<SMALL>E</SMALL>X9.9g</A>
+<LI><A NAME="tex2html19"
+ HREF="NTTeXing.html#SECTION00060000000000000000">
+DVI- and PS-preview and printing</A>
+<LI><A NAME="tex2html20"
+ HREF="NTTeXing.html#SECTION00070000000000000000">
+How to speed-up things</A>
+<LI><A NAME="tex2html21"
+ HREF="NTTeXing.html#SECTION00080000000000000000">
+Full-featured L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X support in NTemacs</A>
+<LI><A NAME="tex2html22"
+ HREF="NTTeXing.html#SECTION00090000000000000000">
+Other useful L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X related links</A>
+</UL>
+<!--End of Table of Contents-->
+<DIV ALIGN="CENTER">
+<U> </U>
+</DIV><H1><A NAME="SECTION00030000000000000000">
+Installing MiKT<SMALL>E</SMALL>X1.12</A>
+</H1>
+<P><DL>
+<DT><STRONG>Download,</STRONG>
+<DD>using anonymous ftp,
+the 32-bit L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X software from any of the full CTAN hosts
+<BR>
+(<A NAME="tex2html1"
+ HREF="ftp://ftp.dante.de">ftp://ftp.dante.de</A>
+or
+<A NAME="tex2html1"
+ HREF="ftp://ftp.tex.ac.uk">ftp://ftp.tex.ac.uk</A>
+or  
+<A NAME="tex2html1"
+ HREF="ftp://ctan.tug.org/">ftp://ctan.tug.org/</A>
+):
+<PRE>
+cd /tex-archive/systems/win32/miktex/
+bin
+get 1.11.zip
+</PRE>
+All other information about the installation can be found in
+<BR>
+<A NAME="tex2html1"
+ HREF="http://www.inx.de/~cschenk/miktex/"><TT>http://www.inx.de/~cschenk/miktex/</TT></A>
+.
+I recommend to use the latest beta update
+(beta3) that can be down loaded from the down load area in <A NAME="tex2html1"
+ HREF="http://www.inx.de/~cschenk/miktex/"><TT>http://www.inx.de/~cschenk/miktex/</TT></A>
+.
+<BR>
+Both the release 1.11beta1 and beta3 update have an
+<EM>install-shield</EM> .
+<BR>
+For convenience I have put them in my ftp directory (see above for a hyper link).
+<DT><STRONG>Run</STRONG>
+<DD>first <code>miktex111_beta1.exe</code>.
+In order to  benefit from several setting used below, you are urged to
+use <code>c:\texmf</code> as root directory of MiKT<SMALL>E</SMALL>X. 
+If you do 
+not want to do this, then you should consult yourself the manuals 
+to see what else 
+should be modified too.
+<BR>
+If the installation is
+successful it will end with a <code>dvi</code> preview with
+<code>YAP</code> (Yet Another Previewer).
+<BR>
+The local guide of MiKT<SMALL>E</SMALL>X can be found in <code>c:\texmf\doc\miktex\</code>
+(<code>miktex.html</code> or <code>miktex.hlp</code> or
+  <code>miktex.pdf</code>).
+<BR>
+Thereafter the beta3 update
+<TT>bare.exe</TT> installs automatically the beta3 update.
+During the auto-install of the beta3 update you will notice that a
+local texmf tree <code>c:\localtexmf</code> can be created. 
+It is recommended to use this local
+texmf tree for personal use (additional style files, etc.). See point
+2 (Input directory) below.
+<DT><STRONG>PATH-variable</STRONG>
+<DD><code>PATH</code> has to be defined as follows:
+<DL>
+<DT><STRONG>* WIN95 users</STRONG>
+<DD>should add the following line
+in their major <code>autoexec.bat</code>:
+<BR>
+<code>set PATH=%PATH%;c:\texmf\miktex\bin</code>.
+<BR>
+Win95 users should then <B>restart</B> their PC.
+<DT><STRONG>* winNT users</STRONG>
+<DD>should select <code>&lt;Control Pannel&gt;</code>, 
+<code>&lt;System&gt;</code>, <code>&lt;Environment&gt;</code>.
+<BR>
+At the <EM>'Variable'</EM> -prompt enter <code>PATH</code>.
+<BR>
+At the <EM>'Value'</EM> -prompt enter <code>%PATH%;c:\texmf\miktex\bin</code>.
+<BR>
+Thereafter press <code>&lt;OK&gt;</code>.
+</DL>
+This is necessary for running the distribution 
+MiKT<SMALL>E</SMALL>X  properly.
+<P></DL>
+Some additional comments:
+<DL>
+<DT><STRONG>1. Additional packages</STRONG>
+<DD>If you want to use additional packages that MiKT<SMALL>E</SMALL>X does not include 
+currently, please consult the part on <EM>Extracting L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X Macros</EM> 
+of my first L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X homepage 
+(<A NAME="tex2html1"
+ HREF="http://www.esat.kuleuven.ac.be/~minten/latex2e/latex2e.html#SECTION00025000000000000000">http://www.esat.kuleuven.ac.be/~minten/latex2e/latex2e.html#SECTION00025000000000000000</A>
+).
+<DT><STRONG>2. Input Directory</STRONG>
+<DD>The input directories of L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X in MiKT<SMALL>E</SMALL>X are 
+<code>c:\texmf\tex\latex</code>, <code>c:\texmf\tex\generic</code>
+and its subdirectories. By default, additional 
+missing style files (<code>.sty</code>,
+<code>.tex</code>, and <code>.cls</code>), 
+unpacked packages etc are to
+be put in these directories. The directory <code>c:\loacaltexmf</code> can
+be used for adding personal files. Then they should be placed in
+<code>c:\localtexmf\tex\latex</code>, <code>c:\localtexmf\tex\generic</code>
+and its subdirectories.
+<BR>
+For plain T<SMALL>E</SMALL>X the input directories are
+<code>c:\texmf\tex\plain</code> and its subdirectories.
+<BR>
+During the installation you can also add additional personal input
+paths. For examples see the <code>readme.txt</code> in <code>miktex.zip</code>.
+</DL><H1><A NAME="SECTION00040000000000000000">
+Installing emacs20.3</A>
+</H1>
+<DL>
+<DT><STRONG>Download</STRONG>
+<DD>the pre-compiled (<B>i386</B>) version from
+somewhere in <BR>
+<A NAME="tex2html1"
+ HREF="ftp://ftp.cs.washington.edu/pub/ntemacs/"><TT>ftp://ftp.cs.washington.edu/pub/ntemacs/</TT></A>
+.
+All you need is located in the files  <TT><IMG WIDTH="24" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1.gif"
+ ALT="$\cdots$">-bin-i386.tar.gz</TT>
+and <TT><IMG WIDTH="24" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1.gif"
+ ALT="$\cdots$">-lisp.tar.gz</TT>
+<DT><STRONG>Unzip</STRONG>
+<DD>(and use folder names of the zipped files)
+both files in <code>c:\</code>.
+<DT><STRONG>Installation.</STRONG>
+<DD>First rename <code>c:\emacs-XX.YY\</code>
+into <code>c:\emacs\</code> (This makes life and future updates easier).
+Then double-click on 
+<code>c:\emacs\bin\addpm.exe</code> and click on <code>&lt;OK&gt;</code>.
+You can also type at a DOS prompt (while staying 
+in the <code>bin</code> directory of 
+NTemacs: <code>addpm.exe c:\emacs</code>)
+<BR>
+Make a <code>shortcut to runemacs.exe</code> and place it where you want to
+keep it.
+<DT><STRONG>File Types setting.</STRONG>
+<DD>Select <code>&lt;My Computer&gt;</code>,
+<code>&lt;View&gt;</code>,
+<code>&lt;Options&gt;</code>, <code>&lt;File Types&gt;</code>, <code>&lt;New Type&gt;</code>.
+<BR>
+At the <EM>'Description of type'</EM> -prompt type : <code>LaTeX file</code>.
+<BR>
+At the <EM>'Associated Extension'</EM> -prompt type: <code>tex</code>.
+<BR>
+Then click <code>&lt;New&gt;</code>.
+At the <EM>'Action'</EM> -prompt type <code>open</code>.
+<BR>
+At the <EM>'Application used to...'</EM> -prompt: browse to 
+<code>C:\emacs\bin\shortcut to runemacs.exe</code>, AND append to this
+the option
+<code>--debug-init</code> (leave one space between the option and the executable; remark the
+two minus signs as option selector). This option warns you if the
+emacs INIT-file (i.e. <code>.emacs</code> or <code>_emacs</code>) contains errors.
+<BR>
+Press <code>&lt;OK&gt;</code>, thereafter press <code>&lt;Close&gt;</code>, and again
+<code>&lt;Close&gt;</code>.
+<DT><STRONG>Create</STRONG>
+<DD>the missing directories
+<code>C:\emacs\data</code> and
+<code>C:\emacs\lock.</code>
+<DT><STRONG>A test</STRONG>
+<DD>Double-click on a <code>.tex</code>-file.  
+Emacs will run with the selected file in a buffer.
+The <EM>default</EM>  latex major mode should be selected. This is <EM>not yet</EM>  the
+AUC-T<SMALL>E</SMALL>X mode.
+</DL>
+<B>Remark:</B> Reading errors can occur if the <code>.tex</code>-file is located
+in a path containing a directory with spaces in its name. Avoid
+this!
+<BR>
+<B>Note for emacs novices:</B>
+<code>C-x</code> is a simultaneous keypress of the <code>&lt;Control&gt;</code> and the
+<code>x</code> key,   <code>M-x</code> is a simultaneous keypress of the <code>&lt;Alt&gt;</code> and the
+<code>x</code> key. An alternative of the <code>&lt;Alt&gt;</code> is  the <code>&lt;Esc&gt;</code>
+key. Please consult the <code>&lt;Help&gt;</code> menu for additional information
+on using emacs.
+<P><H1><A NAME="SECTION00050000000000000000">
+Installing AUC-T<SMALL>E</SMALL>X9.9g</A>
+</H1>
+AUC-T<SMALL>E</SMALL>X is a superior T<SMALL>E</SMALL>X mode for emacs. Below also the most fastest
+font highlighting (this lisp file is included in the AUC-T<SMALL>E</SMALL>X distribution)
+is installed.
+<P><DL>
+<DT><STRONG>Download</STRONG>
+<DD>the 32-bit AUC-T<SMALL>E</SMALL>X software <code>auctex.zip</code> from 
+<A NAME="tex2html1"
+ HREF="ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/"><TT>ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/</TT></A>
+(The AUCT<SMALL>E</SMALL>X home page is 
+<A NAME="tex2html1"
+ HREF="http://sunsite.auc.dk/auctex/"><TT>http://sunsite.auc.dk/auctex/</TT></A>
+).
+<DT><STRONG>Create</STRONG>
+<DD>the directory <code>C:\emacs\site-lisp</code>.
+<DT><STRONG>Unzip</STRONG>
+<DD>(and use folder names of the zipped files)
+<code>auctex.zip</code> in the directory
+<BR>
+<code>C:\emacs\site-lisp\</code>.
+<BR>
+Next rename <code>C:\emacs\site-lisp\auctex-X.YZ</code> into 
+<code>C:\emacs\site-lisp\auctex</code> (This makes life and future updates easier).
+<DT><STRONG>Create the INIT-file</STRONG>
+<DD><code>.emacs</code> or
+<code>_emacs</code> in the
+NTemacs directory <code>C:\emacs</code>:
+<PRE>
+;;beginning of _emacs
+;; author W. Minten
+;; last modification September 15, 1997
+
+;; no emacs start-up message 
+(setq inhibit-startup-message t) 
+
+(put 'eval-expression 'disabled nil) 
+(setq text-mode-hook '(lambda() (auto-fill-mode 1))) 
+
+;; Redefine some keys.
+(global-set-key [home] 'beginning-of-line)
+(global-set-key [end] 'end-of-line)
+
+;; prevent echoing ^M in the shell (a hard one)
+(add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+
+;; fontification font-lock.el much better than the default hilit19.el
+;***************************** (for coloring)
+;;automatic Font Lock mode in TeX mode 
+;(add-hook 'tex-mode-hook 'turn-on-font-lock) 
+;;if Font Lock necessary for other than .tex files, uncomment following
+(global-font-lock-mode t) 
+
+;; load default lisp file (.el) for improved LaTeX mode
+;; all settings are located in tex-site, hence
+;**************************************************************
+(load &quot;~/site-lisp/tex-site&quot;) 
+
+;;end of _emacs
+</PRE>
+In this file over-all settings of emacs are found.
+Because the specific Major-mode setting of AUC-T<SMALL>E</SMALL>X is rather large,
+it is defined in another lisp file, namely <code>tex-site.el</code> (next
+item); this is loaded with the last command of <code>_emacs</code>.
+<B>Remark:</B> this INIT-file will only be loaded if the <code>HOME</code>
+variable has been set properly to the NTemacs root directory.
+Therefore
+<DL>
+<DT><STRONG>* WIN95 users</STRONG>
+<DD>should add the following line
+in their major <code>autoexec.bat</code>:
+<BR>
+<code>set HOME=c:\emacs\</code>.
+<BR>
+Win95 users should then <B>restart</B> their PC.
+<DT><STRONG>* winNT users</STRONG>
+<DD>should select <code>&lt;Control Pannel&gt;</code>, 
+<code>&lt;System&gt;</code>, <code>&lt;Environment&gt;</code>.
+<BR>
+At the <EM>'Variable'</EM> -prompt enter <code>HOME</code>.
+<BR>
+At the <EM>'Value'</EM> -prompt enter <code>c:\emacs\</code>.
+<BR>
+Thereafter press <code>&lt;OK&gt;</code>.
+</DL>
+In emacs this <code>HOME</code> directory is called <code>~\</code> or
+<code>~/</code>.
+<BR>
+<DT><STRONG>Intermediate test</STRONG>
+<DD>You can
+comment the line <code>(load &quot;~/site-lisp/tex-site&quot;)</code>, save that file
+as <code>.emacs</code> (or <code>_emacs</code>) in <code>~\</code>, and double click on
+a <code>.tex</code> file. This file should be loaded in an emacs buffer
+without
+any error interruption. Comments can be observed in the
+<code>&lt;Buffer&gt;</code>, <code>&lt;Messages&gt;</code>.
+<BR>
+If you use a color screen, L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X commands should be fontified.
+Now place your cursor half-way the text and
+press alternatively on the keys <code>&lt;Home&gt;</code> and  <code>&lt;End&gt;</code>. The default
+behavior of NTemacs is to jump to the beginning and the end of the
+buffer.
+However, since these keys are redefined in the INIT file, its behavior
+should be a jump to the beginning and the end of the actual line.
+<DT><STRONG>Create the tex-site lisp file</STRONG>
+<DD><code>tex-site.el</code>
+in the NTemacs subdirectory
+<code>~\site-lisp</code>.
+Please read the important comments included in this lisp file!!
+<BR>
+You can copy my
+effort
+(this <code>tex-site.el</code> can be found in this ftp directory:
+<PRE>
+;;beginning of tex-site.el 
+;; modifications by W. Minten
+;; Last modification August 17, 1997
+
+;;; Customization: 
+;;  If you want to make AUC TeX aware of style files and multi-file 
+;;  documents right away. 
+(setq TeX-auto-save t) 
+(setq TeX-parse-self t) 
+(setq default-TeX-master nil) 
+
+;; Copy variables you need to change from the start of `tex.el' and 
+;; insert them here. 
+(defvar no-doc 
+  &quot;This function is part of AUC TeX, but has not yet been loaded. 
+Full documentation will be available after autoloading the function.&quot; 
+  &quot;Documentation for autoload functions.&quot;) 
+
+(defvar TeX-lisp-directory &quot;~/site-lisp/auctex/&quot; 
+  &quot;*The directory where the AUC TeX lisp files are located.&quot;) 
+
+;;; The two following definitions are in accordance with the installation
+;; setting of MiKTeX as described in the Local Guide of MiKTeX
+;; c:\texmf\doc\miktex\miktex.html
+(defvar TeX-macro-global  '(&quot;c:/texmf/tex&quot; &quot;c:/localtexmf/tex&quot;) 
+  &quot;*Directories containing the  sites TeX macro and style files.
+    Normally, AUC TeX will only allow you to complete a short list of
+    built-in macros and environments and on the macros you define yourself.
+    If you issue the `M-x TeX-auto-generate-global' command after loading
+    AUC TeX, you will be able to complete on all macros available in the
+    standard style files used by your document.  To do this, you must set
+    this variable to a list of directories where the standard style files
+    are located.  &quot;) 
+
+;; The 'TeX-command-list' (pull-down menu at the top of emacs appearing when 
+;; emacs is in TeX major mode) consists of the options below.
+;; Invoking 'C-c C-c' in a TeX major mode will run the &quot;LaTeX&quot; command
+;; of the command list. (After compiling, errors can be retrieved by
+;; invoking 'C-c `' (Control-c accent-gr\`ave).
+;; If no errors occur and if all cross-references are known, a second
+;; 'C-c C-c' will run the 'View' command of the list.
+(defvar TeX-command-list 
+  (list(list &quot;LaTeX&quot; &quot;latex \\nonstopmode\\input{%t}&quot; 
+                'TeX-run-LaTeX nil t) 
+       (list &quot;View&quot; &quot;yap %d&quot; 
+              'TeX-run-command nil t) 
+       (list &quot;dviPS&quot; &quot;dvips %d -o %f&quot; 
+              'TeX-run-command nil t) 
+       (list &quot;Ghostview&quot; &quot;c:\\GStools\\gsview\\gsview32.exe %f&quot; 
+              'TeX-run-command nil t) 
+       (list &quot;BibTeX&quot; &quot;bibtex %s&quot; 'TeX-run-BibTeX nil nil) 
+       (list &quot;Index&quot; &quot;makeindex %s&quot; 'TeX-run-command nil t) 
+       (list &quot;Check&quot; &quot;lacheck %s&quot; 'TeX-run-compile nil t) 
+       (list &quot;Other&quot; &quot;&quot; 'TeX-run-command t t))) 
+
+(setq TeX-default-mode 'LaTeX-mode) 
+; -------------------------------------------------------------------- 
+
+;;; Autoloads: 
+(or (assoc TeX-lisp-directory (mapcar 'list load-path)) ;No `member' yet. 
+    (assoc (substring TeX-lisp-directory 0 -1) ;Without trailing slash. 
+    (mapcar 'list load-path)) 
+    (setq load-path (cons TeX-lisp-directory load-path))) 
+
+;; This hook will store bibitems when you save a BibTeX buffer. 
+(defvar bibtex-mode-hook nil) 
+(or (memq 'BibTeX-auto-store bibtex-mode-hook) ;No `add-hook' yet. 
+    (setq bibtex-mode-hook (cons 'BibTeX-auto-store bibtex-mode-hook))) 
+
+(autoload 'BibTeX-auto-store &quot;latex&quot; no-doc t) 
+(autoload 'tex-mode &quot;tex&quot; no-doc t) 
+(autoload 'plain-tex-mode &quot;tex&quot; no-doc t) 
+(autoload 'texinfo-mode &quot;tex-info&quot; no-doc t) 
+(autoload 'latex-mode &quot;tex&quot; no-doc t) 
+
+(setq text-mode-hook 'turn-on-auto-fill) 
+
+;for font-latex running on fast machines
+(setq font-lock-maximum-decoration t)
+;for font-latex in general
+(require 'font-latex) 
+
+;;; tex-site.el ends here
+</PRE>
+<P>
+If you install NTemacs on another disk than <code>c:</code> the hard
+disk drive letter <code>c:</code> should be changed in the
+definition of the variable <code>TeX-macro-global</code>.
+<P>
+In very rare cases <B>two problems</B> can occur 
+with this <TT>tex-site.el</TT> (They can be cast back to the different
+shell
+that is used by the OS.). If you are in emacs, and you launch the
+latex compiler by using e.g. <code>'C-c C-c'</code>, then the
+<TT>LaTeX</TT>-command
+is executed in a shell. This <TT>LaTeX</TT>-command is defined in the
+<TT>TeX-command-list</TT> in <TT>tex-site.el</TT> by the sentence:
+<DIV ALIGN="CENTER">
+<PRE>
+(list(list &quot;LaTeX&quot; &quot;latex \\nonstopmode\\input{%t}&quot;
+</PRE>
+</DIV>
+<DL COMPACT>
+<DT>1.
+<DD>Problems with the backslashes.
+<BR>
+If you notice that this command
+is translated in the shell as
+<BR>
+<code>'Running `LaTeX' on `filename' with ``latex nonstopmodeinputfilename.tex'''</code>,
+<BR>
+then use 4 (four) backslashes instead of 2, i.e.
+<BR> 
+<code>(list(list &quot;LaTeX&quot; &quot;latex \\\\nonstopmode\\\\input{%t}&quot;</code>.
+<DT>2.
+<DD>Problems with the filename<A NAME="tex2html2"
+ HREF="#139"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/foot_motif.gif"></SUP></A>.
+<BR>
+If you notice that you get two suffixes appending your filename in the shell
+  command, i.e.
+<BR>
+<code>'Running `LaTeX' on `filename' with ``latex \nonstopmode\input{filename.tex.tex}'''</code>,
+<BR>
+then use
+the filename variable <code>%s</code> instead of <code>%t</code>.
+</DL>
+If you encounter similar problems for the execution of a preview,
+please check the latex file extension <TT>.tex</TT>, it should be in
+lower case.
+<BR>
+<P>
+If you don't have ghostview  for PC (<code>gsview32.exe</code>), please read
+also the next section.
+<BR>
+<P><DT><STRONG>Documentation</STRONG>
+<DD>The AUC-T<SMALL>E</SMALL>X documentation can be installed in
+  emacs, and retrieved in the emacs menu <code>&lt;Help&gt;</code>, 
+<code>&lt;Browse Manuals&gt;</code>;
+or with <code>C-h i</code>: To achive this, load the file
+<code>c:\emacs\info\dir</code> in your favorite editor (emacs) and
+  append in this file the following:
+<PRE>
+* AUCTeX: (c:/emacs/site-lisp/auctex/doc/auctex) 
+AUC TeX. Improved TeX/LaTeX mode
+</PRE>
+<DT><STRONG>Final check</STRONG>
+<DD>First uncomment the load line of <code>tex-site</code> in the INIT file, and
+save it again.
+Then double-click on a <code>.tex</code> file. Emacs starts and <code>_emacs</code>
+ is executed (and consequently also <code>tex-site.el</code>).
+Since  a <code>.tex</code> file is selected, this file will be placed in a
+buffer using the major mode of AUC-T<SMALL>E</SMALL>X
+<BR>
+These results can be seen in <code>&lt;Buffers&gt;</code>,
+<code>&lt;Messages&gt;</code>.
+</DL>
+<P>
+Please read  <code>c:\emacs\site-lisp\auctex\Readme</code>
+for an efficient use of AUC-T<SMALL>E</SMALL>X.
+E.g. <code>'C-c C-c'</code> will start the latex compilation in
+nonstopmode. After compilation, errors
+can be retrieved with <code>'C-c `'</code>. If no more errors occur and if all
+cross references are well defined, a <code>'C-c C-c'</code> will launch the
+previewer of your choice. Etc.
+<BR>
+If you want an efficient L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X <EM>macro completion</EM>  in
+AUC-T<SMALL>E</SMALL>X ('parsing' facility of L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X macros, style files and
+classes),
+ be sure that <code>TeX-macro-global</code> is set properly, and
+invoke
+<BR>
+<code>M-x TeX-auto-generate-global</code>.
+<BR>
+Then in the directory <code>~\site-lisp\auctex\auto\</code> the accompanying
+lisp files are saved.
+This generation will take a while. <BR>
+<P><H1><A NAME="SECTION00060000000000000000">
+DVI- and PS-preview and printing</A>
+</H1>
+Basically, YAP is a GUI for previewing  and printing DVI files, GhostView does
+the same for PS and EPS files.
+<BR>
+The recent version of YAP is able to show postscript parts during
+previewing <TT>dvi</TT>-files (some bugs though,...). Therefore you need
+<TT>ghostscript</TT>, a postscript file graphics interpreter.
+<BR>
+Remark that YAP itself is not able to print these postscript parts to
+a printer. Therefore you need to convert the DVI file to a complete PS file
+with <TT>dvips</TT> (also included in the MIKT<SMALL>E</SMALL>X distribution), and
+to read this PS file in GhostView.
+GhostView is also able to print entire postscript files to
+non-postscript printers.
+<BR>
+<BR>
+Summarizing I recommend the following:
+<DL COMPACT>
+<DT>1.
+<DD>use YAP for previewing (speed reasons). 
+If the DVI file
+does not contain postscript parts you can immediately print this DVI
+file from within YAP. 
+<DT>2.
+<DD>use YAP for immediate printing to a postscript printer, since YAP
+embeds facilities
+to compile the DVI file and to  redirect the PS output to a 
+postscript printer (see <code>&lt;file&gt;</code>, <code>&lt;Dvips&gt;</code>).
+<DT>3.
+<DD>use GhostView for previewing the entire file in PS format, or for
+printing to any printer, even a non-postscript printer.
+</DL>
+For both facilites do as follows:
+Surf to the homepage of Ghostscript and GSview 
+<A NAME="tex2html1"
+ HREF="http://www.cs.wisc.edu/~ghost/aladdin">(http://www.cs.wisc.edu/~ghost/aladdin)</A>
+where you can find the files you need:
+<TT>gsviewXX.zip</TT>, 
+<TT>gsYYYini.zip</TT>, 
+<TT>gsYYYfn1.zip</TT>, and
+<TT>gsYYYw32.zip</TT>.
+<BR>
+<TT>GsviewXX.zip</TT> contains an automatic setup.
+<BR>
+If you want to
+benefit form the settings above you should:
+<DL>
+<DT><STRONG>Unzip</STRONG>
+<DD><code>gsv22w32.zip</code> in <code>c:\gstools</code>.
+<DT><STRONG>Copy</STRONG>
+<DD>all the other <code>.zip</code> files (<code>*fn1.zip</code>,
+<code>*ini.zip</code>, and
+<code>*w32.zip</code>) in <code>c:\gstools</code>.
+<DT><STRONG>Execute</STRONG>
+<DD><code>c:\gstools\setup.exe</code>. This 
+extracts all the <code>.zip</code> files to the
+appropriate directory. Check that the default
+Ghostscript version is used during installation.
+<DT><STRONG>Final installation</STRONG>
+<DD>will be  done when <code>c:\gstools\gsview\gsview32.exe</code>
+is accessed for the first time. Every default setting should be ok.
+</DL>
+If you want to use <TT>YAP</TT> in conjunction with <TT>ghostscript</TT>, then you
+should tell <TT>YAP</TT> (in ,<TT>&lt;View&gt;</TT>, <TT>&lt;Options&gt;</TT>, <TT>&lt;GhostScript&gt;</TT>)
+where to find <TT>ghostscript</TT> (<code>C:\gstools\gs5.10\gsdll32.dll</code>).
+<P><H1><A NAME="SECTION00070000000000000000">
+How to speed-up things</A>
+</H1>
+<DL COMPACT>
+<DT>1.
+<DD>If everything works fine, you can kick-out the option
+<code>--debug-init</code> option in the File Types setting of Windows.
+<DT>2.
+<DD>You can speed-up the 'parsing' during loading by
+selective or even complete
+deletion of some not frequently used lisp files in 
+<code>~\site-lisp\auctex\auto\</code>
+<DT>3.
+<DD>Byte-compile the AUC-T<SMALL>E</SMALL>X related lisp files<A NAME="tex2html3"
+ HREF="#142"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/foot_motif.gif"></SUP></A>. The most easy way is to
+load the file
+<BR>
+<code>~\site-lisp\tex-site.el</code> in emacs and compile this
+one by selecting <BR>
+<code>&lt;Emacs-Lisp&gt;</code>,
+<code>&lt;Byte-compile This File&gt;</code>.
+<BR>
+To Byte-compile the remaining lisp
+files in <code>~\site-lisp\auctex</code>, do as follows:
+<DL COMPACT>
+<DT>(a)
+<DD>type (the '<code>0</code>' is a zero)
+<code>C-u 0 M-x byte-recompile-directory</code> <code>&lt;return&gt;</code>
+<DT>(b)
+<DD>enter the AUC-T<SMALL>E</SMALL>X lisp file directory,  
+<code>~/site-lisp/auctex</code> <code>&lt;return&gt;</code>
+<DT>(c)
+<DD>end with <code>&lt;return&gt;</code>
+</DL>
+Similar things can be done to byte-compile other directories like
+<code>~\site-lisp\auctex\auto\</code>
+</DL><H1><A NAME="SECTION00080000000000000000">
+Full-featured L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X support in NTemacs</A>
+</H1>
+Below, an extended INIT file is shown which also embeds
+useful lisp files (Please refer to Voelker's NTemacs home page 
+(<code>http://www.cs.washington.edu/homes/voelker/ntemacs.html</code>,
+mirrored at
+<BR>
+<code>http://ftp.sunet.se/pub/os/Win32/ntEmacs/docs/ntemacs.html</code>)
+and to
+the Elisp Home Page
+<code>http://www.cs.indiana.edu/usr/local/www/elisp/elisp-intro.html</code>
+to catch
+them (If you are brave you can also download them from the ftp directory):
+<DL>
+<DT><STRONG>stig-paren.el</STRONG>
+<DD>Improved open/closed parentheses check.
+<DT><STRONG>bib-cite.el</STRONG>
+<DD>add-on for citations and references
+<BR>(and others from
+<TT>ftp://ftp.phys.ocean.dal.ca/users/rhogee/elisp/index.html</TT>)
+<DT><STRONG>reftex.el</STRONG>
+<DD>you can also use this reference tool.
+<BR>
+(from
+<TT>http://www.strw.LeidenUniv.nl/&nbsp;dominik/Tools/ </TT>)
+<DT><STRONG>untranslate.el</STRONG>
+<DD>for proper mounting of UNIX disks.
+<DT><STRONG>ispell4.zip</STRONG>
+<DD>Ispell for PC (see
+<code>http://cat.rpi.edu/~tibbetts/ispell_toc.html</code> for the
+ installation procedure). The minimal things you will have to do
+ is<A NAME="tex2html4"
+ HREF="#143"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/foot_motif.gif"></SUP></A>:
+<DL COMPACT>
+<DT>1.
+<DD>unzip the zipfile  (use the folder names
+of the zipped files) and use the settings below.
+<DT>2.
+<DD>move <code>ispell4.el</code> and <code>ispell4.elc</code> to the <code>c:\emacs\site-lisp directory</code>
+<DT>3.
+<DD>move <code>ispell</code> to <code>c:\emacs\info</code>
+<DT>4.
+<DD>append the line
+<code>*ispell v4: (ispell).  GNU ispell version 4 for NT Emacs</code>
+to the file <code>c:\emacs\info\dir</code>
+</DL></DL>
+If you want to use them, download the lisp files in
+<TT>~ /site-lisp/ </TT> and use the INIT file below
+(this <code>_emacs</code> can be downloaded from the ftp directory).
+Help on using these lisp files can be found in the beginning of
+the lisp files.
+<BR>
+In the mean time also better frame and keyboard settings will be installed (e.g.
+better <code>&lt;Backspace&gt;</code> and <code>&lt;Delete&gt;</code> key support, dependent of 
+the <code>&lt;Insert&gt;</code>-key toggle).
+<P><PRE>
+;;beginning of _emacs
+;; author W. Minten et al.
+;; last modification June 28, 1998
+
+;; default frame and color settings
+; invoke   M-x list-colors-display    to choose the colors
+; comment this if you want to see the default settings 
+(setq default-frame-alist      '((top . 000) (left . 350)
+    (width . 80) (height . 44)  (cursor-color . &quot;red&quot;)
+    (background-color . &quot;wheat&quot;)
+    (vertical-scroll-bars . right)
+   ;fonts found on the mailing list, uncomment one at your convenience
+   ;(font . &quot;-*-Courier-normal-r-*-*-13-97-*-*-c-*-*-ansi-&quot;)
+   ;(font . &quot;-*-Terminal-normal-r-*-*-8-60-*-*-c-*-*-oem-&quot;)
+   ;(font . &quot;-*-Terminal-normal-r-*-*-12-72-*-*-c-80-*-oem-&quot;)
+   ;(font . &quot;-*-Terminal-normal-r-*-*-8-60-*-*-c-*-*-oem-&quot;)
+   ;(font . &quot;-*-Terminal-normal-r-*-*-19-142-*-*-c-*-*-oem-&quot;)
+    )
+    )
+;; some interactive color settings by means of
+; M-x set-mouse-color  RET magenta RET  ;strange but this seems not to work..
+; M-x set-cursor-color RET red RET
+; M-x set-background-color RET black RET
+; M-x set-foreground-color RET yelow RET
+
+;some useful additional settings
+(setq display-time-24hr-format t)                       ; In 24 hour format
+(display-time)                                          ; Display the time
+(setq-default auto-fill-hook 'do-auto-fill)
+(setq fill-column 78)
+(standard-display-european 1)              ; Display full ISO character set
+(put 'eval-expression 'disabled nil) 
+(setq text-mode-hook '(lambda() (auto-fill-mode 1))) 
+
+;; no emacs start-up message 
+(setq inhibit-startup-message t) 
+
+;; Redefine some keys.
+(setq kill-whole-line t)                                ; Kill EOL too
+(global-set-key [kp-home] 'beginning-of-line)
+(global-set-key [kp-end] 'end-of-line)
+(global-set-key [home] 'beginning-of-line)
+(global-set-key [end] 'end-of-line)
+(global-set-key [C-home] 'beginning-of-buffer)
+(global-set-key [C-end] 'end-of-buffer)
+(global-set-key [S-delete] 'clipboard-kill-region)
+(global-set-key [S-insert] 'clipboard-yank)
+(global-set-key [C-insert] 'clipboard-kill-ring-save)
+(global-set-key [S-right] 'set-mark-command)
+(global-set-key [f1]      'goto-line)           ; goto line
+(global-set-key [delete]  'delete-char)         ; delete character under cursor
+(global-set-key [f4]      'indent-three-spaces) ; indent 3 spaces
+(global-set-key [f8]      'kill-current-line)   ; delete current line
+(global-set-key [f7]      'kill-current-or-next-word)   ; delete current word
+(global-set-key [?\C-z] 'undo); added here because I usually do kills by mistake
+(global-set-key &quot;\C-x\C-j&quot; 'goto-line) ; Command prompts for linenumber to go to.
+;; Define function that indents three spaces.
+(defun indent-three-spaces ()
+   &quot;Indent three spaces.&quot;
+   (interactive)
+   (beginning-of-line)
+   (insert &quot;   &quot;)
+   (next-line 1)
+)
+;; Define function that removes the current line.
+(setq kill-whole-line t)
+(defun kill-current-line ()
+   &quot;Delete the current line.&quot;
+   (interactive)
+   (beginning-of-line)
+   (kill-line)
+)
+;; Define function that removes the current word.
+(defun kill-current-or-next-word ()
+   &quot;Delete current or next word.&quot;
+   (interactive)
+   (forward-word 1)
+   (backward-kill-word 1)
+   ;(delete-char 1)
+)
+
+;;;;Define keys and functions useful for AUC-TeX
+;;If you do not want to use 'C-c C-c' or the pull-down menu &quot;Command&quot;
+(global-set-key [(control f5)] 'do-LaTeX)      ; LaTeX  the current file
+(global-set-key [(control f6)] 'do-DVIview)    ; DVIview  the current file
+(defun do-LaTeX ()
+   &quot;LaTeX the curent file.&quot;
+   (interactive)
+   (TeX-command &quot;LaTeX&quot; 'TeX-master-file))
+(defun do-DVIview ()
+   &quot;YAPview the curent file.&quot;
+   (interactive)
+   (TeX-command &quot;View&quot; 'TeX-master-file))
+;;If you do not want to use the pull-down menu &quot;Command&quot; for dvips
+(global-set-key [(control f7)] 'do-DVIPS)      ; DVIPS  the current file
+(global-set-key [(control f8)] 'do-PSview)     ; PSview  the current file
+(defun do-DVIPS ()
+   &quot;DVIPS the curent file.&quot;
+   (interactive)
+   (TeX-command &quot;dviPS&quot; 'TeX-master-file))
+(defun do-PSview ()
+   &quot;DVIPS the curent file.&quot;
+   (interactive)
+   (TeX-command &quot;Ghostview&quot; 'TeX-master-file))
+   
+
+;; prevent echoing ^M in the shell
+(add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+
+;; if you have a network connection with UNIX like environment 
+; take care of CR/LF disabling if NTemacs manages (load/save) files on it
+; ftp://ftp.sunet.se/pub/os/Win32/ntEmacs/docs/ntemacs.html#translation
+(load &quot;~/site-lisp/untranslate&quot;) 
+(add-untranslated-filesystem &quot;d:&quot;)    ; d: is a UNIX drive
+;if you encounter a file with ^M or ... at the end of every line,
+; this means a worng copy by samba or floppy disk of the DOS file to UNIX.
+; get rid of them by pressing [F5]
+(global-set-key [f5]      'cut-ctrlM) ; cut all ^M.
+(defun cut-ctrlM ()  
+   &quot;Cut all visible ^M.&quot;
+   (interactive)
+   (beginning-of-buffer)
+   (while (search-forward &quot;\r&quot; nil t)
+    (replace-match &quot;&quot; nil t))
+)
+
+;; use ISPELL on PC (see http://cat.rpi.edu/~tibbetts/ispell_toc.html
+;  fot the installation procedure)
+; you don't need to add     c:\ispell4\exe      to your PATH, and 
+; you don't need to copy or move any file after unzipping
+; if you define ispell-command and ispell-look-command properly.
+; M-$ for ispell word under cursor,  M-x ispell-buffer for whole buffer
+; see also pull-down menu &lt;Edit&gt;, &lt;Spell&gt;, &lt;Check ...&gt;.
+(cond ((file-exists-p &quot;c:/ispell4/exe/ispell.exe&quot;)
+       (autoload 'ispell-word &quot;ispell4&quot; 
+         &quot;Check spelling of word at or before point&quot; t)
+       (autoload 'ispell-complete-word &quot;ispell4&quot; 
+         &quot;Complete word at or before point&quot; t)
+       (autoload 'ispell-region &quot;ispell4&quot; 
+         &quot;Check spelling of every word in the region&quot; t)
+       (autoload 'ispell-buffer &quot;ispell4&quot; 
+         &quot;Check spelling of every word in the buffer&quot; t)
+       (setq ispell-command &quot;c:/ispell4/exe/ispell.exe&quot;
+        ispell-look-dictionary &quot;c:/ispell4/ispell.words&quot;
+        ispell-look-command &quot;c:/ispell4/exe/look.exe&quot;
+        ispell-command-options (list &quot;-d&quot; &quot;c:/ispell4/ispell.dict&quot;))))
+;still necessary
+(setenv &quot;TEMP&quot; &quot;c:/windows/temp&quot;)
+(setenv &quot;TMP&quot; &quot;c:/windows/temp&quot;)
+; helpful
+(setq text-mode-hook '(lambda ()
+     (local-set-key &quot;\M-\t&quot; 'ispell-complete-word)))
+(setq tex-mode-hook '(lambda ()
+     (local-set-key &quot;\M-\t&quot; 'ispell-complete-word)))
+(setq latex-mode-hook '(lambda ()
+     (local-set-key &quot;\M-\t&quot; 'ispell-complete-word)))
+; enable tex parser, also very helpful
+(setq ispell-enable-tex-parser t)
+
+;; fontification font-lock.el much better than the default hilit19.el
+;***************************** (for coloring)
+;;automatic Font Lock mode in TeX mode 
+;(add-hook 'tex-mode-hook 'turn-on-font-lock) 
+;;if Font Lock necessary for other than .tex files, uncomment following
+(global-font-lock-mode t) 
+(setq font-lock-maximum-decoration t)
+
+
+;; stig-paren.el, a parentheses mathing much better than the default paren.el
+;*************** (for better view of matched parentheses)
+(cond (window-system
+  (require 'stig-paren)
+ ;; XEmacs
+  (global-set-key [(control leftparen)] 'stig-paren-toggle-dingaling-mode)
+  (global-set-key [(control rightparen)] 'stig-paren-toggle-sexp-mode))
+  (t
+  (setq blink-matching-paren t)))
+
+;;settings for bib-cite.el
+;**************************
+(require 'imenu)
+(define-key global-map [S-mouse-3] 'imenu)
+(autoload 'turn-on-bib-cite &quot;bib-cite&quot;)
+(add-hook 'LaTeX-mode-hook 'turn-on-bib-cite)
+ 
+
+;; load default lisp file (.el or .elc) for improved LaTeX mode
+;; all settings are located in tex-site, hence
+;**************************************************************
+(load &quot;~/site-lisp/tex-site&quot;) 
+
+;;end of _emacs
+</PRE>
+<P><H1><A NAME="SECTION00090000000000000000">
+Other useful L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X related links</A>
+</H1>
+Please go to 
+<A NAME="tex2html1"
+ HREF="http://www.esat.kuleuven.ac.be/~minten/latex2e/latex2e.html#wwwlinksico">http://www.esat.kuleuven.ac.be/~minten/latex2e/latex2e.html#wwwlinksico</A>
+.
+<H1><A NAME="SECTION000100000000000000000">
+About this document ... </A>
+</H1> 
+ <STRONG></STRONG><P>
+This document was generated using the
+<A HREF="http://www-dsed.llnl.gov/files/programs/unix/latex2html/manual/"><STRONG>LaTeX</STRONG>2<tt>HTML</tt></A> translator Version 97.1 (release) (July 13th, 1997)
+<P>
+Copyright &#169; 1993, 1994, 1995, 1996, 1997,
+<A HREF="http://cbl.leeds.ac.uk/nikos/personal.html">Nikos Drakos</A>, 
+Computer Based Learning Unit, University of Leeds.
+<P>
+The command line arguments were: <BR>
+ <STRONG>latex2html</STRONG> <tt>-split 0 NTTeXing.tex</tt>.
+<P>
+The translation was initiated by Willem Minten on 6/29/1998
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="5">...PC</A>
+<DD>Note that this is 
+cakeware. All credits go to Lars Schmidt-Thieme and the people who helped me.
+<P><DT><A NAME="139">...filename</A>
+<DD>Thanks Ross Darnell
+ <TT> &lt;darnell@usq.edu.au&gt;</TT>
+<P><DT><A NAME="142">...files</A>
+<DD>Pre-compiled lisp
+files (with extension <TT>.elc</TT>) run always faster. By default
+emacs will load the most recent one of the two.
+<P><DT><A NAME="143">...is</A>
+<DD>Thanks Michael Uchanski <TT>&lt;mikeu@vehicle.ME.Berkeley.EDU&gt;</TT>
+<P></DL><HR>
+<!--Navigation Panel-->
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/next_motif_gr.gif"> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/up_motif_gr.gif"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="http://www.esat.kuleuven.ac.be/icons/latex2html/previous_motif_gr.gif">   
+<BR>
+<!--End of Navigation Panel-->
+<ADDRESS>
+<I>Willem Minten</I>
+<BR><I>6/29/1998</I>
+</ADDRESS>
+</BODY>
+</HTML>

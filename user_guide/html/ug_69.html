@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 15 Mutation testing</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_67.html"><img border="0" alt="14 Use with emacs" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">14 Use with emacs</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_70.html"><img border="0" alt="16 Test coverage support" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">16 Test coverage support</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>15 Mutation testing</b></font></td></tr></table>
+<h1>15 Mutation testing</h1>
+
+This section assumes you have installed emacs.  It also assumes you
+are familiar with the test case feature recently added to RSL: see
+section&nbsp;<a href="ug_8.html">1.7</a>. 
+<p>The tool supports mutation testing with the SML translator and SML
+run-time system.  Mutation testing is a technique to check the
+adequacy of test cases by seeing if a small change, a <em>mutation</em>,
+of the RSL source gives different test results.  If the test results
+are different it shows that this mutation can be detected if made by
+error.  If the test results are not different it suggests that more
+test cases might be needed.  This is a useful technique when the test
+cases are developed during specification and later used on the final
+software.  Mutation testing can increase the thoroughness of the
+testing, and hence the quality of the test
+cases.
+<p>Note that the support for mutation testing currently depends on all
+the RSL files needed being stored in one directory.
+<p>Before you start mutation testing you need to run the SML translator
+on the original files.  Open the file with the test cases in it,
+translate to SML (RSL menu <tt>Translate to SML</tt>), run the
+SML translator (<tt>Run SML file</tt>) and save the
+results (<tt>Save results from SML run</tt>).  See
+section&nbsp;<a href="ug_22.html#sec:smlsave">9.2.2</a> on saving results.
+<p>To make a mutation in an RSL module, open the module file,
+<tt>X.rsl</tt>, say, in emacs.  Select the expression you want to
+change with the mouse by dragging, or by clicking with first the left
+at the beginning and then the right mouse button just past the end.  Then
+select the item <tt>Make mutation</tt> in the RSL menu.  (This menu
+item will not appear until you have selected something.)
+<p>You will first be prompted for the replacement text.  For example, you
+might have selected <code>&lt;</code> and want to try replacing it with
+<code>&lt;=</code>.  You type <code>&lt;=</code> and hit <tt>Enter</tt>.
+<p>Then you are prompted for the file to translate.  This might be
+<tt>X.rsl</tt> if the test cases are in the same file, or it might be
+a different file, such as <tt>TEST&#95;X.rsl</tt>.  The first time you
+will be offered <tt>X.rsl</tt> and can change it to
+<tt>TEST&#95;X.rsl</tt> if you need to.  If you make this change and
+later in the same session make another mutation to <tt>X.rsl</tt> you
+will be immediately offered <tt>TEST&#95;X.rsl</tt> as the file to
+translate.  Having corrected the offered file name if necessary, hit
+<tt>Enter</tt>.  We will assume in the rest of this section that the
+file to be translated is <tt>TEST&#95;X.rsl</tt>.
+<p>The RSL files in the current directory are copied to a subdirectory
+<tt>mutantn</tt>, where the final <tt>n</tt> is initially <tt>0</tt>
+(zero), and the mutation is applied to <tt>mutantn/X.rsl</tt>.  Then
+the SML translator is run on <tt>mutantn/TEST&#95;X.rsl</tt>, and
+provided there are no errors the SML run-time system is run on the
+output.  Then you can see if there are any differences from the output
+of the original run before you made any mutations.
+<p>If there are many test cases and you want some automated support with
+the comparison, go back to the file you just translated,
+<tt>mutant0/TEST&#95;X.rsl</tt>, say, or the original <tt>X.rsl</tt>, or
+<tt>TEXT&#95;X.rsl</tt>, and select 
+<tt>Compare with mutant</tt> in the <tt>RSL</tt> menu.  
+This will save the results from
+the latest SML run, and offer two results files to compare, in this
+case <tt>TEST&#95;X.sml.results</tt> and
+<tt>mutant0/TEST&#95;X.sml.results</tt>.  You can change these if you
+wish, or just hit <tt>Enter</tt> for each immediately if they are what
+you want.  The "ediff" file comparison tool is then run on the two
+selected results files.  This tool generates a small command window
+which shows how many differences there are, as well as showing in two main
+buffers the results files with differences highlighted.  With the
+point in the command window, the main command keys are space bar to
+highlight the next difference, <tt>Delete</tt> to highlight the
+previous one, <tt>q</tt> to quit ediff (confirmed by <tt>y</tt>), and
+the toggle <tt>?</tt> to show/hide all the commands available.
+<p>You can go back to <tt>X.rsl</tt> to make another mutation, which will
+be placed in subdirectory <tt>mutant1</tt>, starting by selecting an
+expression to change (perhaps the same expression) and using <tt>Make
+  mutation</tt> again.
+<p>You can also tidy up by selecting the <tt>RSL</tt> menu item
+<tt>Delete mutant directories</tt> in the original <tt>X.rsl</tt> or
+<tt>TEST&#95;X.rsl</tt> buffers.  This will delete the subdirectories
+<tt>mutantn</tt> and their contents (including the results files: move
+these first if you need to preserve them).
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>15 Mutation testing</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_67.html"><img border="0" alt="14 Use with emacs" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">14 Use with emacs</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_70.html"><img border="0" alt="16 Test coverage support" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">16 Test coverage support</td></tr></table></td></tr></table></body></html>

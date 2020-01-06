@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:41 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 1.6 Extra meanings for &#8712;, &#8713;, and hd</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_6.html"><img border="0" alt="1.5 Finite maps" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">1.5 Finite maps</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_1.html"><img border="0" alt="1 Changes to RSL" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">1 Changes to RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_8.html"><img border="0" alt="1.7 Test cases" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">1.7 Test cases</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>1.6 Extra meanings for &#8712;, &#8713;, and <b>hd</b></b></font></td></tr></table>
+<h2>1.6 Extra meanings for &#8712;, &#8713;, and <b>hd</b></h2>
+<p>The infix operators &#8712; and &#8713; can now be applied to lists
+and maps as well as sets.  The meanings correspond to the following
+definitions for arbitrary types T and U:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8712; : T &#215; T<i><sup>&#969;</sup></i> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;t &#8712; l &#8801; t &#8712; <b>elems</b> l,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8713; : T &#215; T<i><sup>&#969;</sup></i> &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;t &#8713; l &#8801; t &#8713; <b>elems</b> l,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8712; : T &#215; (T -~m-&gt; U) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;t &#8712; m &#8801; t &#8712; <b>dom</b> m,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8713; : T &#215; (T -~m-&gt; U) &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;t &#8713; m &#8801; t &#8713; <b>dom</b> m
+</td></tr></table>
+
+                        <p>The point of adding these meanings is that the RSL is shorter, and
+that it is easier to translate the RSL into more efficient code, as
+there is no need to generate a set from the list or map before
+applying &#8712; or &#8713;.
+<p>The prefix operator <b>hd</b> can now be applied to (non-empty) sets and
+maps.  The meaning of <b>hd</b> in these two cases is as if <b>hd</b> were
+defined as follows for arbitrary types T and U:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>hd</b> : T<b>-infset</b> -~-&gt; T</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>hd</b> : (T -~m-&gt; U) -~-&gt; T</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>axiom</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8704; s : T<b>-infset</b> &#8226; s &#8800; &#123;&#125; &#8658; <b>hd</b> s &#8712; s</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8704; m : T -~m-&gt; U &#8226; m &#8800; [] &#8658; <b>hd</b> m &#8712; m
+</td></tr></table>
+
+                        <p>The operator <b>hd</b> can therefore be used to select an arbitrary member of a
+non-empty set or of the domain of a non-empty map.  This allows many
+examples of quantified and comprehended expressions to be written in
+ways that allows them to be translated.  The choice of <b>hd</b> for
+this operator may seem a little strange, but using an existing
+operator avoids adding another keyword.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>1.6 Extra meanings for &#8712;, &#8713;, and <b>hd</b></b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_6.html"><img border="0" alt="1.5 Finite maps" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">1.5 Finite maps</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_1.html"><img border="0" alt="1 Changes to RSL" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">1 Changes to RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_8.html"><img border="0" alt="1.7 Test cases" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">1.7 Test cases</td></tr></table></td></tr></table></body></html>

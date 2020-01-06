@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 18.2 Windows</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_73.html"><img border="0" alt="18.1 Unix and Linux" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">18.1 Unix and Linux</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_72.html"><img border="0" alt="18 Installation" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">18 Installation</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>18.2 Windows</b></font></td></tr></table>
+<h2>18.2 Windows</h2>
+<p>There is a minimal version of emacs, version 19.34, supplied with
+rsltc.  This was copied from the DJGPP distribution
+(<a href="http://www.delorie.com/djgpp/">http://www.delorie.com/djgpp/</a>).  It is better to get a full
+version of the latest version emacs from DJGPP, or from
+<a href="http://www.gnu.org/software/emacs/emacs.html">http://www.gnu.org/software/emacs/emacs.html</a>.  You can get it
+precompiled for Windows.
+<p>rsltc comes as a zip file <code>rsltc.zip</code>.  
+<p>You need WinZip or equivalent to unpack the zip files.  The dos tool
+pkunzip can be used with the -d option but you will afterwards need to
+correct the following file names in <code>gnu\emacs\lisp</code>, because the base
+names will have been truncated to 8 characters:
+<pre>
+backquote.elc
+case-table.elc
+cc-compat.elc
+dired-aux.elc
+help-macro.elc
+</pre>
+<p>If you have a directory <code>c:\raise</code> you might want to rename it or vary
+the instructions below to avoid the possibility of overwriting files in
+it.
+<p>Extract rsltc.zip into <code>c:</code>, using the "Use folder names" option.  This
+will create a directory <code>c:\raise</code>.
+<p>If you don't already have emacs:
+<ul><p><li>Unpack em1934b.zip into <code>c:\raise</code>,
+again using the "Use folder names" option.  Note that rsltc.zip was
+unpacked into <code>c:</code>: now you are unpacking into a folder created
+by the first unpack. 
+<p><li>Use Windows Explorer to open <code>C:\raise\gnu\emacs\bin</code> and
+  select emacs.exe. 
+<p><li>Optionally, use Properties under File to set the font to 7 x 12
+and the screen to 43 lines.  This gives a full length emacs window and
+a reasonable font size.
+<p><li>Use CreateShortcut to make a shortcut.
+<p><li>The file <code>C:\raise\gnu\emacs\lisp\rsltc.el</code> needs to know where the
+executable rsltc.exe is.  If you have followed the directions above exactly it
+will be right: <code>"/raise/rsl/rsltc"</code>.  Otherwise, start emacs with the
+shortcut you made and use it to edit <code>C:\raise\gnu\emacs\lisp\rsltc.el</code>
+so that <code>rsltc-command</code> is set correctly.  Save rsltc.el. Exit emacs
+(Files menu) and start it again.
+</ul>
+<p>If you already have emacs, or have installed a version from elsewhere:
+<ul><p><li>Move the .el files in <code>C:\raise\gnu\emacs\lisp</code> to the
+emacs site-lisp directory (probably<br /><code>C:\emacs\site-lisp</code>).
+<p><li>Move the emacs start-up file <code>_emacs</code> from <code>C:\raise\gnu\emacs</code> to your
+"home" directory.  The simplest method is to find out where emacs
+thinks "home" is and put it there.  You can use the sequence
+<pre>
+Esc-x getenv Enter HOME Enter
+</pre>
+<p>(where "Enter" means the Enter or Return key)
+in emacs to find out.  Otherwise, see the section "Where do I put my .emacs,
+(or &#95;emacs), file?" in <code>emacs_windows_faq.html</code>.
+<p><li>The file <code>C:\emacs\site-lisp\rsltc.el</code> needs to know where
+  the executable rsltc.exe is.  If you have followed the directions
+  above exactly it will be right: <code>"/raise/rsl/rsltc"</code>.
+  Otherwise, use to edit <code>C:\emacs\site-lisp\rsltc.el</code> so that
+  <code>rsltc-command</code> is set correctly.  Save rsltc.el. Exit emacs
+  and start it again.
+</ul>
+
+<h3><a name="id1">18.2.1 SML</a></h3>
+Install SML from the self-installing package from
+<a href="http://www.smlnj.org">http://www.smlnj.org</a>.  We assume below
+that you have 
+installed it in <code>C:/sml</code> as suggested.
+<p>In Windows 9X, include in autoexec.bat
+<pre>
+SET RSLML_PATH=c:\raise\sml
+</pre>
+<p>In Windows NT, or later versions, get your system administrator to set
+this variable.
+<p>Make a folder <code>c:\raise\sml</code> and copy the files rslml.sml and rslml.cm
+from rsltc.zip file to there.
+
+<h3><a name="id2">18.2.2 C++</a></h3>
+<p>The files
+<pre>
+RSL_comp.h
+RSL_list.cc
+RSL_list.h
+RSL_map.cc
+RSL_map.h
+RSL_prod.h
+RSL_set.cc
+RSL_set.h
+RSL_text.h
+RSL_typs.cc
+RSL_typs.h
+cpp_RSL.cc
+cpp_RSL.h
+cpp_io.cc
+cpp_io.h
+cpp_list.cc
+cpp_list.h
+cpp_map.h
+cpp_set.cc
+cpp_set.h
+</pre>
+should be placed in a directory, and the file <code>rslcomp.bat</code> edited to
+set CPP&#95;DIR to that directory.
+<p>Put <code>rslcomp.bat</code> somewhere on your path.
+<p><code>rslcomp.bat</code> assumes that you are using
+the DJGPP (<a href="http://www.delorie.com/djgpp/">http://www.delorie.com/djgpp/</a>) port of g++ (called
+<code>gxx</code>).  If your C++ compiler is called something else <code>rslcomp.bat</code>
+is easy to change.
+<p>The translator output has been tested using DJGPP and also the Cygwin
+port of GNU tools to Windows:<br /><a href="http://sources.redhat.com/cygwin/">http://sources.redhat.com/cygwin/</a>.
+<p>If you are using Cygwin with emacs 20 you might like to use the Cygwin
+bash shell within emacs.  You should add to your &#95;emacs file the
+following (taken from the Cygwin FAQ):
+<pre>
+;; This assumes that Cygwin is installed in C:\cygwin (the
+;; default) and that C:\cygwin\bin is not already in your
+;; Windows Path (it generally should not be).
+;;
+(setq exec-path (cons "C:/cygwin/bin" exec-path))
+(setenv "PATH" (concat "C:\\cygwin\\bin;" (getenv "PATH")))
+;;
+;; NT-emacs assumes a Windows command shell, which you change
+;; here.
+;;
+(setq process-coding-system-alist '(("bash" . undecided-unix)))
+(setq w32-quote-process-args ?\")
+(setq shell-file-name "bash")
+(setenv "SHELL" shell-file-name) 
+(setq explicit-shell-file-name shell-file-name) 
+;;
+;; This removes unsightly ^M characters that would otherwise
+;; appear in the output of java applications.
+;;
+(add-hook 'comint-output-filter-functions
+          'comint-strip-ctrl-m)
+</pre>
+<p>You should also change the definition of <code>rsltc-command</code> in
+<tt>rsltc.el</tt> to <code>"/cygdrive/c/raise/rsl/rsltc"</code>, and change
+<code>vcg-command</code> similarly.
+<p>Limited tests have been done using Microsoft's Visual C++ compiler.
+The translator's output needs to be different, making much less use of
+templates.  If you use this compiler you should use
+the <tt>rsltc</tt> option <tt>-cpp</tt> instead of <tt>-c++</tt>.  The
+C++ output file will have extension <tt>.cpp</tt> instead of
+<tt>.cc</tt>.  You can select this option in emacs by using the RSL menu
+item <code>Translate to Visual C++</code>.
+<p>We would be interested to hear of people using the translator
+with other C++ compilers.
+
+<h3><a name="id3">18.2.3 VCG</a></h3>
+VCG is installed from two zip files supplied with rsltc:
+<code>vcg_p1.zip</code> and <code>vcg_p2.zip</code>.  Unpack them in that order
+using WinZip or pkunzip -d and just follow the instructions in the
+readme file in the first.  You can place vcg where you like, but
+unless you unpack the two zip files into <code>C:\raise</code> you will
+need to edit the definition of <tt>vcg-command</tt> in
+<tt>rsltc.el</tt> in <tt>site-lisp</tt>.
+
+<h3><a name="id4">18.2.4 UML2RSL</a></h3>
+<p>See section&nbsp;<a href="ug_58.html">12.4</a>.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>18.2 Windows</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_73.html"><img border="0" alt="18.1 Unix and Linux" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">18.1 Unix and Linux</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_72.html"><img border="0" alt="18 Installation" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">18 Installation</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr></table></body></html>

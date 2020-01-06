@@ -1,0 +1,19 @@
+This directory contains the RSL library files for use with the PVS
+translator.
+
+To install these files, store rsl_prelude.pvs and rsl_prelude.prf in a
+directory X, say.
+
+Start pvs in directory X.
+
+Issue the command M-x load-prelude-library, and give Y/lib/finite_sets
+at the prompt, where Y is the dirctory where PVS is located.  This
+loads the finite sets library.
+
+Open rsl_prelude.pvs, run the type checker on it and exit.
+
+You can now, when running PVS on files translated from RSL files, load
+the RSL library by using the command M-x load-prelude-library and
+giving X at the prompt (the directory where you stored
+rsl_prelude.pvs).  This only needs to be done once in each directory,
+as it is recorded in the directory's .pvscontext file.

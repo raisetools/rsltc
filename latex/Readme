@@ -1,0 +1,17 @@
+Files needed to support RSL with LaTeX are included here.  See section
+14 of the user guide.
+
+boxedminipage.sty is needed by rslenv.sty (but may already be in your
+LaTeX distribution).
+
+rslenv.sty (and if necessary boxedminipage.sty) should be placed
+somewhere with your other LaTeX style files.  You will need to run
+texhash (on Unix systems) or update MiKTeX (on Windows) afterwards.
+
+rslconvert.el and tokenise.el should be placed on your emacs
+load-path.
+
+NTTeXing.html is a useful guide to setting up emacs and LaTeX in
+Windows.
+
+

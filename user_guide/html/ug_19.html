@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 8.1 Long file names in Windows</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_18.html"><img border="0" alt="8 Drawing a module dependency graph" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">8 Drawing a module dependency graph</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>8.1 Long file names in Windows</b></font></td></tr></table>
+<h2>8.1 Long file names in Windows</h2>
+<p>VCG only uses the old MS-DOS "8+3" file names.  If, for example, your top-level
+file is called <tt>LONG&#95;MODULE&#95;NAME.rsl</tt> then rsltc will save the vcg
+input file as <tt>LONG&#95;MODULE&#95;NAME.vcg</tt>.  But when the VCG tool is
+started it will display the error message "Cannot load file
+LONG&#95;MODULE&#95;NAME.vcg".  This is easy to circumvent: use the
+<tt>Load file</tt> command in the <tt>File</tt> menu and you will see
+a file name like <tt>LONG&#95;M~1.vcg</tt>, which you can select.  This
+should be the one you need.  If you have created several module
+dependency graphs in the same folder with module names with the same
+first 5 characters, the results will only differ in the final
+digit in the VCG menu.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>8.1 Long file names in Windows</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_18.html"><img border="0" alt="8 Drawing a module dependency graph" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">8 Drawing a module dependency graph</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr></table></body></html>

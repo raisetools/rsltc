@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 13.1 Introduction</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_63.html"><img border="0" alt="13.2 Translatable RSL constructs" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">13.2 Translatable RSL constructs</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>13.1 Introduction</b></font></td></tr></table>
+<h2>13.1 Introduction</h2>
+The SAL translator ws written by Juan Perna, as reported in
+<a href="ug_78.html#UNUIIST:331">[13]</a>.  This user guide was written by Ana Garis.
+<p>Rigorous Approach to Industrial Software Engineering
+(RAISE)<a href="ug_78.html#RLG92">[1]</a> development method is carried out as a sequence of
+steps, starting from the specification of the system at a high level
+of abstraction and progressing by successively adding details towards
+a more concrete specification. To follow the RAISE
+development method, several tools are available such as code
+generators for several languages, test cases, and for model checking.
+<p>Model checking is a technique for verification of models, used
+for ensuring the correctness of hardware and software
+systems. Basically it consists of three steps: model
+specification, properties specification and verification (if model
+satisfies the specifications). The model is usually
+expressed as a transition system and properties are written as
+formal specifications, often using temporal logic
+formulas (CTL<i><sup>*</sup></i>, CTL or LTL). 
+<p>Model checkers tool, such as SPIN, SMV
+and SAL, allow one to do the
+verification. For this first it is necessary to specify the model and the
+properties using the appropriate language (the language defined for
+each tool). 
+<p>Regarding RAISE tools and in particular the tool for model checking (developed in 2006 by Juan
+Perna <a href="ug_78.html#UNUIIST:331">[13]</a>), it allows one to translate RSL (RAISE specification
+language) to SAL (see <a href="ug_78.html#DeMoura">[14]</a>). Later, verification can be
+done using the SAL model checker. 
+
+<h3><a name="id1">13.1.1 Why use the RSL-SAL translator</a></h3>
+RSL-SAL translator enables the use of model checking for software
+components/systems verification. In particular, the tool provides
+model checking facilities for RSL.
+<p>Model checking is aligned with the RAISE development method, because it
+allows the verification of properties in early stages of the 
+development process. Once verified, the RAISE development process
+warranties the preservation of the properties until the actual
+implementation of the system.
+
+<h3><a name="id2">13.1.2 About the tool</a></h3>
+<p>The tool takes an RSL file and generates three different SAL
+translations. The difference between this three versions V1, V2 and V3
+is that V1 does the verification under the assumption of
+confidence condition (CC) satisfaction, and V2 and V3 do not.
+<p>You must remember that "Confidence conditions are conditions that
+should probably be true if the module is not to be inconsistent, but
+that cannot in general be determined as true or false by an automatic
+tool" <a href="ug_78.html#UNUIIST:249">[15]</a>. For example, a definition of a
+partial function without a precondition generates the CC "false".  
+<p>Under assumptions in V1, all partial functions are considered as total
+and type well-formedness is taken for granted. But, in general, it is
+difficult to grant this, so it is important to use the automatic
+verification power of model checking to first verify the satisfaction
+of CC. 
+<p>In order to check CC, V2 and V3 are generated. V2 (called "CC" version) allows to check CC. On the other hand, V3
+(called "simple CC" version) allows to check CC but gives less diagnostic
+  information.
+<p>When the tool translates an RSL file, it generates a file for each
+version. Also it generate other files, like <tt>SAL&#95;TYPES.sal</tt>, <tt>SAL&#95;GLOBAL.sal</tt>, <tt>IT&#95;AN.sal</tt>, <tt>NT&#95;AN.sal</tt> and <tt>BT&#95;AN.sal</tt>. The last
+three contain the definitions of Integer type, Natural type and
+Boolean type respectively. More details about this can be found in the
+last section of the present report.
+<p>The following section shows which are the basic RSL constructs translatable
+to SAL. Section <a href="ug_64.html">13.3</a> shows how to write 
+RSL transition systems and LTL assertions in order to use model
+checking technique, preceded by general overview about model checking. The specifications written
+following <a href="ug_64.html">13.3</a> will need to use the translatable basic RSL
+constructs described in section
+<a href="ug_64.html">13.3</a>. Section <a href="ug_65.html">13.4</a> talks about V2 and
+V3: how RSL constructs are translated and how transition systems and
+LTL assertions are translated. Finally section <a href="ug_66.html">13.5</a> describes how to use the tool.  
+
+<h3><a name="id3">13.1.3 Known errors</a></h3>
+<ul><p><li>The translator does not deal properly with product types,
+  product expressions (tuples) or product patterns, particularly
+  in the CC version.  Use records instead.
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>13.1 Introduction</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_61.html"><img border="0" alt="13 SAL Translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">13 SAL Translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_63.html"><img border="0" alt="13.2 Translatable RSL constructs" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">13.2 Translatable RSL constructs</td></tr></table></td></tr></table></body></html>

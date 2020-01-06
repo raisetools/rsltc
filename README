@@ -1,0 +1,38 @@
+   RSL Type Checker
+   Copyright (C) 1998 UNU/IIST
+
+The RSL type checker is available free for both PC and Unix platforms.
+
+See the LICENSE file for details of the license conditions.
+
+Binaries for Windows, Dos, Linux, and Solaris can be
+found in the appropriate sub-directory.
+
+There are self-installing executables in the Windows sub-directory,
+and an rpm file in the Linux sub-directory.
+
+The user_guide directory contains a user guide in pdf, compressed
+postscript and html formats.
+
+There is also a vcg directory containing the vcg graph drawing tool.
+There is a Windows versions (you need both zip files) and a tar file
+for building it for Unix or Linux.  You can use vcg to display the
+module dependencies of an RSL specification.
+
+There is also a sml directory containing a zip file for Standard ML
+for Windows.  SML for other architectures can be obtained from
+http://cm.bell-labs.com/cm/cs/what/smlnj/.  Linux distributions
+typically have a smlnj package (and you will also need any
+libsmlnj-smlnj package).  rsltc includes a translator to SML.
+
+There is a cpp directory containing the library files you need for
+compiling the output of the C++ translator.
+
+The latex directory contains files to help you generate LaTeX from RSL.
+
+The UML2RSL directory contains a tool for generating RSL from UML
+class diagrams.
+
+If you want to build rsltc for yourself, to run on another
+architecture or to change it, you can find sources in the source
+directory.

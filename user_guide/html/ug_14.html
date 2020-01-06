@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 4 Type checker</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_13.html"><img border="0" alt="3 Tool components available" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">3 Tool components available</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_15.html"><img border="0" alt="5 Pretty printer" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">5 Pretty printer</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>4 Type checker</b></font></td></tr></table>
+<h1>4 Type checker</h1>
+<p>Type checking is performed on any context files first, followed by the
+input module mentioned in the command.
+<p>The tool outputs the names of modules it is checking.  If it finds
+errors it also outputs (on standard output) messages in the form
+<p><tt>X.rsl:m:n: text</tt>
+<p>which indicates there is an error described by <tt>text</tt> in the
+file <tt>X.rsl</tt> at line <tt>m</tt> and column <tt>n</tt>.
+<p>Apart from syntax errors the tool runs to completion.  So remember
+that some errors may be the consequences of earlier ones.
+<p>In the case of syntax errors the tool is usually one token ahead of
+what caused the error, so you may need to go back past the preceding space or
+new line to find the cause.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>4 Type checker</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_13.html"><img border="0" alt="3 Tool components available" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">3 Tool components available</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_15.html"><img border="0" alt="5 Pretty printer" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">5 Pretty printer</td></tr></table></td></tr></table></body></html>

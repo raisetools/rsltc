@@ -1,0 +1,1260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 12.6 UML Class Diagram Supported Features</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_59.html"><img border="0" alt="12.5 Using UML2RSL" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">12.5 Using UML2RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_54.html"><img border="0" alt="12 UML to RSL translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">12 UML to RSL translator</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>12.6 UML Class Diagram Supported Features</b></font></td></tr></table>
+<h2>12.6 UML Class Diagram Supported Features</h2>
+<p>In the following sections we present  by
+examples all those UML class diagrams features that can be translated
+to RSL with the UML2RSL tool. 
+
+<h3><a name="id1">12.6.1 Basic Class Features</a></h3>
+<p>In the simplest case, a class just consists of a name. It also can
+have a set of attributes, a set of operations and a multiplicity. 
+<p>Each attribute must have a name, an optional type, a multiplicity, a scope
+(&#123;classifier&#125; or &#123;instance&#125;), and a changeability (&#123;frozen&#125;, &#123;addOnly&#125; or
+&#123;changeable&#125;). The default for the scope is &#123;instance&#125;, for the
+changeability is &#123;changeable&#125;, and for the multiplicity is <tt>1..1</tt>.
+<p>An operation must have a name and can have a list of formal parameters, where
+each parameter must have a name and an optional type.  Furthermore, an
+operation has an optional result-type, a scope and it can be abstract. 
+<p>The default for the multiplicity of a class is <tt>*..*</tt>.
+<p>For example, let us consider the  simple class diagram in figure&nbsp;<a href="#f14">12.6.1</a> which
+consists only of the class <tt>Window</tt> whose multiplicity is
+<tt>*..*</tt> (by default). It has 5 attributes and 2 operations:
+<p><tt>title</tt>, which is a frozen attribute with multiplicity <tt>1..*</tt> and
+&#123;instance&#125; scope;
+<p><tt>default&#95;size</tt>  and <tt>max&#95;size</tt> that are  changeable attributes
+with multiplicity <tt>1..1</tt> and &#123;classifier&#125; scope;
+<p> <tt>size</tt> and <tt>visible</tt> are attributes whose  changeabilities are &#123;changeable&#125;,
+ their  multiplicities are <tt>1..*</tt>, and their scopes are &#123;instance&#125;.
+<p><tt>number&#95;of&#95;windows</tt> is an operation whose scope is &#123;classifier&#125;;
+it has no parameters and its result type is <tt>Int</tt>.
+<p><tt>show</tt> is an operation whose scope is &#123;instance&#125;;
+it has no parameters and its result type is not given.
+
+<div align="center"><p>
+  <a name="f14">
+<img alt="A simple class diagram" src="UML2RSL_f14.png"></img>
+<div align="center">A simple class diagram</div>
+  </a>
+</p></div>
+The resulting specification will consist of four RSL modules:
+<tt>S</tt>, <tt>WINDOWS&#95;</tt>, <tt>WINDOW</tt> and <tt>TYPES</tt>. The module <tt>S</tt> uses
+the module <tt>WINDOWS&#95;</tt>, which uses <tt>WINDOW&#95;</tt>, and <tt>WINDOW&#95;</tt>
+uses in turn <tt>TYPES</tt>.
+<p>The module <tt>WINDOW&#95;</tt> has the specification for an object of the
+class <tt>Window</tt>.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;TYPES&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> WINDOW&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> Window </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;size : Window &#8594; Size,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;default&#95;size : Window &#8594; Size,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;max&#95;size : Window &#8594; Size,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;visible : Window &#8594; boolean,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;title : Window &#8594; <b>Char</b><b>-set</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;size : Size &#215; Window -~-&gt; Window</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;size(at, o) <b>as</b> o&#8242; <b>post</b> size(o&#8242;) = at </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;size(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;size : Size &#215; Window &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;default&#95;size : Size &#215; Window -~-&gt; Window</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;default&#95;size(at, o) <b>as</b> o&#8242; <b>post</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;default&#95;size(o&#8242;) = at </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;default&#95;size(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;default&#95;size : Size &#215; Window &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;max&#95;size : Size &#215; Window -~-&gt; Window</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;max&#95;size(at, o) <b>as</b> o&#8242; <b>post</b> max&#95;size(o&#8242;) = at </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;max&#95;size(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;max&#95;size : Size &#215; Window &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;visible : boolean &#215; Window -~-&gt; Window</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;visible(at, o) <b>as</b> o&#8242; <b>post</b> visible(o&#8242;) = at </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;visible(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;visible : boolean &#215; Window &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;show : Window &#8594; Window,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent : Window &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(o) &#8801; <b>card</b> title(o) &#8805; 1 </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p> The RSL abstract type <tt>Window</tt>  is generated to specify the class sort. It
+denotes the set of all possible class instances or objects.
+<p>For each attribute, the tool generates an observer on the class sort. Each one
+of these observers takes an instance  of the class and returns a value
+belonging to the corresponding attribute type.
+<p>The operations are specified as RSL functions, which have their domain
+in  the Cartesian  product of  the  class sort  and the  corresponding
+operation parameters.   Their ranges correspond to  the operation result
+types. When an operation in the  class diagram does not return a value,
+it means that the operation performs some behaviour -- based  on the class structure
+and  its parameters -- which possibly   changes    the    class
+structure. Therefore, in this  situation, the RSL function will return
+the class sort. For example, the operation <tt>show</tt> in figure <a href="#f14">12.6.1</a>.
+ However, when the scope of
+an  operation is  the class,  since the  operation acts  on  the class
+container,  we  do  not  generate  the corresponding  function  on  an
+instance  of  the  class,  but  on  the type  defined  for  the  class
+container.  Therefore, the  value  used to  specify  the operation  is
+generated  in the module that  holds the specification  of the class. 
+As we can see in  the  example,<tt>number&#95;of&#95;windows</tt> is placed in the  module
+   <tt>WINDOWS&#95;</tt>. 
+<p>In a class, besides the  typical operation intended to return the value
+of an attribute,  it is common to have an operation  to modify the
+attribute, and 
+since,  frequently, the  update of  a given  attribute occurs  under a
+given pre-condition, RSL functions are generated for this
+purpose.  Their
+pre-conditions  should  be completed  by  the  user.  If they  are  not
+necessary, then they may be removed. In the example above, the
+functions        <tt>update&#95;size</tt>, <tt>preupdate&#95;size</tt>,
+<tt>update&#95;default&#95;size</tt>, <tt>preupdate&#95;default&#95;size</tt>,
+<tt>update&#95;max&#95;size</tt>,  <tt>preupdate&#95;max&#95;size</tt>,  <tt>update&#95;visible</tt>
+and  <tt>preupdate&#95;visible</tt>  were  generated  for this  purpose.   The
+corresponding update and preupdate functions for the attribute <tt>title</tt> were not
+generated because <tt>title</tt> is a frozen attribute. 
+<p>The module <tt>WINDOWS&#95;</tt> has the specification for the class 
+ <tt>Window</tt>.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> WINDOWS&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Window = WINDOW&#95;.Window, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Windows = Window&#95;Id -m-&gt; Window </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;empty : Windows = [],</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;add : Window&#95;Id &#215; Window &#215; Windows -~-&gt; Windows</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;add(id, o, c) &#8801; c &#8224; [id &#8614; o] <b>pre</b> ~ is&#95;in(id, c),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;del : Window&#95;Id &#215; Windows -~-&gt; Windows</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;del(id, c) &#8801; c &#92; &#123;id&#125; <b>pre</b> is&#95;in(id, c),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;is&#95;in : Window&#95;Id &#215; Windows &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;is&#95;in(id, c) &#8801; id &#8712; <b>dom</b> c,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;get : Window&#95;Id &#215; Windows -~-&gt; Window</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;get(id, c) &#8801; c(id) <b>pre</b> is&#95;in(id, c),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update : Window&#95;Id &#215; Window &#215; Windows -~-&gt; Windows</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update(id, o, c) &#8801; c &#8224; [id &#8614; o] <b>pre</b> is&#95;in(id, c),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;number&#95;of&#95;windows : Windows &#8594; <b>Int</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent : Windows &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(c) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8704; id : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;id &#8712; <b>dom</b> c &#8658; WINDOW&#95;.consistent(c(id))) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8704; id1, id2 : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id1 &#8712; <b>dom</b> c /&#92; id2 &#8712; <b>dom</b> c) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;WINDOW&#95;.default&#95;size(c(id1)) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;WINDOW&#95;.default&#95;size(c(id2))) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8704; id1, id2 : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id1 &#8712; <b>dom</b> c /&#92; id2 &#8712; <b>dom</b> c) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;WINDOW&#95;.max&#95;size(c(id1)) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;WINDOW&#95;.max&#95;size(c(id2))) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>The type <tt>Windows</tt>  describes the set of all the possible observable states in which
+the class <tt>Window</tt> can be, that is, a set of sets of <tt>Window</tt> objects or, in other
+words, all the possible sets of objects that can be observed at a
+given moment.  We refer to it as the class container type. A characteristic of the
+objects is that each object is distinguishable from the other objects
+of the class, even if they have exactly the same property
+values. Consequently,  the class container type is defined as a map from
+a set of object identifiers to the <tt>Window</tt> class sort. 
+<p>For each class in the class diagram, new objects can be created and existing
+objects can be destroyed or modified. Therefore, some typical
+functions that operate on the set of instances of each class are
+generated by the translator. They are <tt>empty</tt>, <tt>add</tt>, <tt>del</tt>, <tt>is&#95;in</tt>, <tt>get</tt>, and
+<tt>update</tt>.
+<p>When the scope of an operation is the class, since the operation acts
+on the class container, the RSL value used to specify the operation is
+placed in the module that holds the specification of the class.  As we
+said before, <tt>number&#95;of&#95;windows</tt> is a class scoped operation,
+therefore its definition is generated in the module
+<tt>WINDOWS&#95;</tt>.
+<p>The resulting RSL code produced for module <tt>S</tt> is given below. 
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;WINDOWS&#95;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> S : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Sys :: windows : WINDOWS&#95;.Windows &#8596; replace&#95;windows </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;windows : WINDOWS&#95;.Windows &#215; Sys -~-&gt; Sys</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;windows(c, s) &#8801; replace&#95;windows(c, s) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;windows(c, s),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;windows : WINDOWS&#95;.Windows &#215; Sys &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;number&#95;of&#95;windows&#95;in&#95;Windows : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOWS&#95;.Windows &#215; Sys &#8594; <b>Int</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;show&#95;in&#95;Window : WINDOW&#95;.Window &#215; Sys &#8594; Sys,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent : Sys &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(s) &#8801; WINDOWS&#95;.consistent(windows(s)) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>axiom</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8704; s : Sys, c : WINDOWS&#95;.Windows &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;windows(c, s) <b>as</b> s&#8242; <b>post</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(s&#8242;) /&#92; frozenAtts&#95;in&#95;Window(s&#8242;, s) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> consistent(s) /&#92; preupdate&#95;windows(c, s) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;frozenAtts&#95;in&#95;Window : Sys &#215; Sys &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;frozenAtts&#95;in&#95;Window(s&#8242;, s) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8704; id : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id &#8712; <b>dom</b> windows(s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id &#8712; <b>dom</b> windows(s&#8242;)) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;WINDOW&#95;.title(windows(s)(id)) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;WINDOW&#95;.title(windows(s&#8242;)(id))) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p> Each class  in the class diagram  has its corresponding  field in the
+RSL  record <tt>Sys</tt>  to hold  its class  container. The  type <tt>Sys</tt>
+describes all  the possible instances  of the system being  modeled by
+the class  diagram. In our example  there is just  one such field, whose
+name is  <tt>windows</tt> that corresponds  to the class container  for the
+class <tt>Window</tt>.
+<p>The  function <tt>update&#95;windows</tt>  is  an extra  operation defined  to
+produce changes  on the class container  and <tt>preupdate&#95;windows</tt> is
+the  function signature for its  pre-condition. The <tt>preupdate&#95;windows</tt>
+definition will have to be  completed later by the developer, according
+to his needs. 
+<p>Since we are  interested only in consistent systems,  it is necessary
+to express  consistency.  This is  achieved by a collection  of axioms
+expressing  the   property  that  all   the  top-level  state-changing
+functions maintain  the system in  a consistent state. In  our example
+the only top-level  state-changing
+function we have is <tt>update&#95;windows</tt>, therefore there is an axiom for it. We capture all
+the model invariants in  a boolean function named <tt>consistent</tt> which
+is defined  as the conjunction  among all the necessary  predicates to
+express  all  the  model   constraints.
+<p><p>Class diagrams as well as their composing elements may have different
+constraints associated with them. As we want to check consistency on
+the whole system, that is, to check that all the constraints hold, we
+define a series of axioms on the top level module in order to check
+that the system is in a consistent state before and after any state
+change occurs.  For this reason, not only the function <tt>consistent</tt>
+in the top-level module <tt>S</tt> is generated but a series of boolean
+functions are generated in the lower level modules as
+well. Inside each module that has been defined either to specify an
+object or a class, we define one of these boolean functions -- that we
+also name <tt>consistent</tt>. They allow one to check the consistency of one
+object and the consistency of all the instances of the class,
+respectively. The last ones make use of the lower level ones, that is
+those defined for one instance of the class.  The function
+<tt>consistent</tt> in the top level module is generated to check the
+consistency of the whole class diagram, and it uses -- in turn -- all
+the lower level functions <tt>consistent</tt> defined for each one of the
+classes, guaranteeing in this way the consistency of the whole system.
+<p>In which  of the  several <tt>consistent</tt> functions 
+the predicate for expressing a  given property is put depends on what kind of
+restriction we are checking and for which element we want to check it. In our
+example, we have a predicate  in the function <tt>consistent</tt> of the module
+<tt>WINDOW&#95;</tt> to check the multiplicity of the attribute <tt>title</tt>.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent : Window &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(o) &#8801; <b>card</b> title(o) &#8805; 1 
+</td></tr></table>
+
+                        <p>In the function <tt>consistent</tt> of module <tt>WINDOWS&#95;</tt> we find the
+conjunction of three predicates.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent : Windows &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent(c) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(&#8704; id : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id &#8712; <b>dom</b> c &#8658; WINDOW&#95;.consistent(c(id))) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(&#8704; id1, id2 : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(id1 &#8712; <b>dom</b> c /&#92; id2 &#8712; <b>dom</b> c) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;.default&#95;size(c(id1)) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;.default&#95;size(c(id2))) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(&#8704; id1, id2 : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(id1 &#8712; <b>dom</b> c /&#92; id2 &#8712; <b>dom</b> c) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;.max&#95;size(c(id1)) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;.max&#95;size(c(id2)))
+</td></tr></table>
+
+                        <p> The first one checks the consistency of
+all the objects in the class container, making use of the lower level
+function <tt>consistent</tt> of module <tt>WINDOW&#95;</tt>. The second and third
+ones were generated to express the fact that <tt>default&#95;size</tt> and <tt>max&#95;size</tt>
+are class scoped attributes. Since the multiplicity of the class is
+<tt>*..*</tt> no predicate must be generated. Other class multiplicities
+generate constraints (see section <tt>Multiplicities</tt> in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>).
+<p>Finally, in the top-level module <tt>S</tt> of the example, we found a predicate to
+check the consistency of the whole system. In this example, it reduces to
+check only the consistency of the <tt>Window</tt> class container making
+use of the function <tt>consistent</tt> of lower level module <tt>WINDOWS&#95;</tt>.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent : Sys &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent(s) &#8801; WINDOWS&#95;.consistent(windows(s)) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>axiom</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;&#8704; s : Sys, c : WINDOWS&#95;.Windows &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;update&#95;windows(c, s) <b>as</b> s&#8242; <b>post</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent(s&#8242;) /&#92; frozenAtts&#95;in&#95;Window(s&#8242;, s) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>pre</b> consistent(s) /&#92; preupdate&#95;windows(c, s) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;frozenAtts&#95;in&#95;Window : Sys &#215; Sys &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;frozenAtts&#95;in&#95;Window(s&#8242;, s) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(&#8704; id : Window&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(id &#8712; <b>dom</b> windows(s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;id &#8712; <b>dom</b> windows(s&#8242;)) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;.title(windows(s)(id)) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;WINDOW&#95;.title(windows(s&#8242;)(id))) 
+</td></tr></table>
+
+                        <p>Note that since it is necessary to check the property &#123;frozen&#125; for the window
+attribute <tt>title</tt>, a predicate  is generated in
+the post-condition of the axiom corresponding to the class
+<tt>Window</tt>. It states for each object of class <tt>Window</tt> that the
+value of the attribute <tt>title</tt> remains unchanged after the system state has changed.
+<p>Finally, we have the module  <tt>TYPES</tt> that constains the definitions of all
+the  abstract types  found in  the model. The  standard types
+<tt>boolean</tt>, <tt>char</tt>  and <tt>double</tt> found  in the class  diagram are
+defined  in <tt>TYPES</tt>  as <tt>Bool</tt>,  <tt>Char</tt> and  <tt>Real</tt>  RSL types
+respectively.  The   type  <tt>Window&#95;Id</tt>  is  used   for  the  object
+identifiers in the class container of <tt>Window</tt>. 
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> TYPES :</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;Size,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;boolean = <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;Window&#95;Id</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        
+<h3><a name="id3">12.6.2 Relationship Features</a></h3>
+In a class diagram, the classes can be related through different kinds
+of relationships. Basically, they are classified into three types:
+associations, generalizations and dependencies. Instantiations are
+viewed in UML as stereotyped dependencies, but since each stereotyped
+element has a particular meaning and we are interested specifically in
+instantiation, we separate it from general dependencies.
+UML2RSL accepts all of them. In the next four sub-sections we treat each one
+separately.
+
+<h4><a name="id4">Association</a></h4>
+UML2RSL can translate only binary  associations. However, in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>
+we present a decomposition process for associations with arity greater
+than two. This process can be applied to any n-ary association (n &#8805; 2)
+before using the translator. 
+<p>Each association end
+ must have at least a name and can have several adornments: a
+given multiplicity, a given navigability, it can be composite or aggregate and
+-- like attributes -- it can have a changeabilty. The default for
+ association  multiplicity is <tt>1..1</tt>, for the navigability is <tt>false</tt>, and for the
+ changeability is &#123;changeable&#125;.
+<p> An association is translated as two RSL functions among the involved
+ classes (or one depending on its navigability ends, as we will see
+ next). A function is generated for each of the involved class and
+ it returns the remaining related object.
+
+<div align="center"><p>
+  <a name="f1a">
+ <img alt="A UML class diagram" src="UML2RSL_f1a_SCA.png"></img>
+<div align="center">A UML class diagram</div>
+  </a>
+</p></div>
+For example, for the association <tt>has&#95;copies</tt> shown in figure&nbsp;<a href="#f1a">12.6.2</a> two
+observers will be generated: one in
+class <tt>Item</tt> to retrieve all the existing copies for a given item,
+and another in class <tt>Copy</tt> to obtain the corresponding item for a
+given copy. The tool will also generate all the functions for
+updating the  objects retrieved by the association.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;TYPES&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> ITEM&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> Item </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;title : Item &#8594; title,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;. . .&#32;&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;has&#95;copies : Item &#8594; Copy&#95;Id<b>-set</b>,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;has&#95;copies : Copy&#95;Id<b>-set</b> &#215; Item -~-&gt; Item</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;has&#95;copies(a, o) <b>as</b> o&#8242; <b>post</b> has&#95;copies(o&#8242;) = a </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;has&#95;copies(a, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;has&#95;copies : Copy&#95;Id<b>-set</b> &#215; Item &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;. . .&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;TYPES&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> COPY&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> Copy </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;status : Copy &#8594; status,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;...&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;has&#95;copies : Copy &#8594; Item&#95;Id,</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;has&#95;copies : Item&#95;Id &#215; Copy -~-&gt; Copy</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;has&#95;copies(a, o) <b>as</b> o&#8242; <b>post</b> has&#95;copies(o&#8242;) = a </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;has&#95;copies(a, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;has&#95;copies : Item&#95;Id &#215; Copy &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p><p>Note that in the case of the class <tt>Item</tt>, the returned types for
+<tt>has&#95;copies</tt> is a set of object identifiers of class <tt>Copy</tt>, while 
+ the <tt>has&#95;copies</tt> of <tt>Copy</tt> only returns an object identifier of class
+<tt>Item</tt>.  This structural distinction is because the
+multiplicities at the association ends are different. Association
+multiplicities are treated in detail in the section <tt>Multiplicities</tt>
+in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>.
+<p>When the association is navigable only in one direction, the tool will
+generate only one observer. For example, let us suppose that the
+association <tt>has&#95;copies</tt> is navigable only from <tt>Item</tt> to
+<tt>Copy</tt>. In this case, only the function corresponding to the module
+<tt>ITEM&#95;</tt> will be generated. Association Navigation is treated deeply
+in the section <tt>Association Navigation</tt> in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>.
+<p>Since  the observers generated for the associations return object
+ identifier(s), a  predicate for
+checking  that such  object identifiers  actually exist  in  the class
+containers  is  generated.  When  the  association  is  bidirectional,
+besides checking  existence as before,  it is also necessary  to check
+bi-navigation. Since this kind of checking involves references to the
+containers of  the navigable classes, they  must be placed  in a module
+that  has  access  to  all  the  containers, that  is  the  top  level
+module.  Therefore, in the  function <tt>consistent</tt>  of the  top level
+module the following predicates will be generated for association
+<tt>has&#95;copies</tt>.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8704; id1 : Item&#95;Id, id2 : Copy&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id1 &#8712; <b>dom</b> items(s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id2 &#8712; ITEM&#95;.has&#95;copies(items(s)(id1))) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id2 &#8712; copys(s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id1 = COPY&#95;.has&#95;copies(copys(s)(id2)))) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8704; id1 : Copy&#95;Id, id2 : Item&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id1 &#8712; <b>dom</b> copys(s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id2 = COPY&#95;.has&#95;copies(copys(s)(id1))) &#8658; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(id2 &#8712; items(s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id1 &#8712; ITEM&#95;.has&#95;copies(items(s)(id2))))
+</td></tr></table>
+
+                        <p>Such predicates for checking existence and bi-navigation take slightly different 
+forms depending on the association end multiplicities. They
+are treated in detail in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>, section <tt>Existence and Bi-navigation constraints</tt>.
+<p>In this example, the changeability of the association ends is
+&#123;changeable&#125;, however the tool also translates &#123;addonly&#125; and
+&#123;frozen&#125; changeabilities. They are tretaed in the section
+<tt>Attribute and Association End Properties</tt> in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>.
+
+<h4><a name="id6">Composition and Aggregation</a></h4>
+As&nbsp;<a href="ug_78.html#BRJ99">[8]</a> establishes, aggregation is purely conceptual, and
+does no more than distinguish the whole from the parts. It does not
+change the meaning of association.  Therefore, aggregations are
+translated by the tool as general associations.
+<p>Composition is a form of aggregation with coincident lifetime of the parts with
+the whole, i.e.&#32;the parts may be created after the whole, and can also
+be explicitly removed before the whole. However, if the whole is
+destroyed they die with it.  Because of that, the multiplicity of a
+composite end -- unlike an aggregate end -- must be always at most one
+(it cannot be shared by different instances of the owner class). This
+is checked by the tool.
+<p>In figure&nbsp;<a href="#f10">12.6.2</a> an example of a composition between the classes
+<tt>Company</tt> and <tt>Department</tt> and a recursive composition on
+<tt>Department</tt> are shown.
+
+<div align="center"><p>
+  <a name="f10">
+ <img alt="Composition" src="UML2RSL_f10.png"></img>
+<div align="center">Composition</div>
+  </a>
+</p></div>
+Structurally, a composition is equivalent to a general association.
+However, when we formalize the dynamic aspects of a composition, we
+make a distinction between a general association and a composition
+based on the property of coincident lifetimes of the whole and the
+parts. We express this property by means of a post-condition in the
+remove function of the whole. It assures that always when a whole is
+deleted all the parts that are currently associated are also deleted.
+<p>Given the composition <tt>has</tt> between the part <tt>Department</tt> and the
+whole <tt>Company</tt> shown in figure&nbsp;<a href="#f10">12.6.2</a>, the coincident
+lifetime property is generated by the tool as follows:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;del&#95;Company : Company&#95;Id &#215; Sys -~-&gt; Sys</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;del&#95;Company(id, s) <b>as</b> s <b>post</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8707; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;s&#8242; : Sys, new&#95;whole : COMPANYS&#95;.Companys, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;new&#95;parts : DEPARTMENTS&#95;.Departments, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;parts : Department&#95;Id<b>-set</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;&#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;parts = COMPANY&#95;.has(companys(s)(id)) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;new&#95;parts = departments(s) &#92; parts /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;s&#8242; = update&#95;departments(new&#95;parts, s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;new&#95;whole = COMPANYS&#95;.del(id, companys(s&#8242;)) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;s = update&#95;companys(new&#95;whole, s)) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> can&#95;del&#95;Company(id, s),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;can&#95;del&#95;Company : Company&#95;Id &#215; Sys &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;can&#95;del&#95;Company(id, s) &#8801; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;COMPANYS&#95;.is&#95;in(id, companys(s)) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;(&#8707; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;s&#8242; : Sys, new&#95;whole : COMPANYS&#95;.Companys, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;new&#95;parts : DEPARTMENTS&#95;.Departments, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;parts : Department&#95;Id<b>-set</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;&#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;parts = COMPANY&#95;.has(companys(s)(id)) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;new&#95;parts = departments(s) &#92; parts /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;preupdate&#95;departments(new&#95;parts, s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;s&#8242; = update&#95;departments(new&#95;parts, s) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;new&#95;whole = COMPANYS&#95;.del(id, companys(s&#8242;)) /&#92; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;preupdate&#95;companys(new&#95;whole, s)),
+</td></tr></table>
+
+                        <p>Note that in UML, when the type of an attribute corresponds to a class sort,
+this attribute is, in effect, a composition relationship between the
+class and the class of the attribute, or, in other words, the
+attribute is a shorthand for composition. Consequently, this kind of
+attribute is translated in the same way as a
+composition relationship which is navigable only from the  whole   to
+the parts.
+
+<h4><a name="Generalization">Generalization</a></h4>
+
+UML2RSL translates simple inheritance. Multiple inheritance is not
+supported.
+<p>Figure&nbsp;<a href="#f6">12.6.2</a> shows an example of  generalization
+between the classes <tt>Person</tt> and <tt>User</tt>.
+
+<div align="center"><p>
+  <a name="f6">
+ <img alt="An example of generalization in UML" src="UML2RSL_f6.png"></img>
+<div align="center">An example of generalization in UML</div>
+  </a>
+</p></div>
+The type that denotes
+the set of all the instances of the subclass is generated as an RSL
+subtype of the class sort that corresponds to the superclass (<tt>User</tt> in
+the example).
+ New attributes and operations  added to the subclass are translated
+ as functions on the subclass type (<tt>level</tt> in the example).
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;PERSON&#95; </td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> USER&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Person = PERSON&#95;.Person, </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;User = &#123;| o : Person &#8226; is&#95;a&#95;User(o) |&#125; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;level : User &#8594; level,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;level : level &#215; User -~-&gt; User</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;level(at, o) <b>as</b> o&#8242; <b>post</b> level(o&#8242;) = at </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;level(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;level : level &#215; User &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;is&#95;a&#95;User : Person &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent : User &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(o) &#8801; PERSON&#95;.consistent(o) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>The type corresponding to the type container of the subclass is
+generated as a subtype  of the type used to specify the class
+container of the superclass, and the functions to operate on the class
+container are defined as usual.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Users = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#123;| super : PERSONS.Persons &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;(&#8704; id : Person&#95;Id &#8226; </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;id &#8712; <b>dom</b> super &#8658; USER.is&#95;a&#95;User(super(id))) |&#125; 
+</td></tr></table>
+
+                        <p>Figure&nbsp;<a href="#f21">12.6.2</a> shows the dependency graph among the modules
+that have the specification for the superclass <tt>Person</tt> and the
+subclass <tt>User</tt>.
+
+<div align="center"><p>
+  <a name="f21">
+ <img alt="RSL module dependency graph for an example of generalization" src="UML2RSL_f21a.png"></img>
+<div align="center">RSL module dependency graph for an example of generalization</div>
+  </a>
+</p></div>
+
+<h4><a name="id11">Dependency</a></h4>
+Because of the variety of meanings of Dependency, no specific semantics
+have been given in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>. UML2RSL ignores all the dependencies found in a class
+diagram.
+
+<h3><a name="id12">12.6.3 Advanced Class Features</a></h3>
+<p>UML2RSL supports also the translation of abstract, root, leaf and
+template classes. We treat each below.
+
+<h4><a name="id13">Root Classes</a></h4>
+UML allows to constrain a class with the property &#123;root&#125;. This
+means that such a class may not have a superclass. This  is
+checked  by the  tool during the syntactic analysis.
+
+<h4><a name="id14">Leaf Classes</a></h4>
+Property &#123;leaf&#125; is used in UML to point out that a given class does
+not have children. In this case, the final structure of the RSL sort
+class can be fixed
+because no inheritance is possible from this class (see the semantics given for
+inheritance in <a href="ug_78.html#UNUIIST:253">[9]</a>). Therefore, the type
+corresponding to the class is no more specified as a sort but as a
+more concrete RSL type: a record.  For instance, if the class
+<tt>Window</tt> in figure&nbsp;<a href="#f14">12.6.1</a> was a leaf class,
+the RSL specification generated for an object of the class will be as
+follows:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;TYPES&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> WINDOW&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;Window :: </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;size : Size &#8596; replace&#95;size&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;default&#95;size : Size &#8596; replace&#95;default&#95;size&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;max&#95;size : Size &#8596; replace&#95;max&#95;size&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;visible : boolean &#8596; replace&#95;visible&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;title : <b>Char</b><b>-set</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;size : Size &#215; Window -~-&gt; Window</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;size(at, o) &#8801; replace&#95;size(at, o) </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;size(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;size : Size &#215; Window &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;...&#32;&#32;&#32;&#32;&#32;&#32;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>Note that the reconstructor for <tt>title</tt> is not generated because it
+is a frozen attribute.
+
+<h4><a name="id15">Abstract Classes and Abstract Operations</a></h4>
+<p>Whenever an abstract class is translated, since objects cannot be
+created, the functions that operate on the class
+container are not generated. Furthermore, a constraint to assure that
+no instances of the abstract class have been created is generated on
+the type <tt>Sys</tt>. 
+
+<div align="center"><p>
+  <a name="f15">
+ <img alt="Example of abstract class" src="UML2RSL_f15.png"></img>
+<div align="center">Example of abstract class</div>
+  </a>
+</p></div>
+Let us consider the example in figure&nbsp;<a href="#f15">12.6.3</a>. The RSL code
+ for this constraint, which is generated in the function <tt>consistent</tt> of  module <tt>S</tt> is shown below.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent : Sys &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;consistent(s) &#8801; ... /&#92;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>dom</b> graphicobjects(s) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>dom</b> circles(s) &#8746; <b>dom</b> rectangles(s) 
+</td></tr></table>
+
+                        <p>It means that all the instances that can be in the class
+container corresponds to one of the concrete subclasses of the
+abstract class. This property can be expressed as the equality between the union of the
+abstract subclass containers and the abstract class container.
+<p>Abstract classes are classes that have at least one abstract operation.
+It means that the operation is incomplete and cannot be used,
+therefore an implementation must be given by a subclass.  In RSL, the
+semantics of an abstract operation is given by hiding the operation
+name outside the module. So, outside  the class module only
+references to the implementations given in the subclasses can occur.
+In the previous example, operation <tt>draw</tt> is abstract.  To avoid the
+use of <tt>draw</tt> we hide its name.
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;TYPES</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> GRAPHICOBJECT&#95; : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>hide</b> draw <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> GraphicObject </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;x : GraphicObject &#8594; <b>Int</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;y : GraphicObject &#8594; <b>Int</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;draw : GraphicObject &#8594; GraphicObject,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;...</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        
+<h4><a name="TemplateClasses">Template Classes</a></h4>
+
+UML2RSL deals with template classes too. It performs all the syntactic
+checks on them based in the syntax presented in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a> and produces
+the corresponding RSL code.
+  An example of a template class and two different instantiations are shown in
+figure&nbsp;<a href="#f11">12.6.3</a>.
+
+<div align="center"><p>
+  <a name="f11">
+ <img alt="An example of template and instantiated classes" src="UML2RSL_f11.png"></img>
+<div align="center">An example of template and instantiated classes</div>
+  </a>
+</p></div>
+Figure &nbsp;<a href="#f11">12.6.3</a> shows a template class for one array of k elements and the
+instantiation of one array of 3 integers and another of 24 persons.
+<p>A template class is translated to RSL in the same way as a concrete
+class but using a parameterized RSL scheme whose parameters corresponds to
+the class' parameters. In RSL when in a parameter expression only the name is given (as Element),
+it is assumed to be a type expression that resolves to a valid data
+type (for example, Person or <b>Int</b>). Otherwise, it must resolve to a valid
+value expression (like 3 or 24 for <b>Int</b>).
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;TYPES</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> ARRAY&#95;&#95;(</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;FPAR : </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>type</b> Element </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;k : <b>Int</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>end</b>) = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> TYPES <b>in</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>type</b> Array, Elements = FPAR.Element<b>-set</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;elements : Array &#8594; Elements,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;elements : Elements &#215; Array -~-&gt; Array</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;update&#95;elements(at, o) <b>as</b> o&#8242; <b>post</b> elements(o&#8242;) = at </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>pre</b> preupdate&#95;elements(at, o),</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;preupdate&#95;elements : Elements &#215; Array &#8594; <b>Bool</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;apply : <b>Int</b> &#215; Array &#8594; FPAR.Element,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;assign : FPAR.Element &#215; <b>Int</b> &#215; Array &#8594; Array,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent : Array &#8594; <b>Bool</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;consistent(o) &#8801; <b>card</b> elements(o) = FPAR.k </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>Since a template class cannot be used directly but only through its
+instantiations, the specification for its class container is not
+generated. However, for each instantiated class in the class diagram, UML2RSL
+generates the specification for its class container because they may
+have instances. These are generated as usual.
+<p>The semantics in RSL for the instantiation of a parameterized class is
+given by the instantiation of the corresponding parameterized scheme
+with its corresponding types and values. So, UML2RSL generates a new
+module to instantiate the array of 3 integers by instantiating the
+parameterized scheme ARRAY&#95;&#95; with Element equal to Int and k equal to
+3 as follows:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;ARRAY&#95;&#95;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> ARRINT&#95;&#95; =</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>with</b> TYPES <b>in</b>&#32;&#32;<b>extend</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b></td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>object</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;APAR&#95;ArrInt:</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>class</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>type</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;Element = <b>Int</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>value</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;k: <b>Int</b> = 3</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;<b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>with</b> <b>extend</b> ARRAY&#95;&#95;(APAR&#95;ArrInt) <b>with</b> <b>class</b> <b>type</b> ArrInt=Array <b>end</b>
+</td></tr></table>
+
+                        <p>and -- as usual -- UML2RSL generates an RSL object to represent the model corresponding to
+the specification of one object of class (<tt>ArrInt</tt> in this example).
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;ARRINT&#95;&#95;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>object</b> ARRINT&#95;: ARRINT&#95;&#95;
+</td></tr></table>
+
+                        <p>As we can see, when we use template classes, the general structure of the resulting
+specification is sligthly different. In figure&nbsp;<a href="#fig:f22">12.6.3</a> we can see the
+RSL module dependency graph for the example of figure&nbsp;<a href="#f11">12.6.3</a>.
+
+<div align="center"><p>
+  <a name="fig:f22">
+ <img alt="RSL module dependency graph for an example of template class" src="UML2RSL_f11d.png"></img>
+<div align="center">RSL module dependency graph for an example of template class</div>
+  </a>
+</p></div>
+A more complete description of template class translation can be found
+in the section <tt>Parameterized Classes</tt> in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a>. 
+
+<h4><a name="id20">Association Classes</a></h4>
+UML2RSL does not translate association classes. However, in&nbsp;<a href="ug_78.html#UNUIIST:253">[9]</a> we
+propose a decomposition mechanism, which can
+be applied to all the association classes before the translation takes
+place.
+
+<h3><a name="id21">12.6.4 Built-in types</a></h3>
+<p>Some standard UML data types are made equivalent to the corresponding RSL
+types (by means of abbreviation definitions in <tt>TYPES.rsl</tt>)
+and so can be freely used in UML classes: see
+table&nbsp;<a href="#tab:UMLdatatypes">12.6.4</a> below.
+
+<div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="LEFT">
+
+UML </td><td colspan="1" align="LEFT"> RSL </td></tr>
+<tr><td colspan="1" align="LEFT">
+boolean </td><td colspan="1" align="LEFT"> Bool</td></tr>
+<tr><td colspan="1" align="LEFT">
+char </td><td colspan="1" align="LEFT"> Char</td></tr>
+<tr><td colspan="1" align="LEFT">
+double </td><td colspan="1" align="LEFT"> Real</td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+<div align="center">UML standard data types and equivalent RSL types</div>
+<a name="tab:UMLdatatypes">&nbsp;</a>
+</p></div>
+The UML data type <tt>int</tt> is not accepted by the translator because it clashes with
+the RSL built-in function <b>int</b>.
+<p>It is also possible to use the RSL built-in types <b>Unit</b>,
+<b>Bool</b>, <b>Int</b>, <b>Nat</b>, <b>Real</b>, <b>Char</b>, and <b>Text</b> in
+UML class diagrams.  You will need to add them as new 
+<code>Data Types</code> in the tool.
+
+
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>12.6 UML Class Diagram Supported Features</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_59.html"><img border="0" alt="12.5 Using UML2RSL" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">12.5 Using UML2RSL</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_54.html"><img border="0" alt="12 UML to RSL translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">12 UML to RSL translator</td></tr></table></td><td width="30%"><table width="100%"><tr></tr></table></td></tr></table></body></html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 9.1 Introduction</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_22.html"><img border="0" alt="9.2 Activating the SML translator" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9.2 Activating the SML translator</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>9.1 Introduction</b></font></td></tr></table>
+<h2>9.1 Introduction</h2>
+<p>The SML translator was written by Ke Wei, as reported in <a href="ug_78.html#UNUIIST:208">[4]</a>.
+<p>We use the term RSL<i><sub>SML</sub></i> for the subset of RSL that is accepted
+by the the translator. RSL<i><sub>SML</sub></i> excludes object arrays,
+channels, axioms, abstract types, union types, implicit value and
+function definitions.  It only includes quantified expressions,
+comprehended expressions, and implicit let expressions if
+they conform to the rules given below in
+sections&nbsp;<a href="ug_27.html#sml:quantified">9.7.11</a>, <a href="ug_27.html#sml:comprehended">9.7.6</a>,
+and <a href="ug_27.html#sml:let">9.7.23</a>.
+<p>The translator converts all RSL identifiers to unique SML identifiers,
+which start with the original identifier.  This ensures both
+uniqueness and no clashes with SML reserved words.  It is not intended
+that the SML code be readable or changeable by hand, nor that users
+need to know SML.
+
+
+<h3><a name="id1">9.1.1 Compilers and platforms</a></h3>
+The translator produced code is intended for use with SML/NJ (SML of
+New Jersey), which is based on SML'97 <a href="ug_78.html#SML97">[5]</a>.  The run-time
+system for SML/NJ is freely available for a variety of platforms from
+<a href="http://cm.bell-labs.com/cm/cs/what/smlnj/">http://cm.bell-labs.com/cm/cs/what/smlnj/</a>.  The translator
+has been tested on Solaris, Linux and Windows 9X and NT.
+
+<h3><a name="id2">9.1.2 Known errors and problems</a></h3>
+The following lists mention known errors and problems. 
+<ul><p><li>The arithmetic types <b>Int</b> (including <b>Nat</b>) and <b>Real</b>
+  are naively translated into <tt>Int</tt> and <tt>Real</tt> without regard for actual
+  limits and precision. 
+<p><li>The translation relies heavily on the syntactic form of the
+  input, which means that often a semantically equivalent piece of RSL
+  text cannot be translated or is translated differently.  For
+  example, a record or variant type is accepted, but the equivalent
+  expansion into a sort, some value signatures, and some axioms is not
+  accepted.
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>9.1 Introduction</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_22.html"><img border="0" alt="9.2 Activating the SML translator" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9.2 Activating the SML translator</td></tr></table></td></tr></table></body></html>

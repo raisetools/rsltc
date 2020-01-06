@@ -1,0 +1,498 @@
+%---------------------------------------
+Maprange[rng: TYPE]: DATATYPE
+
+BEGIN
+
+  nil: nil?
+  mk_rng(rng_part: rng): nonnil?
+
+END Maprange
+
+
+%---------------------------------------
+Map[map_dom: TYPE, map_rng: TYPE] : THEORY
+
+BEGIN
+
+  IMPORTING Maprange[map_rng]
+
+  map: TYPE = FUNCTION [map_dom -> Maprange]
+
+  member(d: map_dom, m: map): bool = nonnil?(m(d));
+
+  AUTO_REWRITE member;
+
+  dom(m: map) : set[map_dom] =
+       (LAMBDA(d: map_dom) : nonnil?(m(d)));
+
+  AUTO_REWRITE dom;
+
+  rng(m: map): set[map_rng] =
+       (
+         LAMBDA (r: map_rng) :
+                EXISTS (d: map_dom) :
+                       nonnil?(m(d)) AND r = rng_part(m(d))
+       );
+
+  AUTO_REWRITE rng;
+
+  empty?(m: map): bool = empty?(dom(m));
+
+  AUTO_REWRITE empty?;
+
+  nonempty?(m: map): bool = nonempty?(dom(m));
+
+  AUTO_REWRITE nonempty?;
+
+  add_in_map(d: map_dom, r: map_rng, m: map) : map =
+             m WITH [d := mk_rng(r)];
+
+  AUTO_REWRITE add_in_map;
+
+  empty_map: map = LAMBDA (d: map_dom): nil;
+
+  AUTO_REWRITE empty_map;
+
+  override(m1: map, m2: map)(d : map_dom): Maprange =
+                 IF member(d, m2)
+                   THEN m2(d)
+                   ELSE IF member(d, m1)
+                          THEN m1(d)
+                          ELSE nil
+                        ENDIF
+                 ENDIF;
+
+  disjoint(m1: map, m2: map) : bool =
+         FORALL (d: map_dom) :
+            NOT (member(d, m1) AND
+                 member(d, m2));
+
+  union(m1 : map, m2 : {m2 : map | disjoint(m1, m2)}): map = override(m1, m2);
+
+  restriction_by(m: map, s: set[map_dom])(d: map_dom): Maprange =
+                 IF member(d, m) AND NOT member(d, s)
+                   THEN m(d)
+                   ELSE nil
+                 ENDIF;
+
+  restriction_to(m: map, s: set[map_dom])(d: map_dom): Maprange =
+                 IF member(d, m) AND member(d, s)
+                   THEN m(d)
+                   ELSE nil
+                 ENDIF;
+
+  AUTO_REWRITE override;
+
+  AUTO_REWRITE disjoint;
+
+  AUTO_REWRITE union;
+
+  AUTO_REWRITE restriction_by;
+
+  AUTO_REWRITE restriction_to;
+
+  -(m: map, s: set[map_dom]): map = restriction_by(m, s);
+ 
+  /(m: map, s: set[map_dom]): map = restriction_to(m, s);
+
+  ++(m1, m2: map): map = override(m1, m2);
+
+  +(m1 : map, m2 : {m2 : map | disjoint(m1, m2)}): map = override(m1, m2);
+
+  mapdef : THEOREM
+    FORALL (m : map, d : map_dom) :
+          (EXISTS (r : map_rng) : r = rng_part(m(d))) WHEN nonnil?(m(d));  
+
+  dom_add_in_map : THEOREM
+    FORALL (d: map_dom, r: map_rng, m: map) :
+      dom(add_in_map(d, r, m)) = union(singleton(d), dom(m));
+
+  dom_override : THEOREM
+    FORALL (m1 : map, m2 : map) :
+      dom(override(m1, m2)) = union(dom(m1), dom(m2));
+
+  dom_restriction_by : THEOREM
+    FORALL (m : map, s: set[map_dom]) :
+      dom(restriction_by(m, s)) = difference(dom(m), s);
+
+  dom_restriction_to : THEOREM
+    FORALL (m : map, s: set[map_dom]) :
+      dom(restriction_to(m, s)) = intersection(dom(m), s);
+
+  rng_as_image : THEOREM
+    FORALL (m : map) :
+      rng(m) =
+        image(LAMBDA (d : {d: map_dom | nonnil?(m(d))}) : rng_part(m(d)), dom(m));
+
+END Map
+
+%---------------------------------------
+
+Choose_Map[map_dom: TYPE+, map_rng: TYPE] : THEORY
+
+BEGIN
+
+  IMPORTING Map[map_dom, map_rng]
+
+  choose_map(m: (nonempty?)): map_dom = epsilon(dom(m));
+
+  AUTO_REWRITE choose_map;
+
+  choose_map_member : THEOREM
+    FORALL (m: map):
+       nonnil?(m(epsilon(dom(m)))) = nonempty?(m);
+
+  AUTO_REWRITE choose_map_member;
+
+END Choose_Map
+
+%---------------------------------------
+Map_Comp[T1: TYPE, T2: TYPE, T3: TYPE] : THEORY
+
+BEGIN
+
+  IMPORTING Map
+
+  M1: TYPE = map[T2, T3]
+  M2: TYPE = map[T1, T2]
+  M3: TYPE = map[T1, T3]
+
+  o(m1: M1, m2: M2) : M3 =
+        LAMBDA (x: T1):
+               IF member(x, m2) AND
+                  member(rng_part(m2(x)), m1)
+                 THEN m1(rng_part(m2(x)))
+                 ELSE nil
+               ENDIF;
+
+END Map_Comp
+%---------------------------------------
+Finite_Map[D: TYPE, R: TYPE] : THEORY
+
+BEGIN
+
+  IMPORTING Map[D, R]
+
+  is_finite_map(m : map): bool = is_finite(dom(m));
+
+  AUTO_REWRITE- is_finite_map;
+
+  finite_map: TYPE = (is_finite_map) CONTAINING empty_map;
+
+  m1, m2: VAR finite_map
+  d: VAR D
+  r: VAR R
+  s: VAR set[D]
+
+  finite_set_union : THEOREM
+    FORALL (s1: finite_set[D], s2: finite_set[D]):
+      is_finite(union(s1,s2));
+
+  AUTO_REWRITE finite_set_union;
+
+  finite_empty_map: JUDGEMENT
+    empty_map HAS_TYPE finite_map;
+
+  AUTO_REWRITE finite_empty_map;
+
+  finite_add_in_map: JUDGEMENT
+    add_in_map(d, r, m1) HAS_TYPE finite_map;
+
+  AUTO_REWRITE finite_add_in_map;
+
+  finite_override: JUDGEMENT
+   override(m1, m2) HAS_TYPE finite_map;
+
+  AUTO_REWRITE finite_override;
+
+  finite_restriction_by: JUDGEMENT
+    restriction_by(m1, s) HAS_TYPE finite_map;
+
+  AUTO_REWRITE finite_restriction_by;
+
+  finite_restriction_to: JUDGEMENT
+    restriction_to(m1, s) HAS_TYPE finite_map;
+
+  AUTO_REWRITE finite_restriction_to;
+
+  finite_rng: JUDGEMENT
+    rng(m1) HAS_TYPE finite_set[R];
+
+  AUTO_REWRITE finite_rng;
+
+  finite_override1: THEOREM
+    is_finite_map(override(m1, m2));
+
+  AUTO_REWRITE finite_override1;
+
+  finite_with: THEOREM
+    is_finite_map(m1 WITH [d := mk_rng(r)]);
+
+  AUTO_REWRITE finite_with;
+
+END Finite_Map
+%---------------------------------------
+finite_map_subtype[D: TYPE, R: TYPE, S: TYPE FROM R] : THEORY
+
+BEGIN
+
+  IMPORTING Finite_Map
+
+  m : VAR finite_map[D, S]
+
+  finite_map_subtype : THEOREM
+    is_finite_map[D, R](m);
+
+  AUTO_REWRITE finite_map_subtype;
+
+
+END finite_map_subtype
+%---------------------------------------
+Ranged_List : THEORY
+
+BEGIN
+
+  ranged_list1(x:int)(y:{y : int | y >= x}) : RECURSIVE list[int] =
+    IF x = y
+      THEN cons(x, null)
+      ELSE cons(x, ranged_list1(x+1)(y))
+    ENDIF
+  MEASURE y-x
+
+  ranged_list(x:int, y:int) : list[int] =
+    IF x > y
+      THEN null
+      ELSE ranged_list1(x)(y)
+    ENDIF
+
+END Ranged_List
+
+%---------------------------------------
+List_Ops[T: TYPE] : THEORY
+
+BEGIN
+
+  ^(x:list[T], y:list[T]):list[T] = append(x, y)
+
+  inds(l:list[T]) : finite_set[int] =
+    LAMBDA (i:int) : i > 0 AND i <= length(l)
+
+  AUTO_REWRITE inds
+
+  memberdef: THEOREM
+    FORALL (t: T), (l:list[T]): 
+      member(t, l) IMPLIES EXISTS (i : below[length(l)]): t = nth(l, i)
+
+  elems_append: THEOREM
+    FORALL (l1: list[T]), (l2: list[T]):
+      list2set(append(l1, l2)) = union(list2set(l1), list2set(l2))
+
+  length_null: THEOREM
+    FORALL (l : list[T]):
+      (length(l) = 0) = null?(l)
+
+  length_not_null: THEOREM
+    FORALL (l : list[T]):
+      (length(l) >= 1) = cons?(l)
+
+  AUTO_REWRITE length_null
+
+  AUTO_REWRITE length_not_null
+
+  length_empty: THEOREM
+    length[T](null) = 0
+
+  length_cons: THEOREM
+    FORALL (t : T, l : list[T]):
+      length(cons(t,l)) = 1+length(l)
+
+  nth_cons: THEOREM
+    FORALL (t : T, l : list[T], i : nat):
+      i <= length(l) IMPLIES
+      nth(cons(t,l), i) =
+        IF i = 0 then t ELSE nth(l, i-1) ENDIF
+
+  AUTO_REWRITE length_empty
+
+  AUTO_REWRITE length_cons
+
+  AUTO_REWRITE nth_cons
+
+  length_append: THEOREM
+    FORALL (l1: list[T], l2: list[T]):
+      length(append(l1, l2)) = length(l1) + length(l2)
+
+  AUTO_REWRITE length_append
+
+  nth_append: THEOREM
+    FORALL (l1: list[T], l2: list[T], i : nat):
+      i < length(l1) + length(l2) IMPLIES
+        nth(append(l1,l2), i) =
+	  IF i < length(l1) THEN nth(l1, i)
+	  ELSE nth(l2, i - length(l1)) ENDIF
+
+  AUTO_REWRITE nth_append
+
+  list_eq : THEOREM
+    FORALL (l1: list[T], l2: list[T]):
+      length(l1) = length(l2) AND
+        (FORALL (i: below[length(l1)]): nth(l1, i) = nth(l2, i)) IMPLIES l1=l2
+
+END List_Ops
+
+%---------------------------------------
+Ranged_Set : THEORY
+
+BEGIN
+
+  ranged_set(x: int, y: int) : finite_set[int] =
+    LAMBDA (z : int) : x <= z AND z <= y
+
+  AUTO_REWRITE ranged_set
+
+END Ranged_Set
+
+%---------------------------------------
+Ranges : THEORY
+
+BEGIN
+  IMPORTING Ranged_List;
+
+  IMPORTING Ranged_Set;
+
+  member_ranged: THEOREM
+    FORALL (x: int), (y: int), (z:int) :
+      member(x, ranged_list(y,z)) =
+        (y <= x AND x <= z)
+
+  elems_ranged: THEOREM
+    FORALL (x: int), (y: int):
+      list2set(ranged_list(x, y)) = ranged_set(x, y)
+
+  length_ranged: THEOREM
+    FORALL (x: int), (y: int):
+      length(ranged_list(x,y)) =
+        IF x > y THEN 0 ELSE y - x + 1 ENDIF
+
+  AUTO_REWRITE member_ranged
+
+  AUTO_REWRITE elems_ranged
+
+  AUTO_REWRITE length_ranged
+
+END Ranges
+
+%---------------------------------------
+% Set Operators
+%---------------------------------------
+Set_Ops[T: TYPE] : THEORY
+
+BEGIN
+
+  a, b : VAR set[T]
+
+  s : VAR (nonempty?[T])
+
+  x : VAR T;
+
+  +(a, b): set[T] = union(a, b);
+
+  -(a,b): set[T] = difference(a, b);
+
+  ^(a, b): set[T] = intersection(a, b);
+  
+  <<(a, b): bool = strict_subset?(a, b);
+
+  <<=(a, b): bool = subset?(a, b);
+
+  >>(a, b): bool = strict_subset?(b, a);
+
+  >>=(a, b): bool = subset?(b, a);
+
+  % Strict Super Set Operator
+  strict_supset?(a, b): bool = strict_subset?(b, a)
+
+  % Super Set Operator
+  supset?(a, b): bool = subset?(b, a)
+
+  AUTO_REWRITE strict_supset?
+
+  AUTO_REWRITE supset?
+
+  AUTO_REWRITE strict_subset?
+
+  AUTO_REWRITE subset?
+
+  AUTO_REWRITE add
+
+  AUTO_REWRITE emptyset
+
+  AUTO_REWRITE member
+
+  AUTO_REWRITE restrict
+
+  choose_set(s): T = epsilon(s)
+
+  AUTO_REWRITE choose_set
+
+  choose_set_member : THEOREM
+    FORALL (s: (nonempty?[T])): s(epsilon(s))
+
+  AUTO_REWRITE choose_set_member
+
+END Set_Ops
+
+%---------------------------------------
+% Function inverse
+%---------------------------------------
+% introduced so that inverse function used to define
+% comprehended maps is applied only to injective functions
+
+Fun_inverse[D: TYPE+, R: TYPE] : THEORY
+
+BEGIN
+
+  RSL_inverse(f:(injective?[D, R]))(y:R): D = inverse(f)(y)
+
+END Fun_inverse
+
+%---------------------------------------
+% Integer Operators
+%---------------------------------------
+Int_Ops: THEORY
+
+BEGIN
+  a: VAR int
+  c: VAR nzint
+
+  % Exponentiation Operator
+  rsl_expt(a: int, b:{b: int | IF a = 0
+                                 THEN b > 0
+                                 ELSE b >= 0 ENDIF
+                     }
+          ): int = a ^ b
+
+  % Remainder Operator
+  rsl_int_rem(a, c) : int = sgn(a) * rem(abs(c))(abs(a))
+
+  % Division Operator
+  rsl_int_div(a, c) : int = sgn(a) * sgn(c) * ndiv(abs(a),abs(c))
+
+END Int_Ops
+
+%---------------------------------------
+% Set induction
+%---------------------------------------
+set_induction[T : TYPE]: THEORY 
+BEGIN
+
+IMPORTING finite_sets_inductions[T];
+
+complete_set_induction: THEOREM
+(FORALL (p: pred[finite_set[T]]):
+  (FORALL (s: finite_set[T]):
+    (FORALL (s1: finite_set[T]): strict_subset?(s1, s) IMPLIES p(s1))
+    IMPLIES p(s))
+  IMPLIES (FORALL (s: finite_set[T]): p(s)))
+
+END set_induction

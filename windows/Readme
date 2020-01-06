@@ -1,0 +1,253 @@
+                       RSL Type Checker with Windows
+		       =============================
+
+You can run the type checker from a dos command window using the
+command "rsltc" but it is inconvenient to have error messages in dos
+and need to start an editor to make corrections to RSL files.
+It is therefore much better to run rsltc from emacs.  Then you can
+easily alternate between editing RSL files and running rsltc on them.
+
+Installing automatically
+========================
+
+The easiest way to install and use raise with emacs is to use a self
+installing executable, either RAISE_admin_setup.exe if you are an
+administrator or can get one to install for you, or
+RAISE_user_setup.exe which will set it up just for you and does not
+need administrator privileges.
+
+If you want to use the translator to C++ you should also get the DJGPP
+installer, again in administrator or user versions.  This is a
+selection of the DJGPP port of many GNU tools to Windows.  The full
+collection is available from http://www.delorie.com.
+
+After installing you will find the rsltc user guide as
+c:/raise/user_guide/ug.html.
+
+If you use these installers you need read almost no further.  Just note that
+you will also probably want the SML installer from the sml directory
+parallel to this one, and the two vcg zip files from the vcg
+directory, again parallel to this one.  Unzip the vcg zip files into
+the c:/raise directory. 
+
+Installing manually
+===================
+
+This directory also includes a very basic version of GNU emacs, in the file
+em1934b.zip.  A much better and complete version of emacs is
+obtainable from http://ftp.gnu.org/gnu/windows/emacs/.  Obtaining and
+installing this is described in emacs_windows_faq.html.  It is
+strongly recommended that you use this version.
+
+em1934b.zip is basic GNU emacs copied from the DJGPP distribution.
+rsltc.zip is the type checker rsltc.exe plus this file and some emacs
+lisp files.
+
+Installation
+============
+
+If you have a directory c:\raise you might want to rename it or vary
+the instructions below to avoid the possibility of overwriting files in
+it.
+
+You need WinZip or equivalent to unpack the zip files.  Extract
+rsltc.zip into c:, using Winzip, and setting the "Use folder names"
+option.  This will create a directory C:\raise.  The dos tool
+pkunzip can be used instead of Winzip: use the -d option so that it
+creates directories.
+
+Installing a full emacs
+=======================
+
+If you have the complete emacs mentioned above, install it as
+described in emacs_windows_faq.html.
+
+Move the .el files in C:\raise\gnu\emacs\lisp to the
+emacs site-lisp directory (probably C:\emacs\site-lisp).
+
+Move the emacs start-up file _emacs from C:\raise\gnu\emacs to your
+"home" directory.  The simplest method is to find out where emacs
+thinks "home" is and put it there.  You can use the sequence
+
+Esc-x getenv Enter HOME Enter
+
+(where "Enter" means the Enter or Return key)
+
+in emacs to find out.  Otherwise, see the section "Where do I put my .emacs,
+(or _emacs), file?" in emacs_windows_faq.html.
+
+The file C:\emacs\site-lisp\rsltc.el needs to know where the
+executable rsltc.exe is.  If you have followed the directions above
+exactly it will be right: "/raise/rsl/rsltc".  Otherwise, use to
+edit C:\emacs\site-lisp\rsltc.el so that rsltc-command is set
+correctly.  Save rsltc.el. Exit emacs (Files menu) and start it again.
+
+Installing the basic emacs
+==========================
+
+Extract em1934b.zip into c:\raise, again using the "Use folder names"
+option.  If you use pkunzip you will afterwards need to correct the
+following file names in gnu\emacs\lisp, because the base names will
+have been truncated to 8 characters:
+
+backquote.elc
+case-table.elc
+cc-compat.elc
+dired-aux.elc
+help-macro.elc
+
+
+NOTE THE ZIP FILES ARE EXTRACTED INTO SLIGHTLY DIFFERENT PLACES.
+
+Use Windows Explorer to open C:\raise\gnu\emacs\bin and select emacs.exe
+
+Optionally, use Properties under File to set the font to 7 x 12
+and the screen to 43 lines.  This gives a full length emacs window and
+a reasonable font size.
+
+Use CreateShortcut to make a shortcut.
+
+The file C:\raise\gnu\emacs\lisp\rsltc.el needs to know where the
+executable rsltc is.  If you have followed the directions above
+exactly it will be right: /raise/rsl/rsltc.  Otherwise, start emacs
+with the shortcut you made and use it to edit
+C:\raise\gnu\emacs\lisp\rsltc.el so that rsltc-command is set
+correctly.  Save rsltc.el. Exit emacs (Files menu) and start it again.
+
+Use
+===
+
+RSL modules (schemes or objects) should be placed in files with .rsl
+extension, one module per file.  If a module is called S then the file
+name should be S.rsl.  The Windows version does not care if the case
+of the module name matches the case of the file name, so s.rsl is also
+OK.  
+
+When a .rsl file is open in emacs you can use M-x (Alt with x or Esc
+followed by x) rsltc to run the type checker, M-x rslpp to run the
+pretty-printer.  emacs will start a second window to display output.
+Errors and confidence conditions start with a "file:line:column"
+string and clicking with the right mouse button on a line starting
+with this string places the cursor at the relevant position in that
+file in the first window.
+
+Options for rsltc:
+==================
+
+none	 type check
+-c	 type check plus confidence condition generation on current module
+-cc	 type check plus confidence condition generation on all modules
+-d 	 parser (no type check) plus display of module dependencies
+-g	 draw module dependency graph using VCG (see below)
+-m	 translate to Standard ML (see below)
+-c++     translate tp C++ (see below)
+
+Options for rslpp:
+==================
+
+n	 line length (must be at least 30). Defaults to 60.
+
+All these are also available from the RSL menu when emacs is visiting
+an RSL file.
+
+Contexts
+========
+
+A module S that uses other modules A and B needs to tell the type
+checker that A and B are its context.  The .rsl file for S will start
+
+  A, B
+  scheme S = ...
+
+The type checker will check A and B (recursively including any modules
+in their contexts) and then S.  The order of A and B does not matter.
+If B is also in the context of A then it does not matter if B is
+included in the context of S or not.
+
+The context illustrated above means that the type checker will look
+for A.rsl and B.rsl in the same directory as S.rsl.  Context files may
+also be in other directories on the same drive.  References to them may use
+absolute or relative paths, and Unix-style paths are used (so that RSL
+files may be passed between Windows and Unix systems).
+
+For example, suppose S.rsl is in C:\raise\rsl, and A.rsl is in
+C:\raise\rsl\lower.  Then the context reference to A in S.rsl may be
+
+lower/A			  or
+/raise/rsl/lower/A	  or even
+../rsl/lower/A
+
+
+Drawing the module dependency graph with VCG
+============================================
+
+VCG (visualization of compiler graphs) is obtainable free for Windows
+as well as Unix. 
+http://www.cs.uni-sb.de/RW/users/sander/html/gsvcg1.html is the
+home page. Install it where you like, but then make sure that
+the variable vcg-command in rsltc.el is set to point to where vcg.exe
+is stored.  Then using the -g option to rsltc in emacs will start vcg
+automatically.
+
+Interpreting RSL using Standard ML
+==================================
+
+Get the self installing SML package from
+http://cm.bell-labs.com/cm/cs/what/smlnj/
+ 
+Install it in C:/sml as suggested.
+
+Include the following lines in autoexec.bat:
+
+SET PATH=%PATH%;C:\sml\bin
+SET CM_PATH=C:\sml\lib
+SET RSLML_PATH=c:/sml/rslml
+
+Make a folder c:/sml/rslml and copy the files rslml.sml and rslml.cm
+there.  You can find them in the same directory as this readme file.
+
+If you can get a copy of emacs version 20 for Windows then you can run
+SML from emacs, and the extra item for running it will appear in the
+RSL menu.  Otherwise, run it separately and use the SML command
+
+use "path/X.sml";
+
+to load the file created by the SML translator from X.rsl, with the
+appropriate path.  Don't forget the ; at the end of this command.
+
+The first time you load such a file you will see it compiling the RSL
+library rslml.sml.  On following runs it will just load the compiled
+library code.
+
+To help to test RSL modules you can include test cases in the top
+level module.  This is done by using the declaration keyword test_case
+followed by one or more test case definitions, separated by commas.
+Each of these is an optional identifier in square brackets followed by
+an RSL expression.  Such expressions will be executed when the .sml
+file is loaded into SML.  For example, suppose you have defined
+
+value
+  fact : Nat -~-> Nat
+  fact(n) is if n = 1 then 1 else n * fact(n-1) end
+  pre n > 0
+
+then you might include (before the final end)
+
+test_case
+  [f3] fact(3),
+  [f0] fact(0),
+
+The first test case should produce the value 6.  The other should
+report a precondition violation.
+
+The SML translator can only handle concrete types (including records
+and variants but not unions), explicit constants and explicit
+functions.
+
+Translating to C++
+==================
+
+See the user guide for details.
+
+
+

@@ -1,0 +1,184 @@
+   RSL Type Checker
+   Copyright (C) 1998 UNU/IIST
+
+New features of RSL supported:
+=============================
+
+A small number of changes have been made to RSL since "The RAISE
+Specification Language" was published.
+
+With expressions:
+-----------------
+
+There is a new kind of class expression
+
+with {element-}object_expr-list in class_expr
+
+which allows the qualifications in names to be omitted.  This is
+particularly useful when you redefine operators.  For example,
+if you have in a scheme S
+
+...
+value + : T >< T -> T
+...
+
+and in another you have S as a parameter or make an object from it,
+then without the with expression you have to write
+
+class
+  object O : S
+...  
+  O.(+)(x,y)
+...
+
+The operator + outside the object O has to be called O.(+) and used
+prefix.
+
+Now you can write instead
+
+with O in class
+  object O : S
+...
+  x + y
+...
+
+The same can be done if O : S is a scheme parameter.
+
+The meaning of "with X in" is, essentially, that an applied occurrence
+of a name N in its scope can mean either N or X.N.  It is necessary,
+of course, that of the two possibilities either only one exists or
+they are distinguishable.
+
+With expressions may be nested.  "with Y in with X in" means that a
+name N in its scope can mean N or X.N or Y.N or Y.X.N.
+
+It is generally more efficient to use a single with rather than
+nesting them.  "with Y, X in" means that a name N in its scope can
+mean N or X.N or Y.N.  Order within a single with is not significant.
+
+Comments:
+--------
+
+Because the tool is not a structure editor it can be much more flexible
+about comments.  Two kinds of comments are allowed:
+
+/* ... */ can extend over as many lines as you like and are nestable
+
+-- in a line makes the rest of the line a comment
+
+prefix + and - :
+---------------
+
+These were omitted from the original RSL, so that you had, for
+example, to write 0 - 1 instead of just -1.  They are now included.
+
+== symbol:
+---------
+
+The infix operator == is included, with the same precedence as =.
+Semantically this symbol is undefined, and it has no predefined type.
+It is intended to be used to define abstract equalities, but you can
+define it in any way you want to.
+
+Finite maps
+-----------
+
+There are both finite maps (ASCII symbol -m->) and infinite maps
+(-~m->).  Finite maps have finite domains and are deterministic when
+applied to values in their domain.  Finite maps were introduced in
+"The RAISE Development Method".
+
+Extra meanings for isin, ~isin, and hd
+--------------------------------------
+
+The infix operator isin can now be applied to lists and maps as well
+as sets.  The meanings correspond to the following definitions for arbitrary
+types T and U:
+
+value
+  isin : T >< T-list -> Bool
+  t isin l is t isin elems l,
+
+  ~isin : T >< T-list -> Bool
+  t ~isin l is t ~isin elems l,
+
+  isin : T >< (T -m-> U) -> Bool
+  t isin m is t isin dom m,
+
+  ~isin : T >< (T -m-> U) -> Bool
+  t ~isin m is t ~isin dom m
+
+The point of adding these meanings is that the RSL is shorter, and
+that it is possible to translate the RSL into more efficient code, as
+there is no need to generate a set from the list or map before
+applying isin or ~isin.
+
+The prefix operator hd can now be applied to (non-empty) sets and
+maps.  The meaning of hd in these two cases is as if hd were defined as
+follows for arbitrary types T and U:
+
+value
+  hd : T-set -~-> T
+  hd : (T -m-> U) -~-> T
+axiom
+  all s : T-set :- s ~= {} => hd s isin s
+  all m : T -m-> U :- m ~= [] => hd m isin m
+
+hd can therefore be used to select an arbitrary member of a non-empty
+set or map.  This allows many examples of quantified and comprehended
+expressions to be written in ways that allows them to be translated.
+The choice of hd for this operator may seem a little strange, but
+using an existing operator avoids adding another keyword.
+
+Test cases
+----------
+
+There is also a new extension to RSL to support interpretation and
+translation.  In addition to type, value, variable, etc. declarations
+you can now have a test_case declaration.  The keyword test_case is
+followed by one or more test case definitions.  Each test case
+definition is an optional identifier in square brackets (just like an
+axiom name) followed by an RSL expression.  The expression can be of
+any type, and it can be imperative.
+
+Test cases are not an official part of RSL.  You can think of them as
+no more than comments (although the type checker will report errors in
+them).  But to an interpreter they mean expressions that are to be
+evaluated.  So if you wrote
+
+test_case
+  [t1] 1 + 2
+
+you would expect to see the interpreter output
+
+[t1] 3
+
+Test cases are interpreted in order, and the result of one can affect
+the results of others if they are imperative.  Suppose, for example,
+we have have an imperative (integer) stack with the usual functions.
+Then, if the stack variable is initialised to empty, the following
+test cases
+
+test_case
+  [t1] push(1) ; push(3) ; push(4) ; top(),
+  [t2] pop() ; pop() ; top(),
+  [t3] pop() ; is_empty()
+
+should produce the following interpreter output
+
+[t1] 4
+[t2] 1
+[t3] true
+
+
+
+Features of RSL not supported:
+==============================
+
+The tool follows "The RAISE Development Method" in not allowing
+embedded schemes (schemes defined within classes).  Schemes should be
+defined at the top level and put in the context.
+
+The axiom quantification forall has been removed.  Axioms should be
+quantified indvidually.  This also follows "The RAISE Development
+Method"

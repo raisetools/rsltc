@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 10.1 Introduction</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_30.html"><img border="0" alt="10.2 Activating the C++ translator" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.2 Activating the C++ translator</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.1 Introduction</b></font></td></tr></table>
+<h2>10.1 Introduction</h2>
+<p>The C++ translator was developed by Univan Ahn <a href="ug_78.html#UNUIIST:220">[6]</a>.
+<p>The C++ translator is based heavily on the translator developed for
+the original RAISE tools by Jesper G&oslash;rtz, Jan Reher, Henrik Snog,
+and Eld Zierau of Cap Programator.  We are grateful for their
+permission to reuse their work.
+<p>We use the term RSL<i><sub>C++</sub></i> for the subset of RSL that is accepted
+by the the translator. RSL<i><sub>C++</sub></i> excludes object arrays,
+channels, axioms, abstract types, union types, implicit value and
+function definitions.  It only includes quantified expressions,
+comprehended expressions, implicit let expressions, and local expressions if
+they conform to the rules given below in
+sections&nbsp;<a href="ug_36.html#cpp:quantified">10.8.12</a>, <a href="ug_36.html#cpp:comprehended">10.8.7</a>,
+<a href="ug_36.html#cpp:let">10.8.24</a>, and <a href="ug_36.html#cpp:local">10.8.23</a>.  It includes overloading
+of names only if they conform to the rules of
+overloading of C++: overloaded identifiers must be the names of
+functions with distinguishable parameter types.
+<p>The translator has to generate some names, and these always include
+somewhere the string "rsl" (where some letters may be upper case).
+So RSL<i><sub>C++</sub></i> does not include identifiers containing this
+string.
+Neither does it contain identifiers that are C++ keywords, nor names
+involving double underscores.
+<p>The term <em>universal types</em> is used for some generated C++ types. See
+section&nbsp;<a href="ug_40.html">10.12</a> on universal 
+types.
+
+<h3><a name="id1">10.1.1 Compilers and platforms</a></h3>
+The translator produced code has been tested with the Free Software
+Foundation's GNU C++ compiler <tt>g++</tt> version 2.95.2.  It is
+intended to conform to the ANSI C++ standard and so should work with
+other compilers.
+<p>The translator has been run under Solaris, Linux and Windows 9X and
+NT, and the C++ output compiled and run under these operating systems.
+<p>The translator has also been used with Microsoft's Visual C++
+compiler, version 6.0.  This causes some difficulty, especially with
+the use of overloaded template functions.  It is thought that
+most problems have been resolved.
+
+<h3><a name="cpp:errors">10.1.2 Known errors and problems</a></h3>
+
+The following lists mention known errors and problems and a few
+desirable extensions. Other problems and wishes will undoubtedly
+emerge from the use of the translator. It is worth noting that many of
+these problems also arise on manual translation from RSL to C++, and
+that the problems, with the exception of those concerning <b>Int</b> and
+<b>Real</b>, are easily avoided.
+<ul><p><li>C++ compilers seem not to accept nested namespaces with the same
+  names.  So an object <tt>A</tt>, say, should not contain an object
+  also called <tt>A</tt>.  This is easily avoided with some manual renaming
+  of objects.
+<p><li>The arithmetic types <b>Int</b> (including <b>Nat</b>) and <b>Real</b>
+  are naively translated into <tt>int</tt> and <tt>double</tt> without regard for actual
+  limits and precision. Float-integral conversions and the results of
+  integer divide and modulo applied to negative operands are also
+  implementation dependent. And so is the use of arithmetic exceptions
+  on overflow and division by zero.
+<p><li>In RSL the initial value of a variable declared without initialisation is underspecified
+within its type. The corresponding variable in C++ will be uninitialised.
+<p><li>Map enumeration is treated by the translator by means of override instead of union, that
+way disregarding any possibly resulting non-determinism.
+<p><li>The translation relies heavily on the syntactic form of the
+  input, which means that often a semantically equivalent piece of RSL
+  text cannot be translated or is translated differently.  For
+  example, a record or variant type is accepted, but the equivalent
+  expansion into a sort, some value signatures, and some axioms is not
+  accepted.
+<p><li>Separate compilation is not currently supported.  Running the
+  translator on a number of RSL modules generates one header
+  <tt>.h</tt> file and one body <tt>.cc</tt> or <tt>.cpp</tt> file.
+<p><li>The use of templates with Microsoft's Visual C++ causes
+  problems.  There is an option to translate for this compiler, which
+  greatly reduces the use of templates.
+</ul>
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>10.1 Introduction</b></font></td></tr><tr><td width="30%"><table width="100%"><tr></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_28.html"><img border="0" alt="10 C++ translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">10 C++ translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_30.html"><img border="0" alt="10.2 Activating the C++ translator" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">10.2 Activating the C++ translator</td></tr></table></td></tr></table></body></html>

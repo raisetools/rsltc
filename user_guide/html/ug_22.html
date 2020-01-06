@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 9.2 Activating the SML translator</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_21.html"><img border="0" alt="9.1 Introduction" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">9.1 Introduction</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_23.html"><img border="0" alt="9.3 Declarations" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9.3 Declarations</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>9.2 Activating the SML translator</b></font></td></tr></table>
+<h2>9.2 Activating the SML translator</h2>
+The translator is activated from a shell with the command
+<p><tt>rsltc -m &lt;file&gt;</tt>
+<p>where <code>&lt;file&gt;</code> takes the form <tt>X</tt> or <tt>X.rsl</tt> and contains
+the RSL scheme or object named <tt>X</tt>.  It generates files 
+<tt>X.sml</tt> and <tt>X&#95;.sml</tt>.  The latter is loaded by the former.
+<p><tt>X.sml</tt> can be executed by starting the SML run-time system and
+then giving the command
+<p><code>use "&lt;dir&gt;/X.sml";</code>
+<p>where <tt>&lt;dir&gt;</tt> is the directory where <tt>X.rsl</tt> is located.
+<tt>dir</tt> should be an absolute path starting with "/" and any
+intermediate separators must be Unix-style forward slash "/", not
+DOS-style "&#92;".  Note the semicolon ";" at the end of
+this command.  If you forget it you will get a prompt <code>=</code> on the
+next line, and you can type it there.
+
+<h3><a name="id1">9.2.1 Output</a></h3>
+<p>Executing the file <tt>X.sml</tt> generates some output which is not
+useful, but which we have not been able to get rid of.  For example,
+the file
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> X = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>test&#95;case</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[t1]</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;1 + 2,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[t2]</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>true</b> &#92;/ <b>false</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p>generates the following output
+<pre>
+Standard ML of New Jersey, Version 110.0.7, September 28, 2000 [CM; autoload enabled]
+- [opening /home/cwg/gentle/ug/ex/X.sml]
+val it = () : unit
+val it = () : unit
+val it = () : unit
+val it = true : bool
+[starting dependency analysis]
+[scanning /home/cwg/sml/rslml/rslml.cm]
+[checking /home/cwg/sml/rslml/CM/x86-unix/rslml.cm.stable ... not usable]
+[dependency analysis completed]
+[Registering for AUTOLOAD...]
+val it = () : unit
+[Autoloading...]
+[recovering /home/cwg/sml/rslml/CM/x86-unix/rslml.sml.bin... done]
+[Autoloading done.]
+[opening X_.sml]
+structure RT_Int : &lt;sig&gt;
+structure RT_Bool : &lt;sig&gt;
+structure X : &lt;sig&gt;
+open X
+val it = () : unit
+[t1] 3
+val it = () : unit
+[t2] true
+val it = () : unit
+val it = () : unit
+val it = () : unit
+val it = () : unit
+-  
+</pre>
+<p>This shows the RSL library being loaded (see section&nbsp;<a href="#sml:library">9.2.3</a>).
+Don't worry that there is
+not a "stable" version: the <code>.bin</code> file is the compiled
+version.  From the RSL library the structures <tt>RT&#95;Int</tt> and
+<tt>RT&#95;Bool</tt> are loaded, then the structure <tt>X</tt> generated
+from the RSL input.  
+<p>Finally we get the results of the two test cases, followed in each
+case by the line
+<pre>
+val it = () : unit
+</pre>
+<p>This is just SML reporting completion of the function that generated
+the test case: the current value (<tt>it</tt>) is the <tt>unit</tt>
+value "()" (which is just like its counterpart in RSL).  The last
+three identical lines are the results of other functions used to load
+and run <tt>X.sml</tt> and <tt>X&#95;.sml</tt>.
+<p>Finally there is a prompt "<tt>-</tt>" for the next command.  It is possible to
+return to the file <tt>X.rsl</tt>, make any changes you wish, re-translate, and
+load <tt>X.sml</tt> again into SML with the <tt>use</tt> command.
+
+<h3><a name="sec:smlsave">9.2.2 Saving the output</a></h3>
+
+<p>In emacs, the output from the run of SML can be saved by returning to
+the buffer displaying RSL file and selecting the item <tt>Save
+  results from SML run</tt> in the <tt>RSL</tt> menu.  This saves the
+results in a file <tt>X.sml.results</tt>, if the file translated was
+<tt>X.rsl</tt>.  The additional output produced by the SML system is
+removed, so that the example above for example would give
+<pre>
+[t1] 3
+[t2] true
+</pre>
+<p>Saving the results will also kill the SML buffer: it will restart next
+time you run SML.
+
+<h3><a name="sml:library">9.2.3 RSL Library</a></h3>
+
+<p><tt>X.sml</tt> contains the compilation directive
+<p><code>CM.autoload' "&lt;DIR&gt;/rslml.cm";</code>
+<p>where DIR is the variable RSLML&#95;PATH.  This in turn causes the
+definitions in <tt>rslml.sml</tt> to be loaded.  The first time this file is
+loaded in this way it is compiled; thereafter the compiled version is
+loaded.
+<p><tt>rslml.sml</tt> contains definitions of SML structures for 
+<ul><p><li>the
+basic types of RSL and standard functions on them: equality and
+conversions to strings for output
+<p><li>parameterised structures for set, list, map and function types
+<p><li>definitions of the infix and prefix operators on these types
+<p><li>additional functions for translating quantified and comprehended expressions
+</ul>
+<p>We refer to these definitions below as the <em>RSL library</em>.
+<p><p>During translation, error messages may be generated 
+with the standard <tt>file:line:column</tt> format showing from where in the RSL
+specification the message was generated.  The cause of the error must
+be corrected and the translator run again.
+<p>During execution, run-time error messages may be produced.  There are as
+follows, where x, y and z indicate values that are part of the generated
+message, c is a constant and v a variable:
+<p>Invalid integer literal x<br />Division by zero<br />Modulo zero<br />Integer exponentiation with negative exponent x<br />Cannot compute 0 ** 0<br />Invalid real literal x<br />Zero raised to non-positive power x<br />Negative number x raised to non-integer power y<br />hd applied to empty set<br />Cannot select from empty set<br />hd applied to empty list<br />tl applied to empty list<br />List applied to index outside index set<br />Cannot select from empty list
+hd applied to empty map<br />Map applied to value outside domain<br />Nondeterministic enumerated map<br />Maps do not compose<br />Cannot select from empty map<br />List x applied to non-index y<br />Text x applied to non-index y<br />Map x applied to non-domain value y<br />x union y has non-disjoint domains<br />Cannot compute function equality<br />Destructor x applied to wrong variant<br />Reconstructor x applied to wrong variant<br />Argument of x(y) not in subtype<br />Precondition of x(y) not satisfied<br />Result z of x(y) not in subtype<br />Case incomplete for value x<br />Value x of c not in subtype<br />Initial value x of v not in subtype<br />Value x of v not in subtype<br />chaos encountered<br />stop encountered<br />swap encountered
+<p>These messages are generated via exceptions that are caught within each
+test case, allowing following test cases to be executed.
+<p>The SML run-time system may also generate warning messages,
+for example if let or case expressions are not exhaustive.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>9.2 Activating the SML translator</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_21.html"><img border="0" alt="9.1 Introduction" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">9.1 Introduction</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_20.html"><img border="0" alt="9 SML translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">9 SML translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_23.html"><img border="0" alt="9.3 Declarations" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">9.3 Declarations</td></tr></table></td></tr></table></body></html>

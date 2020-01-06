@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 6 Confidence condition generation</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_15.html"><img border="0" alt="5 Pretty printer" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">5 Pretty printer</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_17.html"><img border="0" alt="7 Showing module dependencies" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">7 Showing module dependencies</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>6 Confidence condition generation</b></font></td></tr></table>
+<h1>6 Confidence condition generation</h1>
+<p>The confidence condition generator was written by Tan Xinming.
+<p>Confidence conditions are conditions that should generally be true if
+the module is not to be inconsistent, but that cannot in general be
+determined as true by a tool.  The following conditions are generated
+(provided the type checker first runs successfully):
+<ol><p><li>Arguments of invocations of functions and operators are in
+  subtypes, and, for partial functions and operators,
+  preconditions are satisfied.
+<p><li>Values supposed to be in subtypes are in the subtypes.  These
+  are generated for 
+  <ul><p><li>values in explicit value definitions;
+  <p><li>values of explicit function definitions (for parameters in 
+    appropriate subtypes and satisfying any given preconditions);
+  <p><li>initial values of variables;
+  <p><li>values assigned to variables;
+  <p><li>values output on channels.
+  </ul>
+<p><li>Subtypes are not empty.
+<p><li>Values satisfying the restrictions exist for implicit value and
+  function definitions.
+<p><li>The classes of actual scheme parameters implement the classes of
+  the formal parameters.
+<p><li>For an implementation relation or an implementation expression,
+  the implementing class implements the implemented class.  This gives
+  a means of expanding such a relation or expression, by asserting the
+  relation in a theory and then generating the confidence conditions
+  for the theory.
+<p><li>A definition of a partial function without a
+  precondition (which generates the confidence condition <b>false</b>).
+<p><li>A definition of a total function with a precondition
+  (which generates the confidence condition <b>false</b>).
+</ol>
+<p>Confidence conditions are output on standard output.  They take the form
+<p><tt>X.rsl:m:n CC:</tt><br /><tt>- comment on source of condition</tt><br /><tt>condition</tt>
+<p>Examples of all the first 4 kinds of confidence conditions listed
+above are generated from the following intentionally peculiar scheme
+(in which line numbers have been inserted so that readers can relate
+the following confidence conditions to their source):
+<pre>
+ 1 scheme CC = 
+ 2 class
+ 3   value
+ 4     x1 : Int = hd &lt;..&gt;,
+ 5     x2 : Int = f1(-1),
+ 6     x3 : Nat = -1,
+ 7     f1 : Nat -~-&gt; Nat
+ 8     f1(x) is -x
+ 9     pre x &gt; 0
+10   variable
+11     v : Nat := -1
+12   channel
+13     c : Nat
+14   value
+15     g : Unit -&gt; write v out c Unit
+16     g() is v := -1 ; c!-1
+17   type
+18     None = {| i : Nat :- i &lt; 0 |}
+19   value
+20     x4 : Nat :- x4 &lt; 0,
+21     f2 : Nat -&gt; Nat
+22     f2(n) as r post n + r = 0
+23 end
+</pre>
+<p>This produces the following confidence conditions (which are all
+provably false):
+<pre>
+Checking CC ... 
+Finished CC
+CC.rsl:4:19: CC:
+-- application arguments and/or precondition
+let x = &lt;..&gt; in x ~= &lt;..&gt; end
+
+CC.rsl:5:18: CC:
+-- application arguments and/or precondition
+-1 &gt;= 0 /\ let x = -1 in x &gt; 0 end
+
+CC.rsl:6:14: CC:
+-- value in subtype
+-1 &gt;= 0
+
+CC.rsl:8:5: CC:
+-- function result in subtype
+all x : Nat :- (x &gt; 0 is true) =&gt; -x &gt;= 0
+
+CC.rsl:11:13: CC:
+-- initial value in subtype
+-1 &gt;= 0
+
+CC.rsl:16:17: CC:
+-- assigned value in subtype
+-1 &gt;= 0
+
+CC.rsl:16:24: CC:
+-- output value in subtype
+-1 &gt;= 0
+
+CC.rsl:18:26: CC:
+-- subtype not empty
+exists i : Nat :- i &lt; 0
+
+CC.rsl:20:8: CC:
+-- possible value in subtype
+exists x4 : Nat :- x4 &lt; 0
+
+CC.rsl:22:5: CC:
+-- possible function result in subtype
+all n : Nat :- exists r : Nat :- n + r = 0
+
+rsltc completed: 10 confidence condition(s) generated
+rsltc completed: 0 error(s) 0 warning(s)
+</pre>
+<p>In the case of implementation relations and conditions, the confidence
+condition is typically the conjunction of a number of conditions, each
+of which also has a <tt>file:line:column</tt> reference, followed by
+<tt>IC:</tt> (to indicate an implementation condition), plus some text,
+as a comment in the condition.  Usually these references are to the
+appropriate place in the implementing class, but in the case of an
+axiom in the implemented class they are to the axiom, since this will
+typically have no equivalent in the implementing class.
+<p>In general, confidence conditions are not generated for definitions
+that are syntactically identical in the implementing and implemented
+classes.
+<p>For example, consider the schemes A0 and A1 and the theory A&#95;TH below
+that asserts that A1 implements A0:
+<table cellspacing="1" cellpadding="0"><tr>
+<td nowrap colspan="1" align="left">
+                            &nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="1" align="left">&nbsp;&nbsp;&nbsp;</td><td nowrap colspan="99" align="left">&nbsp;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> A0 = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;x : <b>Int</b>,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;y : <b>Int</b> &#8226; y &gt; 1,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;z : <b>Int</b> = 2 </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>axiom</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;[x&#95;pos]</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;x &gt; 0 </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>scheme</b> A1 = </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>class</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>value</b> </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;x : <b>Int</b> = 1,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;y : <b>Int</b> = 3,</td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;z : <b>Int</b> = 2 </td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;<b>end</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#32;</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;A0, A1</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>theory</b> A&#95;TH :</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>axiom</b></td></tr>
+<tr>
+<td nowrap colspan="1" align="left"></td><td nowrap colspan="99" align="left">&nbsp;&#8192; A1 &#8829; A0</td></tr>
+<tr>
+<td nowrap colspan="99" align="left">&nbsp;<b>end</b>
+</td></tr></table>
+
+                        <p><p>Generating confidence conditions for A&#95;TH produces the following
+output:
+<pre>
+Loading A0 ... 
+Loaded A0
+Loading A1 ... 
+Loaded A1
+Checking A_TH ... 
+Finished A_TH
+A_TH.rsl:4:12: CC:
+-- implementation conditions:
+in A1 |- 
+  -- A1.rsl:5:7: IC: value definition changed
+  y &gt; 1 /\ 
+  -- A0.rsl:10:9: IC: [x_pos]
+  x &gt; 0
+
+rsltc completed: 1 confidence condition(s) generated
+rsltc completed: 0 error(s) 0 warning(s)
+</pre>
+<p>This confidence condition can be proved.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>6 Confidence condition generation</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_15.html"><img border="0" alt="5 Pretty printer" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">5 Pretty printer</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_17.html"><img border="0" alt="7 Showing module dependencies" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">7 Showing module dependencies</td></tr></table></td></tr></table></body></html>

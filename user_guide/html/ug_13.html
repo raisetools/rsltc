@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:42 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 3 Tool components available</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_10.html"><img border="0" alt="2 Putting RSL into files" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">2 Putting RSL into files</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_14.html"><img border="0" alt="4 Type checker" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">4 Type checker</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>3 Tool components available</b></font></td></tr></table>
+<h1>3 Tool components available</h1>
+<p>There is a collection of related component tools, nearly all based on
+the type checker <tt>rsltc</tt>.  They are invoked from the command
+line as shown below.
+
+  <div align="center"><p>
+  <table border><tbody><tr><td colspan="1" align="LEFT">
+
+    Command </td><td colspan="1" align="LEFT"> Component</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Type check</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -pp &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Parsing (no type check) plus pretty printing
+    of current module</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -c &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Type check plus confidence condition generation
+    on current module</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -cc &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Type check plus confidence condition
+    generation on all modules</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -d &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Parsing (no type check) plus display of module
+    dependencies</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -g &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Generation of VCG file to show module dependencies</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -m &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Translation to SML</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -c++ &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Translation to C++</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -cpp &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Translation to Microsoft's Visual C++</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>rsltc -pvs &lt;file&gt;</tt> </td><td colspan="1" align="LEFT"> Translation to PVS</td></tr>
+<tr><td colspan="1" align="LEFT">
+<tt>UML2RSL &lt;xml-file&gt;</tt> </td><td colspan="1" align="LEFT"> Translation to RSL from UML</td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+  <div align="center">rsltc commands</div>
+  <a name="tab:rsltc">&nbsp;</a>
+  </p></div>
+If the RSL file being used is <tt>X.rsl</tt>, then <tt>&lt;file&gt;</tt> may be
+given as <tt>X</tt> or <tt>X.rsl</tt>.
+<p>These tool components are described in the following sections.
+<p>A more convenient interface to the rsltc tool components can be
+obtained using emacs -- see section&nbsp;<a href="ug_67.html">14</a>.
+<p>See section&nbsp;<a href="ug_59.html">12.5</a> for more information on invoking the UML
+to RSL translator.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>3 Tool components available</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_10.html"><img border="0" alt="2 Putting RSL into files" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">2 Putting RSL into files</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_0.html"><img border="0" alt="Top" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">Top</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_14.html"><img border="0" alt="4 Type checker" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">4 Type checker</td></tr></table></td></tr></table></body></html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- XML file produced from file: ug.tex
+     using Hyperlatex v 2.6 (c) Otfried Cheong
+     on Emacs 22.1.1, Thu Apr 17 12:52:43 2008 -->
+<head>
+<title>RAISE Tool User Guide -- 11.6 Type expressions</title>
+
+<style type="text/css">
+.maketitle { align : center }
+div.abstract { margin-left: 20%; margin-right: 10%; }
+h3.abstract  { align : center }
+div.verse, div.quote, div.quotation {
+  margin-left : 10%; 
+  margin-right : 10%;
+}
+</style>
+
+
+</head>
+<body>
+<table width="100%" cellpadding="0"><tr>
+    <td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_48.html"><img border="0" alt="11.5 Object expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.5 Object expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_50.html"><img border="0" alt="11.7 Value expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.7 Value expressions</td></tr></table></td></tr><tr><td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.6 Type expressions</b></font></td></tr></table>
+<h2>11.6 Type expressions</h2>
+
+<h3><a name="id1">11.6.1 Type literals</a></h3>
+Except for <b>Unit</b> the RSL type literals are translated into the
+corresponding PVS types as shown below.
+
+<div align="center"><p>
+<table border><tbody><tr><td colspan="1" align="LEFT">
+
+RSL </td><td colspan="1" align="LEFT"> PVS</td></tr>
+<tr><td colspan="1" align="LEFT">
+<b>Bool</b> </td><td colspan="1" align="LEFT"> <tt>bool</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+<b>Int</b> </td><td colspan="1" align="LEFT"> <tt>int</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+<b>Nat</b> </td><td colspan="1" align="LEFT"> <tt>nat</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+<b>Real</b> </td><td colspan="1" align="LEFT"> <tt>real</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+<b>Char</b> </td><td colspan="1" align="LEFT"> <tt>char</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+<b>Text</b> </td><td colspan="1" align="LEFT"> <tt>string</tt></td></tr>
+<tr><td colspan="1" align="LEFT">
+</td></tr></tbody></table>
+
+  <div align="center">Type literals</div>
+  <a name="tab:types">&nbsp;</a>
+</p></div>
+The only possible problem is that in PVS <tt>int</tt> is a subtype of
+<tt>real</tt>, while the corresponding RSL types are different.  This
+means we must be careful with division and exponentiation, to make
+sure they give integers with integer arguments.
+
+<h3><a name="id3">11.6.2 Names</a></h3>
+A type name translates to a type name.
+
+<h3><a name="id4">11.6.3 Product type expressions</a></h3>
+A product type expression translates to a PVS tuple type.
+
+<h3><a name="id5">11.6.4 Set type expressions</a></h3>
+Both finite and infinite set type expressions translate to the PVS type
+<tt>set</tt>.  It would be possible to use <tt>finite&#95;set</tt> for
+finite sets, but in practice this generates a TCC for every function
+returning such a value, which is tedious to prove.  Only the
+<tt>card</tt> operator actually requires a set to be finite, so it is
+better to prove finiteness only when it is required.
+
+<h3><a name="id6">11.6.5 List type expressions</a></h3>
+A finite list type expression translates to the PVS type
+<tt>list</tt>.
+<p>Infinite lists are not accepted.
+
+<h3><a name="id7">11.6.6 Map type expressions</a></h3>
+Finite and infinite maps are translated into a PVS type <tt>map</tt>
+defined in the RSL prelude.
+<p>The translation of a map is as a function from the domain type to a
+<tt>DATATYPE</tt>:
+<pre>
+Maprange[rng: TYPE]: DATATYPE
+  BEGIN
+    nil: nil?
+    mk_rng(rng_part: rng): nonnil?
+  END Maprange
+</pre>
+<p>The result type <tt>nil</tt> when a map is applied indicates the
+argument is not in the domain.  The RSL map application
+expression m(d) translates to <tt>rng&#95;part(m(d))</tt>, which will
+generate the appropriate TCC <tt>nonnil?(m(d))</tt> expressing that d
+is in the range of m. 
+<p>The <tt>map</tt> type does not include nondeterministic maps: these
+are not accepted. 
+
+<h3><a name="id8">11.6.7 Function type expressions</a></h3>
+A function type expression translates to PVS function type.
+<p>PVS functions are total.  We partly deal with partiality in RSL
+functions: preconditions generate subtypes as described earlier for the
+translation of functions (section&nbsp;<a href="ug_46.html#pvs:fun">11.3.4</a>), but nondeterminism
+is not accepted.
+<p>Access descriptors are not accepted.
+
+<h3><a name="id9">11.6.8 Subtype expressions</a></h3>
+A subtype expression translates to a PVS subtype.
+
+<h3><a name="id10">11.6.9 Bracketed type expressions</a></h3>
+A bracketed type expression translates as a PVS tuple type with one member.
+<hr /><address>Chris George, April 17, 2008</address><br />
+<table width="100%" cellpadding="0"><tr>
+    <td colspan="4" align="center" bgcolor="#99ccff" width="100%"><font size="+1"><b>11.6 Type expressions</b></font></td></tr><tr><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_48.html"><img border="0" alt="11.5 Object expressions" src="/home/Unuiist/www/icons/previous.gif"></img></a></td><td align="left" valign="middle">11.5 Object expressions</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_43.html"><img border="0" alt="11 PVS translator" src="/home/Unuiist/www/icons/up.gif"></img></a>
+   </td><td align="left" valign="middle">11 PVS translator</td></tr></table></td><td width="30%"><table width="100%"><tr><td width="12%"><a href="ug_50.html"><img border="0" alt="11.7 Value expressions" src="/home/Unuiist/www/icons/next.gif"></img></a>
+   </td><td align="left" valign="middle">11.7 Value expressions</td></tr></table></td></tr></table></body></html>
