@@ -9,7 +9,8 @@ Binaries for Windows, Dos, Linux, and Solaris can be
 found in the appropriate sub-directory.
 
 There are self-installing executables in the Windows sub-directory,
-and an rpm file in the Linux sub-directory.
+and a deb installer (for Ubuntu and Debian) and an rpm installer (for 
+Red Hat) in the Linux sub-directory.
 
 The user_guide directory contains a user guide in pdf, compressed
 postscript and html formats.
@@ -21,9 +22,9 @@ module dependencies of an RSL specification.
 
 There is also a sml directory containing a zip file for Standard ML
 for Windows.  SML for other architectures can be obtained from
-http://cm.bell-labs.com/cm/cs/what/smlnj/.  Linux distributions
-typically have a smlnj package (and you will also need any
-libsmlnj-smlnj package).  rsltc includes a translator to SML.
+https://smlnj.org/.  Linux distributions typically have a smlnj package 
+(and you will also need any libsmlnj-smlnj package).rsltc includes a 
+translator to SML.
 
 There is a cpp directory containing the library files you need for
 compiling the output of the C++ translator.
